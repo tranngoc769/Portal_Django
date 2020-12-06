@@ -1,0 +1,17 @@
+A/__pycache__/__init__.cpython-36.pyc
+A/__pycache__/settings.cpython-36.pyc
+A/__pycache__/urls.cpython-36.pyc
+A/__pycache__/wsgi.cpython-36.pyc
+portal/__pycache__/__init__.cpython-36.pyc
+portal/__pycache__/admin.cpython-36.pyc
+portal/__pycache__/apps.cpython-36.pyc
+portal/__pycache__/middleware.cpython-36.pyc
+portal/__pycache__/models.cpython-36.pyc
+portal/__pycache__/urls.cpython-36.pyc
+portal/__pycache__/views.cpython-36.pyc
+portal/migrations/__pycache__/__init__.cpython-36.pyc
+portal/migrations/__pycache__/0001_initial.cpython-36.pyc
+portal/migrations/__pycache__/0002_auto_20201205_0820.cpython-36.pyc
+portal/migrations/__pycache__/0003_nguoidung_mssv.cpython-36.pyc
+portal/migrations/__pycache__/0004_auto_20201206_2011.cpython-36.pyc
+.vscode/launch.json
