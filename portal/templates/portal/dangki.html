@@ -1,0 +1,90 @@
+{% extends "../pages/base.html" %} {% load static %} {% block title %} Đăng ký {% endblock %} {% block content %}
+<div class="page-wrapper">
+    <div class="preloader"></div>
+    <section class="signup-section" style="background-image:url({% static 'images/background/pattern-4.png'%})">
+        <div class="auto-container">
+            <div class="logo">
+                <a href="index.html"><img src="{% static 'images/logo-3.png'%}" alt=""></a>
+            </div>
+            <div class="inner-container">
+                <h2>Đăng ký tài khoản <span class="theme_color">Akadimia</span></h2>
+                <div class="text"></div>
+                <!-- Login Form -->
+                <div class="styled-form">
+                    <form id="form_dangki">
+                        <div class="row clearfix">
+                            <!-- Form Group -->
+                            <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                                <label>Họ và tên</label>
+                                <input type="text" name="fullname" value="Quang" placeholder="Họ và tên" required="">
+                            </div>
+                            <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                                <label>Tên đăng nhập</label>
+                                <input type="text" name="username" value="1712706" placeholder="Tên đăng nhập" required="">
+                            </div>
+                            <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                                <label>Số điện thoại</label>
+                                <input type="text" name="phone" value="0378580738" placeholder="0123456789" required="">
+                            </div>
+
+                            <!-- Form Group -->
+                            <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                                <label>Email</label>
+                                <input type="email" name="email" value="tnquang769@gmail.com" placeholder="Email" required="">
+                            </div>
+                            <!-- Form Group -->
+                            <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                                <label>Giới Tính</label>
+                                <select class="form-control" name="gender" style="padding: 10px 25px;
+                                color: #888888;
+                                border: 1px solid transparent;
+                                height: 46px;
+                                border-radius: 50px;
+                                background: #f5fbff;
+                                -ms-transition: all 300ms ease;
+                                -o-transition: all 300ms ease;
+                                -moz-transition: all 300ms ease;
+                                transition: all 300ms ease;
+                                font-family: 'Roboto', sans-serif;">
+                                    <option value="0">Nam</option>
+                                    <option value="1">Nữ</option>
+                                    <option value="2">Khác</option>
+                                    </select>
+                            </div>
+                            <!-- Form Group -->
+                            <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                                <label>Ngày sinh</label>
+                                <input type="date" name="dob" value="2020-12-10" placeholder="Ngày sinh" required="">
+                            </div>
+
+                            <!-- Form Group -->
+                            <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                                <label>Mật khẩu</label>
+                                <span class="eye-icon fa fa-eye"></span>
+                                <input type="password" name="password" value="111222" placeholder="Password" required="">
+                            </div>
+
+                            <!-- Form Group -->
+                            <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                                <label>Nhập lại mật khẩu</label>
+                                <span class="eye-icon fa fa-eye"></span>
+                                <input type="password" name="repassword" value="111222" placeholder="Password" required="">
+                            </div>
+
+                            <div class="form-group col-lg-12 col-md-12 col-sm-12 text-center">
+                                <button id="dangkiBtn" type="button" class="theme-btn btn-style-one"><span class="txt">Đăng ký</span></button>
+                            </div>
+
+                            <div class="form-group col-lg-12 col-md-12 col-sm-12">
+                                <div class="users">Đã có tài khoản ? <a href="../dangnhap">Đăng nhập</a></div>
+                            </div>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
