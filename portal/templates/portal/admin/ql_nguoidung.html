@@ -189,20 +189,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for sinhVien in DS_NguoiDung %}
+                                {% for nguoiDung in DS_NguoiDung %}
                                 <tr>
-                                    <td>{{sinhVien.id}}</td>
+                                    <td>{{nguoiDung.id}}</td>
                                     <td>
-                                        <b>{{sinhVien.HoTen}}</b>
+                                        <b>{{nguoiDung.HoTen}}</b>
                                     </td>
-                                    <td>{{sinhVien.TenNguoiDung}}</td>
-                                    <td>{{sinhVien.NgaySinh}}</td>
-                                    <td>{{sinhVien.SDT}}</td>
-                                    <td>{{sinhVien.Email}}</td>
-                                    <td>{% if sinhVien.GioiTinh == 1%} Nam {% elif sinhVien.GioiTinh == 2 %} Nữ {% else %}Khác{% endif %}</td>
+                                    <td>{{nguoiDung.TenNguoiDung}}</td>
+                                    <td>{{nguoiDung.NgaySinh}}</td>
+                                    <td>{{nguoiDung.SDT}}</td>
+                                    <td>{{nguoiDung.Email}}</td>
+                                    <td>{% if nguoiDung.GioiTinh == 1%} Nam {% elif nguoiDung.GioiTinh == 2 %} Nữ {% else %}Khác{% endif %}</td>
                                     <td>
-                                        <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
-                                        <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
+                                        <a href="#" class="settings" title="Sửa" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
+                                        <a href="#" class="delete delete-user" nguoiDungID = "{{nguoiDung.id}}" title="Xóa" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -212,22 +212,22 @@
                             <div class="hint-text">Hiển thị <b>{{SoNguoiDung}}</b> trên tổng số <b>{{TongNguoiDung}}</b> {{LoaiNguoiDung}}</div>
                             <ul class="pagination">
                                 {% if TrangHienTai > 5 %}
-                                <li class="page-item"><a href="/admin/sinhvien/">Trang đầu</a></li>
+                                <li class="page-item"><a href="/admin/{{NguoiDung}}/">Trang đầu</a></li>
                                 {% endif %} {% if TrangHienTai > 1 %}
-                                <li class="page-item"><a href="/admin/sinhvien/{{TrangTruoc}}">Trang trước</a></li>
+                                <li class="page-item"><a href="/admin/{{NguoiDung}}/{{TrangTruoc}}">Trang trước</a></li>
                                 {% endif %} 
                                 {% for trang in SoTrang %} {% if TrangHienTai == trang %}
                                     <li class="page-item active "><a href="# " class="page-link ">{{trang}}</a></li>
                                     {% else %}
-                                    <li class="page-item "><a href="/admin/sinhvien/{{trang}}" class="page-link ">{{trang}}</a></li>
+                                    <li class="page-item "><a href="/admin/{{NguoiDung}}/{{trang}}" class="page-link ">{{trang}}</a></li>
                                     {% endif %}
                                 {% endfor %}
                                 
                                 {% if TrangHienTai != TongTrang %}
-                                <li class="page-item"><a href="/admin/sinhvien/{{TrangSau}}">Trang sau</a></li>
+                                <li class="page-item"><a href="/admin/{{NguoiDung}}/{{TrangSau}}">Trang sau</a></li>
                                 {% endif %} 
                                 {% if TrangHienTai < TongTrang|add:-5 %}
-                                <li class="page-item"><a href="/admin/sinhvien/{{TongTrang}}">Trang cuối</a></li>
+                                <li class="page-item"><a href="/admin/{{NguoiDung}}/{{TongTrang}}">Trang cuối</a></li>
                                 {% endif %} 
                             </ul>
                         </div>

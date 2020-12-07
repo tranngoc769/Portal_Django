@@ -184,5 +184,25 @@
                 console.log(resp);
             }
         })
+    });
+    // Sự kiện click trên nút xóa người dùng
+    $(document).on('click', '.delete-user', function() { // Sự kiện kích hoạt khi một thẻ có class delete-user được click
+        var nguoiDungID = $(this).attr('nguoiDungID'); // Lấy nguoidungID từ thuộc tính nguoiDungID của thẻ
+        $.ajax({
+            type: "POST",
+            url: `/admin/xoa_nguoidung/${nguoiDungID}`, // Gửi post request đến url để xóa user
+            success: function(resp) {
+                if (ketqua.code != 200) { // Có lỗi
+                    alert(ketqua.msg)
+                } else {
+                    alert("Xóa người dùng thành công")
+                    window.location.reload()
+                }
+            },
+            error: function(resp) {
+                console.log("errr");
+                console.log(resp);
+            }
+        })
     })
 })(window.jQuery);

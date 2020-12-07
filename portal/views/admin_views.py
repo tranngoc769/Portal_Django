@@ -9,16 +9,19 @@ import math
 from django.core.serializers.json import DjangoJSONEncoder
 import json
 MoiTrang = 3
-
-
 def kiemTraCookie(request):
     print(request)
-
-
 def index(request):
     return redirect('sinhvien/')
-
-
+@csrf_exempt
+def xoa_nguoidung(request, nguoidungID):
+      if (request.method== "POST"):
+            try:
+                  # NGUOIDUNG.objects.filter(id=id).delete()      
+                  return HttpResponse(json.dumps({'code': 200, 'msg': 'success'}))
+            except:
+                  pass
+      return HttpResponse(json.dumps({'code': 403, 'msg': 'Not allow method'}))
 @csrf_exempt
 def them_nguoidung(request):
     # Giống hệt đăng ký
@@ -43,18 +46,14 @@ def them_nguoidung(request):
         resp['msg'] = "success"
         return HttpResponse(json.dumps(resp))
     return HttpResponse(json.dumps({'code': 403, 'msg': 'Not allow method'}))
-
-
 def quanly_sinhvien(request, trang=1):  # Mặc định trang = 1
     trangHienTai = int(trang)
     # Lấy danh sách sinh viên theo trang / mỗi trang
     dsSinhVien_phanTrang = danhSachNguoiDung(trangHienTai, MoiTrang, 3)
     # Tạo JSON để render --> chứa phân trang, ds người dùng
-    content = taoJsonQLNguoiDung(dsSinhVien_phanTrang, trangHienTai, 3)
+    content = taoJsonQLNguoiDung(dsSinhVien_phanTrang, trangHienTai, 'sinhvien')
     return render(request, 'portal/admin/ql_nguoidung.html', content)
 # Hàm logic
-
-
 def danhSachNguoiDung(trang, moitrang, quyen):
     dsNguoiDung = tatCaNguoiDung(quyen)
     tongNguoiDung = len(dsNguoiDung['data'])
@@ -70,8 +69,6 @@ def danhSachNguoiDung(trang, moitrang, quyen):
     dsNguoiDung_phanTrang['SoNguoiDung'] = len(dsNguoiDung['data'])
     dsNguoiDung_phanTrang['SoTrang'] = tongTrang
     return dsNguoiDung_phanTrang
-
-
 def querySetToJson(rawquerySet):
     # Chuyển rawQuerySet thành dạng Json với các phần tử là các fields
     data = serializers.serialize('json', rawquerySet)
@@ -89,16 +86,11 @@ def querySetToJson(rawquerySet):
     jsonData['data'] = mangPhanTu  # Lưu vào JSON để trả về
     return jsonData  # Trả về  JSON
     # return json.dumps(jsonData)   #Trả về string JSON
-
-
 def tatCaNguoiDung(quyen):
     danhSachNguoiDung = querySetToJson(NGUOIDUNG.objects.raw(
         'SELECT * FROM `portal_nguoidung` WHERE Quyen = {0}'.format(quyen)))
     return danhSachNguoiDung
-
 # Hàm tạo dữ liệu json để render vào quanli_nguoidung.html (dùng chung cho cả 3 loại người dùng)
-
-
 def taoJsonQLNguoiDung(dsNguoiDung, trangHienTai, loaiNguoiDung):
     tongSoTrang = int(dsNguoiDung['SoTrang'])  # Lấy tổng số trang
     if trangHienTai > tongSoTrang:  # Nếu trang yêu cầu > tổng số --> Quay về trang 1
@@ -119,14 +111,14 @@ def taoJsonQLNguoiDung(dsNguoiDung, trangHienTai, loaiNguoiDung):
         trangTruoc = 1
     # Tạo Json để render ra HTML
     tenLoai = ""
-    if loaiNguoiDung == 1:
+    if loaiNguoiDung == 'admin':
         tenLoai = "admin"
-    if loaiNguoiDung == 2:
+    if loaiNguoiDung == 'giangvien':
         tenLoai = "giảng viên"
-    if loaiNguoiDung == 3:
+    if loaiNguoiDung == 'sinhvien':
         tenLoai = "sinh viên"
     content = {
-        'Quyen': loaiNguoiDung,
+        'NguoiDung': loaiNguoiDung,
         'LoaiNguoiDung': tenLoai,
         'DS_NguoiDung': dsNguoiDung['data'],
         'TongNguoiDung': dsNguoiDung['SoNguoiDung'],
