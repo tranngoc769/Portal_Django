@@ -104,6 +104,51 @@
             // Nếu đầy đủ, trả về json thông tin
         return thongTinJSON;
     }
+
+    function kiemTraFormSuaNguoiDung() {
+        var thongTinDangKi = $('#form_sua_nguoi_dung').serializeArray();
+        var thongBaoLoi = ""; // Chuỗi thông báo khi có lỗi
+        var dayDuThongTin = true;
+        if (thongTinDangKi[0].value == "") {
+            thongBaoLoi += "Chưa nhập tên đầy đủ\n";;
+            dayDuThongTin = false
+        };
+        if (thongTinDangKi[1].value == "") {
+            thongBaoLoi += "Chưa nhập SDT\n";;
+            dayDuThongTin = false
+        };
+        if (thongTinDangKi[2].value == "") {
+            thongBaoLoi += "Chưa nhập email\n";;
+            dayDuThongTin = false
+        };
+        if (thongTinDangKi[4].value == "") {
+            thongBaoLoi += "Chưa nhập ngày sinh\n";;
+            dayDuThongTin = false
+        };
+        if (document.getElementById("choPhepDoiMk").checked == true && thongTinDangKi[6].value == "") {
+            thongBaoLoi += "Chưa nhập mật khẩu\n";;
+            dayDuThongTin = false
+        }
+        if (dayDuThongTin == false) {
+            // Nếu có một trong các lỗi
+            alert(thongBaoLoi); // thông báo
+            return false;
+        };
+        if (document.getElementById("choPhepDoiMk").checked == false) {
+            thongTinDangKi[6].value = "";
+        }
+        thongTinJSON = {
+                "HoTen": thongTinDangKi[0].value,
+                "SDT": thongTinDangKi[1].value,
+                "Email": thongTinDangKi[2].value,
+                "GioiTinh": thongTinDangKi[3].value,
+                "NgaySinh": thongTinDangKi[4].value,
+                "MatKhau": thongTinDangKi[6].value,
+                "Quyen": thongTinDangKi[5].value
+            }
+            // Nếu đầy đủ, trả về json thông tin
+        return thongTinJSON;
+    }
     console.log("ready")
     $("#dangnhapBtn").on("click", function() {
         var TenDangNhap = $("#dn_username").val(); // jquery lấy value của thẻ input id = dn_username;
@@ -136,7 +181,6 @@
             }
         })
     })
-
     $("#dangkiBtn").on("click", function() {
         var dayDuThongTin = kiemTraFormDangKy();
         if (dayDuThongTin == false) return; // Nếu thiếu thông tin --> Ngừng, không gửi đơn đăng ký
@@ -175,6 +219,30 @@
                     alert(ketqua.msg)
                 } else {
                     // Đăng ký thành công, chuyển sang trang đăng nhập
+                    alert(ketqua.msg)
+                    window.location.reload()
+                }
+            },
+            error: function(resp) {
+                console.log("errr");
+                console.log(resp);
+            }
+        })
+    });
+    $("#SuaNguoiDungBtn").on("click", function() {
+        var dayDuThongTin = kiemTraFormSuaNguoiDung();
+        if (dayDuThongTin == false) return; // Nếu thiếu thông tin --> Ngừng, không gửi đơn đăng ký
+        console.log(JSON.stringify(dayDuThongTin))
+        var nguoiDungID = $(this).attr('nguoidungID');
+        $.ajax({
+            type: "POST",
+            url: `/admin/sua_nguoidung/${nguoiDungID}`,
+            data: JSON.stringify(dayDuThongTin),
+            success: function(resp) {
+                ketqua = JSON.parse(resp)
+                if (ketqua.code != 200) { // Có lỗi
+                    alert(ketqua.msg)
+                } else {
                     alert(ketqua.msg)
                     window.location.reload()
                 }

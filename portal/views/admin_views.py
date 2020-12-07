@@ -47,6 +47,31 @@ def them_nguoidung(request):
         return HttpResponse(json.dumps(resp))
     return HttpResponse(json.dumps({'code': 403, 'msg': 'Not allow method'}))
 # 
+@csrf_exempt
+def sua_nguoidung(request, nguoidungID):
+    # Giống hệt đăng ký
+    if request.method == "GET":
+        thongTinNguoiDungList = NGUOIDUNG.objects.filter(pk=nguoidungID).values()
+        if (len(thongTinNguoiDungList)< 1):
+            return HttpResponse(json.dumps({'code': 404, 'msg': 'User not found'}))
+        thongTinNguoiDung = thongTinNguoiDungList[0]
+        print(thongTinNguoiDung)
+        return render(request, 'portal/admin/sua_nguoidung.html', thongTinNguoiDung)
+    if request.method == "POST":
+        thongTinUpdate = json.loads(request.body)
+        try:
+            NGUOIDUNG.objects.filter(pk=nguoidungID).update(Email =thongTinUpdate.get('Email') ,GioiTinh= thongTinUpdate.get('GioiTinh') ,HoTen= thongTinUpdate.get('HoTen') ,NgaySinh= thongTinUpdate.get('NgaySinh') ,Quyen= thongTinUpdate.get('Quyen') ,SDT= thongTinUpdate.get('SDT'))  
+            if (thongTinUpdate.get('MatKhau')!=""):
+                NGUOIDUNG.objects.filter(pk=nguoidungID).update(MatKhau = hashlib.md5(thongTinUpdate.get('MatKhau').encode()).hexdigest()) # Mã hóa mật khẩu md5
+        except Exception as insertErr:
+            resp = {"code": 404}
+            resp['msg'] = str(insertErr)
+            return HttpResponse(json.dumps(resp))
+        resp = {"code": 200}
+        resp['msg'] = "success"
+        return HttpResponse(json.dumps(resp))
+    return HttpResponse(json.dumps({'code': 403, 'msg': 'Not allow method'}))
+# 
 def quanly_sinhvien(request, trang=1):  # Mặc định trang = 1
     trangHienTai = int(trang)
     # Lấy danh sách sinh viên theo trang / mỗi trang
