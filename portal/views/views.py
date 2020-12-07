@@ -7,7 +7,6 @@ import  hashlib
 import json
 def kiemTraCookie(request):
       print(request)
-      
 # Create your views here.
 # def dangnhap(request):
 #       test = NGUOIDUNG()
@@ -22,13 +21,10 @@ def index(request):
       if (quyen == 1):
             # admin 
             return redirect('/admin')
-      
       if (quyen == 2):
             return HttpResponse("Giang Vien")
-      
       if (quyen == 3):
             return HttpResponse("Sinh Vien")
-      
 # Router /dangnhap
 @csrf_exempt #Tránh lỗi--CSRF token missing or incorrect
 def dangnhap(request):
@@ -38,7 +34,6 @@ def dangnhap(request):
             thongTinDN = json.loads(request.body) #Lấy dữ liệu đăng nhập dưới dạng Objects
             tenDangNhap = thongTinDN['TenDangNhap']
             matKhau = thongTinDN['MatKhau']
-            # 
             maHoaMatKhau = hashlib.md5(matKhau.encode()).hexdigest() # Mã hóa mật khẩu md5
             resp = {"code" : 200, "msg" : "Đăng nhập thành công"} # Biến kết quả (Json), mặc định là thành công, xuống dưới kiểm tra có lỗi thì update, khỏi phải tạo biến mới
             try:
@@ -51,7 +46,6 @@ def dangnhap(request):
                         request.session['DaDangNhap'] =  True
                         request.session['TenDangNhap'] = tenDangNhap
                         request.session['Quyen'] = query_NguoiDung[0].Quyen # [0] vì chỉ có 1 nguoidung duy nhất (theo TenDangNhap)
-                        
             except Exception as query_erro:
                   #   Có lỗi --> không có tài khoản 
                   resp["code"] = 404
@@ -79,4 +73,9 @@ def dangki(request):
             resp['msg'] = "success"
             return HttpResponse(json.dumps(resp))
 
-# DANG KY
+# Dang Xuat
+def dangxuat(request):
+      del request.session['DaDangNhap'] 
+      del request.session['TenDangNhap']
+      del request.session['Quyen']
+      return redirect('/')

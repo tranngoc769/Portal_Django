@@ -171,7 +171,7 @@
                     alert(ketqua.msg)
                 } else {
                     // Đăng nhập thành công
-                    // window.location.replace('../dangnhap')
+                    window.location.replace('/')
                 }
             },
             error: function(resp) {
@@ -205,7 +205,7 @@
             }
         })
     })
-    $("#themNguoiDungBtn").on("click", function() {
+    $("#themNguoidungBtn").on("click", function() {
         var dayDuThongTin = kiemTraFormThemTaiKhoan();
         if (dayDuThongTin == false) return; // Nếu thiếu thông tin --> Ngừng, không gửi đơn đăng ký
         console.log(JSON.stringify(dayDuThongTin))

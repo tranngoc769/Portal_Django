@@ -515,9 +515,10 @@ jQuery(document).on('click', '.btn.btn-default.dropdown-toggle', function() {
 var ignoreClickOnMeElement5 = document.getElementById('someElementID5');
 
 document.addEventListener('click', function(event) {
-    var isClickInsideElement5 = ignoreClickOnMeElement5.contains(event.target);
-
-    if (!isClickInsideElement5) {
-        $('.btn.btn-default.dropdown-toggle').parent().removeClass('dropdown-active');
-    }
+    try {
+        var isClickInsideElement5 = ignoreClickOnMeElement5.contains(event.target);
+        if (!isClickInsideElement5) {
+            $('.btn.btn-default.dropdown-toggle').parent().removeClass('dropdown-active');
+        }
+    } catch (e) {}
 });

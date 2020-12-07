@@ -49,7 +49,7 @@
                                     <td>{{nguoiDung.Email}}</td>
                                     <td>{% if nguoiDung.GioiTinh == 1%} Nam {% elif nguoiDung.GioiTinh == 2 %} Nữ {% else %}Khác{% endif %}</td>
                                     <td>
-                                        <a href="#" class="settings" title="Sửa" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
+                                        <a href="/admin/sua_nguoidung/{{nguoiDung.id}}" class="settings" title="Sửa" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
                                         <a href="#" class="delete delete-user" nguoiDungID = "{{nguoiDung.id}}" title="Xóa" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
                                     </td>
                                 </tr>
@@ -65,9 +65,9 @@
                                 <li class="page-item"><a href="/admin/{{NguoiDung}}/{{TrangTruoc}}">Trang trước</a></li>
                                 {% endif %} 
                                 {% for trang in SoTrang %} {% if TrangHienTai == trang %}
-                                    <li class="page-item active "><a href="# " class="page-link ">{{trang}}</a></li>
+                                    <li class="page-item active"><a href="#" class="page-link">{{trang}}</a></li>
                                     {% else %}
-                                    <li class="page-item "><a href="/admin/{{NguoiDung}}/{{trang}}" class="page-link ">{{trang}}</a></li>
+                                    <li class="page-item"><a href="/admin/{{NguoiDung}}/{{trang}}" class="page-link">{{trang}}</a></li>
                                     {% endif %}
                                 {% endfor %}
                                 
