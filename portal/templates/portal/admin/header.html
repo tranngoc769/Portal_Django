@@ -1,0 +1,115 @@
+{% load static %}
+<header class="main-header">
+    <!-- Header Upper -->
+    <div class="header-upper">
+        <div class="outer-container">
+            <div class="clearfix">
+                <!-- Header Left -->
+                <div class="header-left clearfix">
+                    <!-- Left Sidebar Btn -->
+                    <div class="left-sidebar-btn hidden-bar-opener">
+                        <span class="icon flaticon-menu-2"></span>
+                    </div>
+                    <div class="pull-left logo-box">
+                        <div class="logo">
+                            <a href="index.html"><img src="{% static 'images/logo.png' %}" alt="" title=""></a>
+                        </div>
+                        <div class="dark-layout-logo">
+                            <a href="index.html"><img src="{% static 'images/logo-4.png' %}" alt="" title=""></a>
+                        </div>
+                    </div>
+                    <!-- Search -->
+                    <div class="search-box">
+                        <form method="post" action="">
+                            <div class="form-group">
+                                <input type="search" name="search-field" value="" placeholder="Tìm kiếm đề tài, sự kiện" required>
+                                <button type="submit"><span class="icon fa fa-search"></span></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- Header Right -->
+                <div class="header-right clearfix">
+                    <div class="nav-outer clearfix">
+                        <!-- Main Menu -->
+                        <nav class="main-menu navbar-expand-md">
+                            <div class="navbar-header">
+                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                                            <span class="icon-bar"></span>
+                                                            <span class="icon-bar"></span>
+                                                            <span class="icon-bar"></span>
+                                                      </button>
+                            </div>
+                            <!-- nav -->
+                            <div class="navbar-collapse collapse clearfix" id="navbarSupportedContent">
+                                <ul class="navigation clearfix">
+                                    <li class="dropdown"><a href="#">Đề tài</a>
+                                        <ul>
+                                            <li><a href="danh-sach-de-tai.html">Danh sách đề tài</a></li>
+                                            <li><a href="de-tai-cua-toi.html">Đề tài của tôi</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown"><a href="#">Hoạt động</a>
+                                        <ul>
+                                            <li><a href="danh-sach-hoat-dong.htmll">Danh sách hoạt động</a></li>
+                                            <li><a href="hoat-dong-cua-toi.html">Hoạt động của tôi</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown"><a href="danh-sach-giang-vien.html">Giảng Viên</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
+                    <!-- Options Box -->
+                    <div class="options-box clearfix">
+                        <div class="profile-box dropdown" id="someElementID5">
+                            <div class="btn btn-default dropdown-toggle">
+                                <span class="profile-image"><img src="{% static 'images/resource/author-4.jpg' %}" alt="" /></span> <i class="arrow flaticon-down-arrow"></i>
+                            </div>
+                            <div class="profile-content">
+                                <div class="setting"><a href="setting.html">Settings</a></div>
+                                <!-- Dark Mode -->
+                                <div class="dark-mode">
+                                    <div class="clearfix">
+                                        <div class="pull-left">
+                                            <div class="mode"><span class="icon"><img src="{% static 'images/icons/moon.png' %}" alt="" /></span>Chế độ tối</div>
+                                        </div>
+                                        <div class="pull-right">
+                                            <!-- Dark Btns -->
+                                            <ul class="dark-buttons clearfix">
+                                                <li data-tab="#" class="off">Off</li>
+                                                <li class="boll"><span class="round"></span></li>
+                                                <li data-tab="#" class="on">On</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Pages -->
+                                <ul class="pages">
+                                    <li><a href="cai-dat.html">Cài đặt tài khoản</a></li>
+                                    <li><a href="line-he.html">Liên hệ</a></li>
+                                    <li><a href="huong-dan.html">Hướng dẫn</a></li>
+                                    <li><a href="dang-xuat.html">Đăng xuất</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End Header Upper-->
+    <!-- Mobile Menu  -->
+    <div class="mobile-menu">
+        <div class="menu-backdrop"></div>
+        <div class="close-btn"><span class="icon fa fa-remove"></span></div>
+        <nav class="menu-box">
+            <div class="nav-logo">
+                <a href="index.html"><img src="{% static 'images/logo.png' %}" alt="" title=""></a>
+            </div>
+            <div class="menu-outer">
+            </div>
+        </nav>
+    </div>
+</header>
