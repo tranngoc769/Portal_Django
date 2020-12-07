@@ -209,15 +209,26 @@
                             </tbody>
                         </table>
                         <div class="clearfix">
-                            <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+                            <div class="hint-text">Hiển thị <b>{{SoSinhVien}}</b> trên tổng số <b>{{TongSinhVien}}</b> sinh viên</div>
                             <ul class="pagination">
-                                <li class="page-item disabled"><a href="#">Previous</a></li>
-                                <li class="page-item"><a href="#" class="page-link">1</a></li>
-                                <li class="page-item"><a href="#" class="page-link">2</a></li>
-                                <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                                <li class="page-item"><a href="#" class="page-link">4</a></li>
-                                <li class="page-item"><a href="#" class="page-link">5</a></li>
-                                <li class="page-item"><a href="#" class="page-link">Next</a></li>
+                                {% if TrangHienTai > 5 %}
+                                <li class="page-item"><a href="#">Trang đầu</a></li>
+                                {% endif %} {% if TrangHienTai > 1 %}
+                                <li class="page-item"><a page_target="{{TrangHienTai}}" href="# ">Trang trước</a></li>
+                                {% endif %} 
+                                {% for trang in SoTrang %} {% if TrangHienTai == trang %}
+                                    <li class="page-item active "><a href="# " class="page-link ">{{trang}}</a></li>
+                                    {% else %}
+                                    <li class="page-item "><a href="# " class="page-link ">{{trang}}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                                
+                                {% if TrangHienTai != TongTrang %}
+                                <li class="page-item"><a href="#">Trang sau</a></li>
+                                {% endif %} 
+                                {% if TrangHienTai < TongTrang|add:-5 %}
+                                <li class="page-item"><a href="#">Trang cuối</a></li>
+                                {% endif %} 
                             </ul>
                         </div>
                     </div>

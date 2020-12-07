@@ -8,18 +8,34 @@ import  hashlib
 import math
 from django.core.serializers.json import DjangoJSONEncoder
 import json
+MoiTrang = 3
 def kiemTraCookie(request):
       print(request)
       
 def index(request):
       return redirect('sinhvien/')
 
-def quanly_sinhvien(request):
-      dsSinhVien_phanTrang = danhSachSinhVien(1,5)
+def quanly_sinhvien(request, trang = 1): # Mặc định trang = 1
+      trangHienTai = int(trang)
+      dsSinhVien_phanTrang = danhSachSinhVien(trangHienTai,MoiTrang) #Lấy danh sách sinh viên theo trang / mỗi trang 
+      tongSoTrang = int(dsSinhVien_phanTrang['SoTrang']) #Lấy tổng số trang
+      if trangHienTai > tongSoTrang: #Nếu trang yêu cầu > tổng số --> Quay về trang 1
+            return redirect('/')
+      dsTrang = range(trangHienTai - 5, trangHienTai +5) #Chỗ này hiển thị mấy nút đến trang  1 2 3 4 5 Cuối
+      if (trangHienTai-5 < 1):
+            dsTrang = range(1, 11)
+      if (trangHienTai + 5 > tongSoTrang):
+            dsTrang = range(tongSoTrang-10, tongSoTrang+1)
+      if (tongSoTrang < 10):
+            dsTrang = range(1, tongSoTrang+1)
+      # Tạo Json để render ra HTML 
       content = {
         'DS_SinhVien' : dsSinhVien_phanTrang['data'],
-        'SoTrang' : dsSinhVien_phanTrang['SoTrang'],
-        'TrangHienTai' : dsSinhVien_phanTrang['HienTai']
+        'TongSinhVien' : dsSinhVien_phanTrang['SoSinhVien'],
+        'SoTrang' : dsTrang,
+        'TrangHienTai' : trangHienTai,
+        'TongTrang' : tongSoTrang,
+        'SoSinhVien' : len(dsSinhVien_phanTrang['data'])
        }
       return render(request,'portal/admin/ql_sinhvien.html',content)
 
@@ -36,8 +52,8 @@ def danhSachSinhVien(trang, moitrang):
             trang = 1 #VD : tổng 4 trang, yêu cầu trang 4 --> chỉ load tới trang 3
       sql = "SELECT * FROM `portal_nguoidung` WHERE Quyen = 3 LIMIT {0} OFFSET {1}".format(moitrang, (trang-1)*moitrang) # Offset bắt đầu từ 0 --> trang - 1, công thức phân trang sql
       dsSinhVien_phanTrang = querySetToJson(NGUOIDUNG.objects.raw(sql))
-      dsSinhVien_phanTrang['SoTrang'] = len(dsSinhVien['data'])
-      dsSinhVien_phanTrang['HienTai'] = trang
+      dsSinhVien_phanTrang['SoSinhVien'] = len(dsSinhVien['data'])
+      dsSinhVien_phanTrang['SoTrang'] = tongTrang
       return dsSinhVien_phanTrang
 def querySetToJson(rawquerySet):
       data = serializers.serialize('json', rawquerySet) #Chuyển rawQuerySet thành dạng Json với các phần tử là các fields 
