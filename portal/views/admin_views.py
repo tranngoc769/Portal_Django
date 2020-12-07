@@ -28,6 +28,12 @@ def quanly_sinhvien(request, trang = 1): # Mặc định trang = 1
             dsTrang = range(tongSoTrang-10, tongSoTrang+1)
       if (tongSoTrang < 10):
             dsTrang = range(1, tongSoTrang+1)
+      trangSau = trangHienTai + 1
+      if trangHienTai > tongSoTrang:
+            trangHienTai = tongSoTrang
+      trangTruoc = trangHienTai - 1
+      if trangTruoc < 1:
+            trangTruoc = 1
       # Tạo Json để render ra HTML 
       content = {
         'DS_SinhVien' : dsSinhVien_phanTrang['data'],
@@ -35,7 +41,9 @@ def quanly_sinhvien(request, trang = 1): # Mặc định trang = 1
         'SoTrang' : dsTrang,
         'TrangHienTai' : trangHienTai,
         'TongTrang' : tongSoTrang,
-        'SoSinhVien' : len(dsSinhVien_phanTrang['data'])
+        'SoSinhVien' : len(dsSinhVien_phanTrang['data']),
+        'TrangSau' :  trangSau,
+        'TrangTruoc' : trangTruoc
        }
       return render(request,'portal/admin/ql_sinhvien.html',content)
 
