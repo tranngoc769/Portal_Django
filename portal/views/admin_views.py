@@ -17,10 +17,10 @@ def index(request):
 def xoa_nguoidung(request, nguoidungID):
       if (request.method== "POST"):
             try:
-                  # NGUOIDUNG.objects.filter(id=id).delete()      
-                  return HttpResponse(json.dumps({'code': 200, 'msg': 'success'}))
+                NGUOIDUNG.objects.filter(pk=nguoidungID).update(HoatDong=False)  
+                return HttpResponse(json.dumps({'code': 200, 'msg': 'success'}))
             except:
-                  pass
+                return HttpResponse(json.dumps({'code': 403, 'msg': 'Không thể xóa người dùng'}))
       return HttpResponse(json.dumps({'code': 403, 'msg': 'Not allow method'}))
 @csrf_exempt
 def them_nguoidung(request):
@@ -46,12 +46,20 @@ def them_nguoidung(request):
         resp['msg'] = "success"
         return HttpResponse(json.dumps(resp))
     return HttpResponse(json.dumps({'code': 403, 'msg': 'Not allow method'}))
+# 
 def quanly_sinhvien(request, trang=1):  # Mặc định trang = 1
     trangHienTai = int(trang)
     # Lấy danh sách sinh viên theo trang / mỗi trang
     dsSinhVien_phanTrang = danhSachNguoiDung(trangHienTai, MoiTrang, 3)
     # Tạo JSON để render --> chứa phân trang, ds người dùng
     content = taoJsonQLNguoiDung(dsSinhVien_phanTrang, trangHienTai, 'sinhvien')
+    return render(request, 'portal/admin/ql_nguoidung.html', content)
+def quanly_giangvien(request, trang=1):  # Mặc định trang = 1
+    trangHienTai = int(trang)
+    # Lấy danh sách sinh viên theo trang / mỗi trang
+    dsGiangVien_phanTrang = danhSachNguoiDung(trangHienTai, MoiTrang, 2)
+    # Tạo JSON để render --> chứa phân trang, ds người dùng
+    content = taoJsonQLNguoiDung(dsGiangVien_phanTrang, trangHienTai, 'giangvien')
     return render(request, 'portal/admin/ql_nguoidung.html', content)
 # Hàm logic
 def danhSachNguoiDung(trang, moitrang, quyen):
@@ -63,7 +71,7 @@ def danhSachNguoiDung(trang, moitrang, quyen):
         trang = tongTrang  # VD : tổng 4 trang, yêu cầu trang 4 --> chỉ load tới trang 3
     if (trang < 1):
         trang = 1  # VD : tổng 4 trang, yêu cầu trang 4 --> chỉ load tới trang 3
-    sql = "SELECT * FROM `portal_nguoidung` WHERE Quyen = {0} LIMIT {1} OFFSET {2}".format(
+    sql = "SELECT * FROM `portal_nguoidung` WHERE Quyen = {0} AND HoatDong = 1 LIMIT {1} OFFSET {2}".format(
         quyen, moitrang, (trang-1)*moitrang)  # Offset bắt đầu từ 0 --> trang - 1, công thức phân trang sql
     dsNguoiDung_phanTrang = querySetToJson(NGUOIDUNG.objects.raw(sql))
     dsNguoiDung_phanTrang['SoNguoiDung'] = len(dsNguoiDung['data'])
@@ -88,11 +96,13 @@ def querySetToJson(rawquerySet):
     # return json.dumps(jsonData)   #Trả về string JSON
 def tatCaNguoiDung(quyen):
     danhSachNguoiDung = querySetToJson(NGUOIDUNG.objects.raw(
-        'SELECT * FROM `portal_nguoidung` WHERE Quyen = {0}'.format(quyen)))
+        'SELECT * FROM `portal_nguoidung` WHERE Quyen = {0}  AND HoatDong = 1'.format(quyen)))
     return danhSachNguoiDung
 # Hàm tạo dữ liệu json để render vào quanli_nguoidung.html (dùng chung cho cả 3 loại người dùng)
 def taoJsonQLNguoiDung(dsNguoiDung, trangHienTai, loaiNguoiDung):
     tongSoTrang = int(dsNguoiDung['SoTrang'])  # Lấy tổng số trang
+    if (tongSoTrang ==0):
+              tongSoTrang = 1
     if trangHienTai > tongSoTrang:  # Nếu trang yêu cầu > tổng số --> Quay về trang 1
         return redirect('/')
     # Chỗ này hiển thị mấy nút đến trang  1 2 3 4 5 Cuối

@@ -192,6 +192,7 @@
             type: "POST",
             url: `/admin/xoa_nguoidung/${nguoiDungID}`, // Gửi post request đến url để xóa user
             success: function(resp) {
+                ketqua = JSON.parse(resp)
                 if (ketqua.code != 200) { // Có lỗi
                     alert(ketqua.msg)
                 } else {
