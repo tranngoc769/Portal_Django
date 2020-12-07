@@ -1,0 +1,331 @@
+{% extends "../../pages/base.html" %} {% load static %} {% block title %} Thêm người dùng {% endblock %} {% block content %}
+
+<div class="page-wrapper">
+    <!-- Preloader -->
+    <div class="preloader"></div>
+    <!-- Main Header-->
+    <header class="main-header">
+        <!-- Header Upper -->
+        <div class="header-upper">
+            <div class="outer-container">
+                <div class="clearfix">
+                    <!-- Header Left -->
+                    <div class="header-left clearfix">
+                        <!-- Left Sidebar Btn -->
+                        <div class="left-sidebar-btn hidden-bar-opener">
+                            <span class="icon flaticon-menu-2"></span>
+                        </div>
+                        <div class="pull-left logo-box">
+                            <div class="logo">
+                                <a href="index.html"><img src="images/logo.png" alt="" title=""></a>
+                            </div>
+                            <div class="dark-layout-logo">
+                                <a href="index.html"><img src="images/logo-4.png" alt="" title=""></a>
+                            </div>
+                        </div>
+                        <!-- Search -->
+                        <div class="search-box">
+                            <form method="post" action="">
+                                <div class="form-group">
+                                    <input type="search" name="search-field" value="" placeholder="Tìm kiếm đề tài, sự kiện" required>
+                                    <button type="submit"><span class="icon fa fa-search"></span></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- Header Right -->
+                    <div class="header-right clearfix">
+                        <div class="nav-outer clearfix">
+                            <!-- Main Menu -->
+                            <nav class="main-menu navbar-expand-md">
+                                <div class="navbar-header">
+                                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                                              <span class="icon-bar"></span>
+                                                              <span class="icon-bar"></span>
+                                                              <span class="icon-bar"></span>
+                                                        </button>
+                                </div>
+                                <!-- nav -->
+                                <div class="navbar-collapse collapse clearfix" id="navbarSupportedContent">
+                                    <ul class="navigation clearfix">
+                                        <li class="dropdown"><a href="#">Đề tài</a>
+                                            <ul>
+                                                <li><a href="danh-sach-de-tai.html">Danh sách đề tài</a></li>
+                                                <li><a href="de-tai-cua-toi.html">Đề tài của tôi</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown"><a href="#">Hoạt động</a>
+                                            <ul>
+                                                <li><a href="danh-sach-hoat-dong.htmll">Danh sách hoạt động</a></li>
+                                                <li><a href="hoat-dong-cua-toi.html">Hoạt động của tôi</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown"><a href="danh-sach-giang-vien.html">Giảng Viên</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                        <!-- Options Box -->
+                        <div class="options-box clearfix">
+                            <!-- Message Box -->
+                            <div class="message-box">
+                                <a href="#" class="icon flaticon-envelope"></a>
+                            </div>
+                            <!-- End Message Box -->
+                            <!-- Notification Box -->
+                            <div class="notification-box">
+                                <div class="dropdown">
+                                    <button class="notification-box-btn dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="flaticon-notification"></span><i class="notification-alert"></i></button>
+                                    <div class="dropdown-menu pull-right cart-panel" aria-labelledby="dropdownMenu">
+                                        <div class="notification-block">
+                                            <div class="inner">
+                                                <div class="image"><img src="images/resource/author-1.jpg" alt="" /></div>
+                                                <h3><a href="#">Jessica Parl</a></h3>
+                                                <div class="notification-text">It is a long established fact that a most reader will be distracted by the way readable</div>
+                                                <div class="post-time">15 min ago</div>
+                                            </div>
+                                        </div>
+                                        <div class="notification-block">
+                                            <div class="inner">
+                                                <div class="image"><img src="images/resource/author-2.jpg" alt="" /></div>
+                                                <h3><a href="#">David John</a></h3>
+                                                <div class="notification-text">It is a long established fact that a like reader will</div>
+                                                <div class="post-time">15 min ago</div>
+                                            </div>
+                                        </div>
+                                        <div class="notification-block">
+                                            <div class="inner">
+                                                <div class="image"><img src="images/resource/author-3.jpg" alt="" /></div>
+                                                <h3><a href="#">Jonathon Deo</a></h3>
+                                                <div class="notification-text">It is a long established fact that a reader will</div>
+                                                <div class="post-time">15 min ago</div>
+                                            </div>
+                                        </div>
+                                        <a href="#" class="view">View All</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Notification Box -->
+                            <!-- Profile Box -->
+                            <div class="profile-box dropdown" id="someElementID5">
+                                <div class="btn btn-default dropdown-toggle">
+                                    <span class="profile-image"><img src="images/resource/author-4.jpg" alt="" /></span> <i class="arrow flaticon-down-arrow"></i>
+                                </div>
+                                <div class="profile-content">
+                                    <div class="setting"><a href="setting.html">Settings</a></div>
+                                    <!-- Dark Mode -->
+                                    <div class="dark-mode">
+                                        <div class="clearfix">
+                                            <div class="pull-left">
+                                                <div class="mode"><span class="icon"><img src="images/icons/moon.png" alt="" /></span>Chế độ tối</div>
+                                            </div>
+                                            <div class="pull-right">
+                                                <!-- Dark Btns -->
+                                                <ul class="dark-buttons clearfix">
+                                                    <li data-tab="#" class="off">Off</li>
+                                                    <li class="boll"><span class="round"></span></li>
+                                                    <li data-tab="#" class="on">On</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Pages -->
+                                    <ul class="pages">
+                                        <li><a href="cai-dat.html">Cài đặt tài khoản</a></li>
+                                        <li><a href="line-he.html">Liên hệ</a></li>
+                                        <li><a href="huong-dan.html">Hướng dẫn</a></li>
+                                        <li><a href="dang-xuat.html">Đăng xuất</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Header Upper-->
+        <!-- Mobile Menu  -->
+        <div class="mobile-menu">
+            <div class="menu-backdrop"></div>
+            <div class="close-btn"><span class="icon fa fa-remove"></span></div>
+            <nav class="menu-box">
+                <div class="nav-logo">
+                    <a href="index.html"><img src="images/logo.png" alt="" title=""></a>
+                </div>
+                <div class="menu-outer">
+                </div>
+            </nav>
+        </div>
+    </header>
+    <div class="sidebar-page-container">
+        <section class="signup-section" style="background-image:url(/static/images/background/pattern-4.png)">
+            <div class="auto-container">
+                <div class="logo">
+                    <a href="index.html"><img src="/static/images/logo-3.png" alt=""></a>
+                </div>
+                <div class="inner-container">
+                    <h2>Đăng ký tài khoản <span class="theme_color">Akadimia</span></h2>
+                    <div class="text"></div>
+                    <!-- Login Form -->
+                    <div class="styled-form">
+                        <form id="form_them_nguoi_dung">
+                            <div class="row clearfix">
+                                <!-- Form Group -->
+                                <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                                    <label>Họ và tên</label>
+                                    <input type="text" name="fullname" value="Quang" placeholder="Họ và tên" required="">
+                                </div>
+                                <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                                    <label>Tên đăng nhập</label>
+                                    <input type="text" name="username" value="1712706" placeholder="Tên đăng nhập" required="">
+                                </div>
+                                <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                                    <label>Số điện thoại</label>
+                                    <input type="text" name="phone" value="0378580738" placeholder="0123456789" required="">
+                                </div>
+
+                                <!-- Form Group -->
+                                <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                                    <label>Email</label>
+                                    <input type="email" name="email" value="tnquang769@gmail.com" placeholder="Email" required="">
+                                </div>
+                                <!-- Form Group -->
+                                <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                                    <label>Giới Tính</label>
+                                    <select class="form-control" name="gender" style="padding: 10px 25px;
+                                    color: #888888;
+                                    border: 1px solid transparent;
+                                    height: 46px;
+                                    border-radius: 50px;
+                                    background: #f5fbff;
+                                    -ms-transition: all 300ms ease;
+                                    -o-transition: all 300ms ease;
+                                    -moz-transition: all 300ms ease;
+                                    transition: all 300ms ease;
+                                    font-family: 'Roboto', sans-serif;">
+                                        <option value="1">Nam</option>
+                                        <option value="2">Nữ</option>
+                                        <option value="3">Khác</option>
+                                        </select>
+                                </div>
+                                <!-- Form Group -->
+                                <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                                    <label>Ngày sinh</label>
+                                    <input type="date" name="dob" value="2020-12-10" placeholder="Ngày sinh" required="">
+                                </div>
+
+                                <!-- Form Group -->
+                                <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                                    <label>Quyền</label>
+                                    <select class="form-control" name="gender" style="padding: 10px 25px;
+                                    color: #888888;
+                                    border: 1px solid transparent;
+                                    height: 46px;
+                                    border-radius: 50px;
+                                    background: #f5fbff;
+                                    -ms-transition: all 300ms ease;
+                                    -o-transition: all 300ms ease;
+                                    -moz-transition: all 300ms ease;
+                                    transition: all 300ms ease;
+                                    font-family: 'Roboto', sans-serif;">
+                                        <option value="1">Admin</option>
+                                        <option value="2">Giảng Viên</option>
+                                        <option value="3">Sinh Viên</option>
+                                        </select>
+                                </div>
+                                <!-- Form Group -->
+                                <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                                    <label>Mật khẩu</label>
+                                    <span class="eye-icon fa fa-eye"></span>
+                                    <input type="password" name="password" value="111222" placeholder="Password" required="">
+                                </div>
+
+                                <div class="form-group col-lg-12 col-md-12 col-sm-12 text-center">
+                                    <button id="themNguoiDungBtn" type="button" class="theme-btn btn-style-one"><span class="txt">Đăng ký</span></button>
+                                </div>
+
+                                <div class="form-group col-lg-12 col-md-12 col-sm-12">
+                                    <div class="users">Trở về <a href="/">Trang chủ</a></div>
+                                </div>
+
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Main Footer -->
+    <footer class="main-footer">
+        <!-- Pattern Layer -->
+        <div class="pattern-layer" style="background-image:url(images/background/pattern-2.png)"></div>
+        <div class="pattern-layer-two" style="background-image:url(images/background/pattern-3.png)"></div>
+        <div class="auto-container">
+            <!-- Footer Bottom -->
+            <div class="footer-bottom text-center">
+                <div class="copyright">Copyright &copy; 2020 AuburnForest</div>
+            </div>
+        </div>
+    </footer>
+</div>
+<!-- End pagewrapper -->
+<!-- Sidebar Nav -->
+<div class="sidenav-list">
+    <ul class="navbar">
+        <li><a href="index.html"><i class="icon flaticon-home"></i> <span><i class="flaticon-home"></i> Trang chủ</span></a></li>
+        <li><a href="danh-sach-de-tai.html"><i class="icon flaticon-book"></i> <span><i class="flaticon-book"></i>Danh sách đề tài</span></a></li>
+        <li><a href="danh-sach-hoat-dong.html"><i class="icon flaticon-test"></i> <span><i class="flaticon-test"></i>Các hoạt động</span></a></li>
+        <li><a href="de-tai-cua-toi.html"><i class="icon flaticon-report"></i> <span><i class="flaticon-report"></i>Đề tài của tôi</span></a></li>
+        <li><a href="hoat-dong-cua-toi.html"><i class="icon flaticon-test"></i> <span><i class="flaticon-test"></i>Hoạt động của tôi</span></a></li>
+        <li><a href="danh-sach-giang-vien.html"><i class="icon flaticon-pie-chart-1"></i> <span><i class="flaticon-pie-chart-1"></i>Giảng viên</span></a></li>
+        <li><a href="cai-dat.html"><i class="icon flaticon-file"></i> <span><i class="flaticon-file"></i>Quản lý tài khoản</span></a></li>
+        <li><a href="huong-dan.html"><i class="icon flaticon-information"></i> <span><i class="flaticon-information"></i>Hướng dẫn</span></a></li>
+        <li><a href="dang-xuat.html"><i class="icon flaticon-new-window"></i> <span><i class="flaticon-new-window"></i>Đăng xuất</span></a></li>
+    </ul>
+</div>
+<!-- End Sidebar Nav -->
+<!-- Hidden Navigation Bar -->
+<section class="hidden-bar left-align">
+    <div class="color-layer"></div>
+    <div class="hidden-bar-closer">
+        <span class="flaticon-multiply"></span>
+    </div>
+    <!-- Hidden Bar Wrapper -->
+    <!-- Show hide left bảr -->
+    <div class="hidden-bar-wrapper">
+        <div class="heading">Quản lý người dùng</div>
+        <ul class="pages-list">
+            <li><a href="featured-courses.html"><span class="icon flaticon-book"></span>Sinh Viên</a></li>
+            <li><a href="course-lesson.html"><span class="icon flaticon-category"></span>Giảng Viên</a></li>
+            <li><a href="category.html"><span class="icon flaticon-test"></span>Quản Trị Viên</a></li>
+        </ul>
+        <div class="heading">Quản lý đề tài</div>
+        <ul class="pages-list">
+            <li><a href="dashboard.html"><span class="icon flaticon-home"></span>Danh sách đề tài</a></li>
+            <li><a href="manage-course.html"><span class="icon flaticon-test"></span>Danh sách đăng ký đề tài</a></li>
+        </ul>
+        <div class="heading">Quản lý đề tài</div>
+        <ul class="pages-list">
+            <li><a href="enrolled-courses.html"><span class="icon flaticon-test"></span>Danh sách đề tài</a></li>
+            <li><a href="certificate.html"><span class="icon flaticon-skills"></span>Danh sách đăng ký đề tài</a></li>
+        </ul>
+        <div class="heading">Quản lý hoạt động</div>
+        <ul class="pages-list">
+            <li><a href="blog-detail.html"><span class="icon flaticon-article"></span>Danh sách hoạt động</a></li>
+            <li><a href="not-found.html"><span class="icon flaticon-garbage"></span>Danh sách đăng ký hoạt động</a></li>
+        </ul>
+        <div class="heading">Môn Học</div>
+        <ul class="pages-list">
+            <li><a href="blog-detail.html"><span class="icon flaticon-article"></span>Quản lý môn học</a></li>
+        </ul>
+        <div class="heading">Thông Báo</div>
+        <ul class="pages-list">
+            <li><a href="blog-detail.html"><span class="icon flaticon-article"></span>Quản lý thông báo</a></li>
+        </ul>
+    </div>
+    <div class="copyright-text">Template by &copy; 2020 AuburnForest</div>
+</section>
+{% endblock %}
