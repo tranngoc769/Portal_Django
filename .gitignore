@@ -15,3 +15,5 @@ portal/migrations/__pycache__/0002_auto_20201205_0820.cpython-36.pyc
 portal/migrations/__pycache__/0003_nguoidung_mssv.cpython-36.pyc
 portal/migrations/__pycache__/0004_auto_20201206_2011.cpython-36.pyc
 .vscode/launch.json
+portal/migrations/0005_auto_20201207_1339.py
+portal/migrations/__pycache__/0005_auto_20201207_1339.cpython-36.pyc

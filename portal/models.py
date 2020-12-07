@@ -12,7 +12,7 @@ class  NGUOIDUNG(models.Model):
       SDT = models.CharField(max_length=15, null=True)
       # 
       NgaySinh = models.DateTimeField(null=True)
-      GioiTinh = models.BooleanField(default=0)
+      GioiTinh = models.IntegerField(default=1)
 # DETAI
 class  DETAI(models.Model):
       IdDeTai = models.IntegerField(primary_key=True,auto_created=True)

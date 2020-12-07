@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from portal.models import NGUOIDUNG
 from django.views.decorators.csrf import csrf_protect,csrf_exempt
@@ -18,11 +18,17 @@ def kiemTraCookie(request):
 #       else:
 #             return HttpResponse("Method not permission")
 def index(request):
-      request.session['user_id'] = 12
-      if request.method =="GET":
-            return HttpResponse(request.session.get('user_id'))
-      else:
-            return HttpResponse("Method not permission")
+      quyen = request.session.get('Quyen')
+      if (quyen == 1):
+            # admin 
+            return redirect('/admin')
+      
+      if (quyen == 2):
+            return HttpResponse("Giang Vien")
+      
+      if (quyen == 3):
+            return HttpResponse("Sinh Vien")
+      
 # Router /dangnhap
 @csrf_exempt #Tránh lỗi--CSRF token missing or incorrect
 def dangnhap(request):
