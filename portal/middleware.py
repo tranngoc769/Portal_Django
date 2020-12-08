@@ -8,10 +8,14 @@ class KiemTraQuyen:
             response = self.get_response(request)
             if ('dangnhap' in request.path or 'dangki' in request.path):
                   if (daDangNhap):
-                        return redirect('/trangchu')
+                        return redirect('/')
                   return response
             if (daDangNhap!=True):
                   return redirect('/dangnhap')
+            dsPath = (request.path).split('/')
+            quyen = request.session.get('Quyen')
+            if ('admin'==dsPath[1] and quyen != 1 or 'gv'==dsPath[1] and quyen != 2): # Cần truy cập admin , gv mà quyền không chính xác
+                  return redirect('/')
             return response
             # return redirect('/dangki')
       def process_exception(self, request, exception):
