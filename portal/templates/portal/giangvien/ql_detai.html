@@ -1,4 +1,4 @@
-{% extends "../../pages/base.html" %} {% load static %} {% block title %} Quản lý {{LoaiNguoiDung}} {% endblock %} {% block content %}
+{% extends "../../pages/base.html" %} {% load static %} {% block title %} Danh sách đề tài {% endblock %} {% block content %}
 
 <div class="page-wrapper">
     <!-- Preloader -->
@@ -13,12 +13,10 @@
                         <div class="table-title">
                             <div class="row">
                                 <div class="col-sm-5">
-                                    <h2>Quản lý <b>{{LoaiNguoiDung}}</b></h2>
+                                    <h2>Danh sách <b>đề tài</b></h2>
                                 </div>
                                 <div class="col-sm-7">
-                                    <a href="/gv/them_nguoidung/" class="btn btn-secondary"><i class="material-icons">&#xE147;</i> <span>Thêm đề tài</span></a>
-                                    <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE24D;</i> <span>Export ra Excel</span></a>
-                                    <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE24D;</i> <span>Import từ Excel</span></a>
+                                    <a href="/gv/them_detai/" class="btn btn-secondary"><i class="material-icons">&#xE147;</i> <span>Thêm đề tài</span></a>
                                 </div>
                             </div>
                         </div>
@@ -31,23 +29,16 @@
                                     <th>Ngày Bắt Đầu</th>
                                     <th>Ngày Kết Thúc</th>
                                     <th>Loại Đề Tài</th>
-                                    <th>Số Lượng SV</th>
+                                    <th>Số Lượng</th>
+                                    <th>Đã Đăng Kí</th>
                                     <th>Điểm Yêu Cầu</th>
                                     <th>Thao Tác</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <!--
-                                    portal_detai.ChiTiet,
-                                    portal_detai.NgayBD,
-                                    portal_detai.NgayKT,
-                                    portal_detai.SoLuong,
-                                    portal_nguoidung.TenNguoiDung,
-                                    portal_loaidetai.TenLoai,
-                                    portal_loaidetai.DiemSan -->
                                 {% for deTai in DS_DeTai %}
                                 <tr>
-                                    <td>{{deTai.id}}</td>
+                                    <td>{{deTai.IdDeTai}}</td>
                                     <td>
                                         <b>{{deTai.TenDeTai}}</b>
                                     </td>
@@ -56,9 +47,10 @@
                                     <td>{{deTai.NgayKT}}</td>
                                     <td>{{deTai.TenLoai}}</td>
                                     <td>{{deTai.SoLuong}}</td>
+                                    <td>{{deTai.DaDangKi}}</td>
                                     <td>{{deTai.DiemSan}}</td>
                                     <td>
-                                        <a href="/gv/chitiet_deTai/{{deTai.IdDeTai}}" class="settings" title="Xem" data-toggle="tooltip">
+                                        <a href="/gv/detai/chitiet/{{deTai.IdDeTai}}" class="settings" title="Xem" data-toggle="tooltip">
                                             <i class="material-icons">pageview</i>
                                         </a>
                                     </td>
@@ -67,7 +59,7 @@
                             </tbody>
                         </table>
                         <div class="clearfix">
-                            <div class="hint-text">Hiển thị <b>{{SoDeTai}}</b> trên tổng số <b>{{TongDeTai}}</b> {{LoaiNguoiDung}}</div>
+                            <div class="hint-text">Hiển thị <b>{{SoDeTai}}</b> trên tổng số <b>{{TongDeTai}}</b> đề tài</div>
                             <ul class="pagination">
                                 {% if TrangHienTai > 5 %}
                                 <li class="page-item"><a href="/gv/detai/">Trang đầu</a></li>

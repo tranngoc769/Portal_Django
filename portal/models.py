@@ -23,8 +23,10 @@ class  DETAI(models.Model):
       NgayBD = models.DateTimeField(null=False)
       NgayKT = models.DateTimeField(null=False)
       SoLuong = models.IntegerField(null=False, default=2)
+      DaDangKi = models.IntegerField(null=False, default=0)
       IdLoai = models.IntegerField(null=False)
       HoatDong = models.BooleanField(default = True)
+      DangThucHien = models.BooleanField(null=True, default = False)
 # HOATDONG
 class  HOATDONG(models.Model):
       IdHoatDong = models.IntegerField(primary_key=True,auto_created=True)
@@ -33,9 +35,11 @@ class  HOATDONG(models.Model):
       NgayBD = models.DateTimeField(null=False)
       NgayKT = models.DateTimeField(null=False)
       SoLuong = models.IntegerField(null=False, default=50)
+      DaDangKi = models.IntegerField(null=False, default=0)
       IdDiaDiem = models.IntegerField(null=False)
       IdGiaiThuong = models.IntegerField(null=False)
       HoatDong = models.BooleanField(default = True)
+      DangThucHien = models.BooleanField(null=True, default = False)
 # DETAIDADANGKY
 class  DETAIDADANGKY(models.Model):
       IdDTDDK = models.IntegerField(primary_key=True,auto_created=True)

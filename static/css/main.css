@@ -538,7 +538,8 @@ img {
 .sec-title {
     position: relative;
     z-index: 1;
-    margin-bottom: 20px;
+    margin: 20px;
+    text-align: center;
 }
 
 .sec-title h4 {
@@ -7921,7 +7922,7 @@ img {
     font-weight: 500;
     line-height: 24px;
     cursor: pointer;
-    width: 33%;
+    width: 49%;
     float: left;
     margin-right: 1px;
     text-align: center;
@@ -8008,7 +8009,6 @@ img {
 
 .order-widget .order-box {
     position: relative;
-    padding-bottom: 30px;
 }
 
 .order-widget .order-box li {

@@ -14,4 +14,5 @@ urlpatterns = [
     # Path đề tài
     path('detai/', views.ds_detai, name='ds_detai'),
     path('detai/<trang>', views.ds_detai, name='ds_detai'),
+    path('detai/chitiet/<int:detaiID>', views.chitiet_detai, name='chitiet_detai'),
 ]
