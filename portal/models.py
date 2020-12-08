@@ -18,6 +18,7 @@ class  NGUOIDUNG(models.Model):
 class  DETAI(models.Model):
       IdDeTai = models.IntegerField(primary_key=True,auto_created=True)
       IdUser = models.IntegerField(null = False)
+      TenDeTai = models.CharField(max_length=1000, null=False, default="")
       ChiTiet = models.CharField(max_length=1000, null=False)
       NgayBD = models.DateTimeField(null=False)
       NgayKT = models.DateTimeField(null=False)

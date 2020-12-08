@@ -20,4 +20,5 @@ urlpatterns = [
     path('', include('portal.urls.urls')),
     # path('admin/', admin.site.urls),
     path('admin/',include('portal.urls.admin_urls')),
+    path('gv/',include('portal.urls.gv_urls')),
 ]

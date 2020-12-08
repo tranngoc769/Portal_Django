@@ -22,7 +22,7 @@ def index(request):
             # admin 
             return redirect('/admin')
       if (quyen == 2):
-            return HttpResponse("Giang Vien")
+            return redirect('/gv')
       if (quyen == 3):
             return HttpResponse("Sinh Vien")
 # Router /dangnhap
