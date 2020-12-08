@@ -1,9 +1,6 @@
-{% extends "../../pages/base.html" %} {% load static %} {% block title %} Danh sách đề tài {% endblock %} {% block content %}
-
+{% extends "../../pages/base.html" %} {% load static %} {% block title %} {% if Flag == 'detai' %}Đề tài{% else %}Đề tài của tôi{% endif %} {% endblock %} {% block content %}
 <div class="page-wrapper">
-    <!-- Preloader -->
     <div class="preloader"></div>
-    <!-- Main Header-->
     {% include './header.html' %} {% comment %} End {% endcomment %}
     <div class="sidebar-page-container">
         <div class="auto-container">
@@ -25,14 +22,16 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Tên Đề Tài</th>
+                                    {% if Flag == 'detai'%}
                                     <th>Giảng Viên</th>
+                                    {% endif %}
                                     <th>Ngày Bắt Đầu</th>
                                     <th>Ngày Kết Thúc</th>
                                     <th>Loại Đề Tài</th>
                                     <th>Số Lượng</th>
                                     <th>Đã Đăng Kí</th>
                                     <th>Điểm Yêu Cầu</th>
-                                    <th>Thao Tác</th>
+                                    <th style="width:140px">Thao Tác</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -42,17 +41,26 @@
                                     <td>
                                         <b>{{deTai.TenDeTai}}</b>
                                     </td>
-                                    <td>{{deTai.HoTen}}</td>
+                                    
+                                    {% if Flag == 'detai'%}
+                                        <td>{{deTai.HoTen}}</td>
+                                    {% endif %}
                                     <td>{{deTai.NgayBD}}</td>
                                     <td>{{deTai.NgayKT}}</td>
                                     <td>{{deTai.TenLoai}}</td>
                                     <td>{{deTai.SoLuong}}</td>
                                     <td>{{deTai.DaDangKi}}</td>
                                     <td>{{deTai.DiemSan}}</td>
-                                    <td>
+                                    <td  style="width:140px">
                                         <a href="/gv/detai/chitiet/{{deTai.IdDeTai}}" class="settings" title="Xem" data-toggle="tooltip">
                                             <i class="material-icons">pageview</i>
                                         </a>
+                                        {% if Flag != "detai" %}
+                                        <a href="/gv/sua_detai/{{deTai.IdDeTai}}" class="settings" title="Sửa" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
+                                        <a href="#" class="delete delete-detai" detaiID = "{{deTai.IdDeTai}}" title="Xóa" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
+                                   
+                                        {% endif %}
+
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -62,19 +70,19 @@
                             <div class="hint-text">Hiển thị <b>{{SoDeTai}}</b> trên tổng số <b>{{TongDeTai}}</b> đề tài</div>
                             <ul class="pagination">
                                 {% if TrangHienTai > 5 %}
-                                <li class="page-item"><a href="/gv/detai/">Trang đầu</a></li>
+                                <li class="page-item"><a href="/gv/{{Flag}}/">Trang đầu</a></li>
                                 {% endif %} {% if TrangHienTai > 1 %}
-                                <li class="page-item"><a href="/gv/detai/{{TrangTruoc}}">Trang trước</a></li>
+                                <li class="page-item"><a href="/gv/{{Flag}}/{{TrangTruoc}}">Trang trước</a></li>
                                 {% endif %} {% for trang in SoTrang %} {% if TrangHienTai == trang %}
                                 <li class="page-item active"><a href="#" class="page-link">{{trang}}</a></li>
                                 {% else %}
-                                <li class="page-item"><a href="/gv/detai/{{trang}}" class="page-link">{{trang}}</a></li>
+                                <li class="page-item"><a href="/gv/{{Flag}}/{{trang}}" class="page-link">{{trang}}</a></li>
                                 {% endif %} 
                                 {% endfor %} 
                                 {% if TrangHienTai != TongTrang %}
-                                <li class="page-item"><a href="/gv/detai/{{TrangSau}}">Trang sau</a></li>
+                                <li class="page-item"><a href="/gv/{{Flag}}/{{TrangSau}}">Trang sau</a></li>
                                 {% endif %} 
-                                {% if TrangHienTai < TongTrang|add:-5 %} <li class="page-item"><a href="/gv/detai/{{TongTrang}}">Trang cuối</a></li>
+                                {% if TrangHienTai < TongTrang|add:-5 %} <li class="page-item"><a href="/gv/{{Flag}}/{{TongTrang}}">Trang cuối</a></li>
                                     {% endif %}
                             </ul>
                         </div>
@@ -83,7 +91,4 @@
             </div>
         </div>
     </div>
-
-    <!-- Main Footer -->
-    <!-- Sidebar Nav -->
     {% include './sidebar.html' %} {% endblock %}
