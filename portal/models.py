@@ -79,10 +79,12 @@ class  THONGBAO(models.Model):
       ChiTiet = models.CharField(max_length=1000)
       TieuDe = models.CharField(max_length=200)
       NgayThongBao = models.DateTimeField(null=False)
-
 # DieuKienDK
 class DIEUKIENDANGKY(models.Model):
       Id = models.IntegerField(primary_key=True,auto_created=True)
       IdLoai = models.IntegerField(null= False)
       IdKhoa = models.IntegerField(null= False)
+      Diem = models.FloatField(default=0)
+class DIEMTRUNGBINH(models.Model):
+      userID = models.IntegerField(primary_key=True)
       Diem = models.FloatField(default=0)

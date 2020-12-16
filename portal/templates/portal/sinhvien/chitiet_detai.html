@@ -8,43 +8,45 @@
                 <div class="auto-container">
                     <div class="upper-content">
                         <div class="row clearfix">
-                            <div class="right-column col-lg-12 col-md-12 col-sm-12">
-                                <div class="inner-column">
-                                    <h2>Tên đề tài : {{DeTai.TenDeTai}}</h2>
-                                    <div class="sub-text">Loại đề tài : {{DeTai.TenLoai}}</div>
-                                    <div class="price">Giảng Viên : <span>{{DeTai.HoTen}}</span></div>
-                                    <div class="sub-text">Khóa : {{DeTai.TenKhoa}}</div>
-                                    <div class="sub-text">Số lượng : {{DeTai.SoLuong}}</div>
-                                    <div class="sub-text">Đã đăng ký : {{DeTai.DaDangKi}}</div>
-                                    <div class="sub-text">Điểm yêu cầu: {{DeTai.Diem}}</div>
-                                    <div class="buttons-box">
-                                        <a name="{{DeTai.IdDeTai}}" mask="dangkidetai" href="#" class="theme-btn btn-style-one"><span class="txt">Đăng Ký</span></a>
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="row">
+                                    <div class="inner-column col-sm-6">
+                                        <h2>Tên đề tài : {{DeTai.TenDeTai}}</h2>
+                                        <div class="sub-text">Loại đề tài : {{DeTai.TenLoai}}</div>
+                                        <div class="price">Giảng Viên : <span>{{DeTai.HoTen}}</span></div>
+                                        <div class="sub-text">Khóa : {{DeTai.TenKhoa}}</div>
+                                        <div class="sub-text">Số lượng : {{DeTai.SoLuong}}</div>
+                                        <div class="sub-text">Đã đăng ký : {{DeTai.DaDangKi}}</div>
+                                        <div class="sub-text">Điểm yêu cầu: {{DeTai.Diem}}</div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="lower-content">
-                        <div class="instructor-info-tabs">
-                            <div class="instructor-tabs tabs-box">
-                                <div class="tabs-content">
-                                    <div class="tab active-tab" id="prod-about">
-                                        <div class="content">
-                                            <h6>Thời gian : </h6>
-                                            <ul class="list-style-one">
-                                                <li>
-                                                    <p>Ngày bắt đầu: {{DeTai.NgayBD|date:'d-m-Y'}}</p>
-                                                </li>
-                                                <li>
-                                                    <p>Ngày kết thúc: {{DeTai.NgayKT|date:'d-m-Y'}}</p>
-                                                </li>
-                                            </ul>
-                                            <h6>Chi tiết : </h6>
-                                            <div class="text">
-                                                <p>{{DeTai.ChiTiet}}</p>
+                                    <div class="lower-content col-sm-6">
+                                        <div class="instructor-info-tabs">
+                                            <div class="instructor-tabs tabs-box">
+                                                <div class="tabs-content">
+                                                    <div class="tab active-tab" id="prod-about">
+                                                        <div class="content">
+                                                            <h6>Thời gian : </h6>
+                                                            <ul class="list-style-one">
+                                                                <li>
+                                                                    <p>Ngày bắt đầu: {{DeTai.NgayBD|date:'d-m-Y'}}</p>
+                                                                </li>
+                                                                <li>
+                                                                    <p>Ngày kết thúc: {{DeTai.NgayKT|date:'d-m-Y'}}</p>
+                                                                </li>
+                                                            </ul>
+                                                            <h6>Chi tiết : </h6>
+                                                            <div class="text">
+                                                                <p>{{DeTai.ChiTiet}}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="buttons-box">
+                                    <a name="{{DeTai.IdDeTai}}" mask="dangkidetai" href="#" class="theme-btn btn-style-one"><span class="txt">Đăng Ký</span></a>
                                 </div>
                             </div>
                         </div>
@@ -53,6 +55,4 @@
             </div>
         </div>
     </div>
-    <!-- Main Footer -->
-    <!-- Sidebar Nav -->
     {% include './sidebar.html' %} {% endblock %}
