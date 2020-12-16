@@ -96,7 +96,7 @@ def chitietdetai(request, detaiID):
             return redirect('/dangxuat')
       userId = temp['data'][0]['IdUser']
 
-      checkDkSQL = "select * from portal_detaidadangky where IdUser='{0}'".format(userId)
+      checkDkSQL = "select * from portal_detaidadangky where IdUser='{0}' and IdDetai ={1}".format(userId,detaiID)
       temp = ChucNang.TruyVanDuLieu(checkDkSQL)
       daDangki = False
       if (len(temp['data']) > 0):
@@ -159,18 +159,36 @@ def index(request):
 from datetime import date
 def dkdetai(request, detaiID):
       if request.method == "GET":
+            ktDetaiSql = "Select * from portal_detai where IdDeTai='{0}'".format(detaiID)
+            thongtindangkidetai = ChucNang.TruyVanDuLieu(ktDetaiSql)
+
+            if (len(thongtindangkidetai['data']) < 1):
+                  return HttpResponse(json.dumps({"code" : 403, "msg" : "Không thấy đề tài"}, ensure_ascii=False))
+            SoLuongSv = thongtindangkidetai['data'][0]['SoLuong']
+            DaDangKi = thongtindangkidetai['data'][0]['DaDangKi']
+            DangThucHien = thongtindangkidetai['data'][0]['DangThucHien']
+            if (DangThucHien == 1 or SoLuongSv == DaDangKi):
+                  return HttpResponse(json.dumps({"code" : 403, "msg" : "Đề tài đã đủ số lượng"}, ensure_ascii=False))
             TenDangNhap = request.session['TenDangNhap']
             getUserIDSql = "select IdUser from portal_nguoidung where TenNguoiDung='{0}'".format(TenDangNhap)
             temp = ChucNang.TruyVanDuLieu(getUserIDSql)
             if (len(temp['data']) < 1):
-                  return HttpResponse(json.dumps({"code" : 403, "msg" : "Không thấy user"}))
+                  return HttpResponse(json.dumps({"code" : 403, "msg" : "Không thấy user"}, ensure_ascii=False))
             userId = temp['data'][0]['IdUser']
-            checkDkSQL = "select * from portal_detaidadangky where IdUser='{0}'".format(userId)
+            # Kiểm tra người dùng đã đăng kí đề tài chưa
+            checkDkSQL = "select * from portal_detaidadangky where IdUser='{0}' and IdDetai ={1}".format(userId,detaiID)
             temp = ChucNang.TruyVanDuLieu(checkDkSQL)
             if (len(temp['data']) > 0):
-                  return HttpResponse(json.dumps({"code" : 403, "msg" : "Đã đăng kí"}))
+                  return HttpResponse(json.dumps({"code" : 403, "msg" : "Đã đăng kí"}, ensure_ascii=False))
             today = date.today()
+            # Đăng kí đề tài
             sql = "INSERT INTO portal_detaidadangky (IdDeTai, IdUser, NgayDKDT) VALUES ({0}, {1}, '{2}')".format(detaiID,userId,today.strftime('%Y-%m-%d %H:%M:%S'))
+            ChucNang.UpdateDuLieu(sql)
+            # Tăng số lượng đăng kí
+            DaDangKi = DaDangKi + 1
+            if (DaDangKi== SoLuongSv):
+                  DangThucHien = 1
+            sql = "UPDATE portal_detai SET DaDangKi = {0}, DangThucHien={1} WHERE IdDeTai = {2}".format(DaDangKi,DangThucHien,detaiID)
             ChucNang.UpdateDuLieu(sql)
             return HttpResponse(json.dumps({"code" : 200, "msg" : "success"}, ensure_ascii=False))
       return HttpResponse(json.dumps({"code" : 403, "msg" : "method not allow"}))
