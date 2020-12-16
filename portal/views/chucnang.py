@@ -28,3 +28,6 @@ def TruyVanDuLieu(sql):
         ketqua['data'] = mangPhanTu
         return ketqua
 # Hàm chuyển từ QuerySet --> JSON
+def UpdateDuLieu(sql):
+    with connection.cursor() as cursor:
+        cursor.execute(sql)

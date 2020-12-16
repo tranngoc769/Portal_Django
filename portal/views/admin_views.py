@@ -1,3 +1,5 @@
+
+import openpyxl
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from portal.models import NGUOIDUNG
@@ -8,6 +10,7 @@ import hashlib
 import math
 from django.core.serializers.json import DjangoJSONEncoder
 import json
+from . import chucnang as ChucNang
 MoiTrang = 3
 def kiemTraCookie(request):
     print(request)
@@ -165,3 +168,43 @@ def taoJsonQLNguoiDung(dsNguoiDung, trangHienTai, loaiNguoiDung):
         'TrangTruoc': trangTruoc
     }
     return content
+# 
+@csrf_exempt
+def importExcel(request, loai):
+    if request.method == "POST":
+        if (len(request.FILES) < 1):
+            return HttpResponse(json.dumps({'code': 403, 'msg': 'No file'}))
+        
+        try:
+            excel_file = request.FILES["file"]
+            wb = openpyxl.load_workbook(excel_file)
+            worksheet = wb.worksheets[0]
+            excel_data = list()
+            count = 0
+            for row in worksheet.iter_rows():
+                if (count == 0):
+                    count = 1
+                    continue
+                checksql = "SELECT IdUser FROM portal_nguoidung WHERE TenNguoiDung='{0}' LIMIT 1 ".format(row[1].value)
+                temp = ChucNang.TruyVanDuLieu(checksql)
+                if (len(temp['data']) == 1):
+                    sql = """
+                    UPDATE portal_nguoidung SET HoTen = '{0}', Email= '{1}' ,SDT= '{2}',    GioiTinh= {3},  Khoa= '{4}',     NgaySinh = '{5}', HoatDong = {6} WHERE TenNguoiDung='{7}'
+                    """.format(                 row[2].value,   row[3].value,row[4].value,  row[7].value,   row[5].value,       row[6].value,  row[8].value,        row[1].value)
+                else:
+                    sql = """ 
+                    INSERT INTO portal_nguoidung(HoTen,MatKhau,Email,Quyen,SDT,NgaySinh,GioiTinh,TenNguoiDung,HoatDong,Khoa) VALUES ('{0}', '{1}', '{2}', {3}, '{4}', '{5}', {6}, '{7}', 1, {8})
+                    """.format(row[2].value, row[1].value, row[3].value, 3, row[4].value,  row[6].value, row[7].value, row[1].value,1,  row[8].value)
+                ChucNang.UpdateDuLieu(sql)
+                # Id,  1                  2             3         4             5         6                  7            8         9
+                # Id,  TenNguoiDung     HoTen       Email       SDT         Khoa         NgaySinh           GioiTinh  HoatDong   Diem
+            #    ['2', '2033172027', 'Võ Phú Hải', 'phuhai113@gmail.com', 'None', '08', '1998-10-10 00:00:00', 'None', '1', '9.33']
+        except Exception as insertErr:
+            resp = {"code": 404}
+            resp['msg'] = str(insertErr)
+            return HttpResponse(json.dumps(resp))
+        resp = {"code": 200}
+        resp['msg'] = "success"
+        return HttpResponse(json.dumps(resp))
+    return HttpResponse(json.dumps({'code': 403, 'msg': 'Not allow method'}))
+# 

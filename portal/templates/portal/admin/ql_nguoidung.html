@@ -17,9 +17,11 @@
                                     <h2>Quản lý <b>{{LoaiNguoiDung}}</b></h2>
                                 </div>
                                 <div class="col-sm-7">
+                                    <form></form>
                                     <a href="/admin/them_nguoidung/" class="btn btn-secondary"><i class="material-icons">&#xE147;</i> <span>Thêm {{LoaiNguoiDung}}</span></a>
                                     <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE24D;</i> <span>Export ra Excel</span></a>
-                                    <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE24D;</i> <span>Import từ Excel</span></a>
+                                    <a id="importExcel_a" href="#" type="file" class="btn btn-secondary"><i class="material-icons">&#xE24D;</i> <span>Import từ Excel</span></a>
+                                    <input accept=".xls,.xlsx" mask="{{NguoiDung}}" hidden id="importExcel" type="file"/>
                                 </div>
                             </div>
                         </div>

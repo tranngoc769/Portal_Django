@@ -277,4 +277,62 @@
             }
         })
     })
+
+    $("#importExcel").on("change", function(e) {
+        var loai = $(this).attr('mask')
+        var a = $("#importExcel")[0].files;
+        if (a.length > 0) {
+            console.log("co file")
+            var form = $('form')[0];
+            var formData = new FormData(form);
+            file = a[0]
+            formData.append('file', file);
+            formData.append('loai', loai);
+            $.ajax({
+                type: "POST",
+                enctype: 'multipart/form-data',
+                url: "/admin/import/" + loai,
+                data: formData,
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function(data) {
+                    if (data.code == 200) {
+                        alert("Success");
+                    } else {
+                        alert("Lỗi")
+                    }
+                    window.location.reload();
+                },
+                error: function(e) {
+                    alert('Lỗi')
+                }
+            });
+        } else {
+            console.log("no file")
+        }
+    });
+    $("#importExcel_a").on("click", function(e) {
+        console.log("oke")
+        e.preventDefault();
+        $("#importExcel:hidden").trigger('click');
+        // $.ajax({
+        //     type: "POST",
+        //     url: "/admin/them_nguoidung/",
+        //     data: JSON.stringify(dayDuThongTin),
+        //     success: function(resp) {
+        //         ketqua = JSON.parse(resp)
+        //         if (ketqua.code != 200) { // Có lỗi
+        //             alert(ketqua.msg)
+        //         } else {
+        //             // Đăng ký thành công, chuyển sang trang đăng nhập
+        //             alert(ketqua.msg)
+        //             window.location.reload()
+        //         }
+        //     },
+        //     error: function(resp) {
+        //         console.log("errr");
+        //         console.log(resp);
+        //     }
+    });
 })(window.jQuery);
