@@ -17,27 +17,38 @@
                             </div>
                         </div>
                         <div class="row clearfix">
-                            {% for deTai in DeTai %}
-                            <div class="course-block col-lg-4 col-md-6 col-sm-12">
+                            {% for deTai in DsDetai %}
+                            <div class="feature-block-two col-lg-4 col-md-6 col-sm-12">
                                 <div class="inner-box">
-                                    <div class="image">
-                                        <a href="course-lesson.html"><img src="{% static 'images/resource/course-1.jpg'%}" alt="" /></a>
-                                        <div class="time">{{deTai.SoLuong}} sinh viên</div>
-                                    </div>
-                                    <div class="lower-content">
-                                        <h6><a href="course-lesson.html">{{deTai.TendeTai}}</a></h6>
-                                        <ul class="post-meta">
-                                            <li>{{deTai.DaDangKi}} đăng kí</li>
-                                            <li>{{deTai.DiemRL}}đ</li>
-                                        </ul>
+                                    <div class="content">
+                                        <div class="image">
+                                            <a href="/chitietdetai/{{deTai.IdDeTai}}"><img src="{% static 'images/resource/feature-4.jpg'%}" alt=""></a>
+                                        </div>
+                                        <h6><a href="/chitietdetai/{{deTai.IdDeTai}}">{{deTai.TenDeTai}}</a></h6>
+                                        <div class="text">Loại : {{deTai.TenLoai}}</div>
+                                        <div class="text">Khóa : {{deTai.TenKhoa}}</div>
+                                        <div class="author" name="{{deTai.TenNguoiDung}}">GV : <span>{{deTai.HoTen}}</span></div>
+                                        <div class="author">Yêu cầu : <span>{{deTai.Diem}}</span></div>
                                         <div class="clearfix">
                                             <div class="pull-left">
-                                                <div class="author">Giảng Viên: <span>{{deTai.HoTen}}</span></div>
+                                                <div class="price">Số lượng : {{deTai.SoLuong}}</div>
                                             </div>
                                             <div class="pull-right">
-                                                <div class="price">{{deTai.NgayKT|date:'d-m-Y'}}</div>
+                                                <div class="price">Đã đăng ký : {{deTai.DaDangKi}}</div>
                                             </div>
                                         </div>
+
+                                        <!-- Featured Dropdown Box -->
+                                        <div class="eps_dots more_dropdown">
+                                            <a href="#"><span></span><i></i></a>
+                                            <div class="dropdown-content">
+                                                <span><i class="flaticon-share"></i>Share</span>
+                                                <span><i class="flaticon-down-arrow-1"></i>Save</span>
+                                                <span><i class="flaticon-cancel"></i>Not Interested</span>
+                                                <span><i class="flaticon-edit-2"></i>Report</span>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>

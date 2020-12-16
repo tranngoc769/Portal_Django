@@ -9,16 +9,86 @@ from . import chucnang as ChucNang
 def kiemTraCookie(request):
       print(request)
 def dsDetai(request):
-      return render(request,'portal/sinhvien/dsDetai.html')
-# Create your views here.
-# def dangnhap(request):
-#       test = NGUOIDUNG()
-#       data = NGUOIDUNG.objects.all()
-#       print(data)
-#       if request.method =="GET":
-#             return render(request,"portal/dangnhap.html")
-#       else:
-#             return HttpResponse("Method not permission")
+      sql = """
+            SELECT
+                  portal_detai.IdDeTai,
+                  portal_detai.IdUser,
+                  portal_detai.ChiTiet,
+                  portal_detai.NgayBD,
+                  portal_detai.NgayKT,
+                  portal_detai.SoLuong,
+                  portal_detai.IdLoai,
+                  portal_detai.HoatDong,
+                  portal_detai.TenDeTai,
+                  portal_detai.DaDangKi,
+                  portal_detai.DangThucHien,
+                  portal_detai.IdKhoa,
+                  portal_loaidetai.TenLoai,
+                  portal_khoa.TenKhoa,
+                  portal_nguoidung.HoTen,
+                  portal_nguoidung.TenNguoiDung,
+                  portal_dieukiendangky.Diem
+                  FROM
+                  portal_detai
+                  JOIN portal_nguoidung ON portal_detai.IdUser = portal_nguoidung.IdUser
+                  JOIN portal_loaidetai ON portal_detai.IdLoai = portal_loaidetai.IdLoai
+                  JOIN portal_khoa ON portal_khoa.IdKhoa = portal_detai.IdKhoa
+                  JOIN portal_dieukiendangky ON portal_dieukiendangky.IdKhoa = portal_detai.IdKhoa AND portal_dieukiendangky.IdLoai = portal_detai.IdLoai
+                  WHERE
+                  portal_nguoidung.HoatDong = 1 AND
+                  portal_detai.HoatDong = 1 AND
+                  portal_detai.DangThucHien = 0
+            ORDER BY
+            portal_detai.NgayBD ASC
+      """
+      dsDetai = ChucNang.TruyVanDuLieu(sql)
+      data = {
+            "DsDetai" : dsDetai['data']
+      }
+      print( dsDetai['data'][0])
+      return render(request,'portal/sinhvien/dsDetai.html', data)
+
+def chitietdetai(request, detaiID):
+      sql = """
+            SELECT
+                  portal_detai.IdDeTai,
+                  portal_detai.IdUser,
+                  portal_detai.ChiTiet,
+                  portal_detai.NgayBD,
+                  portal_detai.NgayKT,
+                  portal_detai.SoLuong,
+                  portal_detai.IdLoai,
+                  portal_detai.HoatDong,
+                  portal_detai.TenDeTai,
+                  portal_detai.DaDangKi,
+                  portal_detai.DangThucHien,
+                  portal_detai.IdKhoa,
+                  portal_loaidetai.TenLoai,
+                  portal_khoa.TenKhoa,
+                  portal_nguoidung.HoTen,
+                  portal_nguoidung.TenNguoiDung,
+                  portal_dieukiendangky.Diem
+                  FROM
+                  portal_detai
+                  JOIN portal_nguoidung ON portal_detai.IdUser = portal_nguoidung.IdUser
+                  JOIN portal_loaidetai ON portal_detai.IdLoai = portal_loaidetai.IdLoai
+                  JOIN portal_khoa ON portal_khoa.IdKhoa = portal_detai.IdKhoa
+                  JOIN portal_dieukiendangky ON portal_dieukiendangky.IdKhoa = portal_detai.IdKhoa AND portal_dieukiendangky.IdLoai = portal_detai.IdLoai
+                  WHERE
+                  portal_nguoidung.HoatDong = 1 AND
+                  portal_detai.HoatDong = 1 AND
+                  portal_detai.DangThucHien = 0 AND
+                  portal_detai.IdDeTai = {0}
+            ORDER BY
+            portal_detai.NgayBD ASC
+      """.format(detaiID)
+      chitietDetai = ChucNang.TruyVanDuLieu(sql)
+      if (len(chitietDetai['data']) < 1):
+            return "Không có đề tài"
+      data = {
+            'DeTai' : chitietDetai['data'][0]
+      }
+      return render(request,'portal/sinhvien/chitiet_detai.html', data)
 def index(request):
       quyen = request.session.get('Quyen')
       if (quyen == 1):
@@ -57,6 +127,34 @@ def index(request):
             dsThongBao = ChucNang.TruyVanDuLieu(thongbaoSQL)
             dsHoatDong = ChucNang.TruyVanDuLieu(hoatDongSQL)
             return render(request, 'portal/sinhvien/trangchu.html', {"ThongBao": dsThongBao['data'], "HoatDong" : dsHoatDong['data']})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Router /dangnhap
 @csrf_exempt #Tránh lỗi--CSRF token missing or incorrect
 def dangnhap(request):

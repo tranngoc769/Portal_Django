@@ -6,4 +6,8 @@ urlpatterns = [
     path('dangnhap/',views.dangnhap, name="dangnhap"),
     path('dangki/',views.dangki, name="dangki"),
     path('dangxuat/',views.dangxuat, name="dangxuat"),
+    path('chitietdetai/<int:detaiID>', views.chitietdetai, name='chitietdetai'),
+   
+
+
 ]
