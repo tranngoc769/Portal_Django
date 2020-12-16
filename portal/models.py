@@ -9,6 +9,7 @@ class  NGUOIDUNG(models.Model):
       Email = models.CharField(max_length=200, null=False)
       SDT = models.CharField(max_length=200, null=True)
       Quyen = models.IntegerField(null=False)
+      Khoa = models.IntegerField(null=False, default=0)
       SDT = models.CharField(max_length=15, null=True)
       # 
       NgaySinh = models.DateTimeField(null=True)
@@ -25,11 +26,13 @@ class  DETAI(models.Model):
       SoLuong = models.IntegerField(null=False, default=2)
       DaDangKi = models.IntegerField(null=False, default=0)
       IdLoai = models.IntegerField(null=False)
+      IdKhoa = models.IntegerField(null=False)
       HoatDong = models.BooleanField(default = True)
       DangThucHien = models.BooleanField(null=True, default = False)
 # HOATDONG
 class  HOATDONG(models.Model):
       IdHoatDong = models.IntegerField(primary_key=True,auto_created=True)
+      TenHoatDong = models.CharField(max_length=1000)
       IdUser = models.IntegerField(null = False)
       ChiTiet = models.CharField(max_length=1000, null=False)
       NgayBD = models.DateTimeField(null=False)
@@ -37,7 +40,7 @@ class  HOATDONG(models.Model):
       SoLuong = models.IntegerField(null=False, default=50)
       DaDangKi = models.IntegerField(null=False, default=0)
       IdDiaDiem = models.IntegerField(null=False)
-      IdGiaiThuong = models.IntegerField(null=False)
+      DiemRL = models.IntegerField(null=False,default=0)
       HoatDong = models.BooleanField(default = True)
       DangThucHien = models.BooleanField(null=True, default = False)
 # DETAIDADANGKY
@@ -56,7 +59,10 @@ class  HOATDONGDADANGKY(models.Model):
 class  LOAIDETAI(models.Model):
       IdLoai = models.IntegerField(primary_key=True,auto_created=True)
       TenLoai = models.CharField(max_length=100, null=False)
-      DiemSan = models.FloatField(null=False)
+# KHOA
+class  KHOA(models.Model):
+      IdKhoa = models.IntegerField(primary_key=True,auto_created=True)
+      TenKhoa = models.CharField(max_length=100, null=False)
 # DIADIEM
 class  DIADIEM(models.Model):
       IdDiaDiem = models.IntegerField(primary_key=True,auto_created=True)
@@ -70,7 +76,13 @@ class  GIAITHUONG(models.Model):
 # THONGBAO
 class  THONGBAO(models.Model):
       IdThongBao = models.IntegerField(primary_key=True,auto_created=True)
-      IdUser = models.IntegerField(null = False)
       ChiTiet = models.CharField(max_length=1000)
+      TieuDe = models.CharField(max_length=200)
       NgayThongBao = models.DateTimeField(null=False)
 
+# DieuKienDK
+class DIEUKIENDANGKY(models.Model):
+      Id = models.IntegerField(primary_key=True,auto_created=True)
+      IdLoai = models.IntegerField(null= False)
+      IdKhoa = models.IntegerField(null= False)
+      Diem = models.FloatField(default=0)

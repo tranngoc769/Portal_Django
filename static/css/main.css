@@ -10048,3 +10048,7 @@ table.table .avatar {
     margin-top: 10px;
     font-size: 13px;
 }
+
+.ui-state-disabled {
+    opacity: 0.8
+}

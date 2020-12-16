@@ -5,8 +5,11 @@ from django.views.decorators.csrf import csrf_protect,csrf_exempt
 from portal.models import  *
 import  hashlib
 import json
+from . import chucnang as ChucNang
 def kiemTraCookie(request):
       print(request)
+def dsDetai(request):
+      return render(request,'portal/sinhvien/dsDetai.html')
 # Create your views here.
 # def dangnhap(request):
 #       test = NGUOIDUNG()
@@ -24,7 +27,36 @@ def index(request):
       if (quyen == 2):
             return redirect('/gv')
       if (quyen == 3):
-            return HttpResponse("Sinh Vien")
+            # Sinh vien
+            thongbaoSQL = "SELECT * from portal_thongbao ORDER BY NgayThongBao DESC";
+            hoatDongSQL = """
+            SELECT
+                  portal_hoatdong.IdHoatDong,
+                  portal_hoatdong.IdUser,
+                  portal_hoatdong.ChiTiet,
+                  portal_hoatdong.NgayBD,
+                  portal_hoatdong.NgayKT,
+                  portal_hoatdong.SoLuong,
+                  portal_hoatdong.IdDiaDiem,
+                  portal_hoatdong.DiemRL,
+                  portal_hoatdong.HoatDong,
+                  portal_hoatdong.DaDangKi,
+                  portal_hoatdong.DangThucHien,
+                  portal_nguoidung.IdUser,
+                  portal_nguoidung.HoTen
+                  FROM
+                  portal_hoatdong
+                  JOIN portal_nguoidung ON portal_hoatdong.IdUser = portal_nguoidung.IdUser
+                  WHERE
+                  portal_nguoidung.HoatDong = 1 AND
+                  portal_hoatdong.HoatDong = 1 AND
+                  portal_hoatdong.DangThucHien = 0
+                  ORDER BY
+                  portal_hoatdong.NgayBD ASC
+            """ 
+            dsThongBao = ChucNang.TruyVanDuLieu(thongbaoSQL)
+            dsHoatDong = ChucNang.TruyVanDuLieu(hoatDongSQL)
+            return render(request, 'portal/sinhvien/trangchu.html', {"ThongBao": dsThongBao['data'], "HoatDong" : dsHoatDong['data']})
 # Router /dangnhap
 @csrf_exempt #Tránh lỗi--CSRF token missing or incorrect
 def dangnhap(request):
@@ -56,14 +88,16 @@ def dangnhap(request):
 @csrf_exempt #Tránh lỗi--CSRF token missing or incorrect
 def dangki(request):
       if request.method =="GET":
-            return render(request,'portal/dangki.html')
+            sql = "SELECT * FROM portal_khoa"
+            dsKhoa = ChucNang.TruyVanDuLieu(sql)
+            return render(request,'portal/dangki.html', dsKhoa)
       if request.method == "POST":
             thongTinDK = json.loads(request.body) #Lấy dữ liệu đăng ký dưới dạng Objects
             # 'SDT': '123', 'Email': '1234@gmail.com', 'GioiTinh': '0', 'NgaySinh': '2020-12-10', 'MatKhau': 'password', 'Quyen': 3}
             maHoaMatKhau = hashlib.md5(thongTinDK.get('MatKhau').encode()).hexdigest() # Mã hóa mật khẩu md5
             # Các thao tác validate ở đây
             try:
-                  nguoiDungDk = NGUOIDUNG(TenNguoiDung = thongTinDK.get('TenNguoiDung'), HoTen= thongTinDK.get('HoTen'),SDT = thongTinDK.get('SDT'), MatKhau= maHoaMatKhau,Email = thongTinDK.get('Email'), NgaySinh= thongTinDK.get('NgaySinh'), GioiTinh= thongTinDK.get('GioiTinh'),Quyen = thongTinDK.get('Quyen'))
+                  nguoiDungDk = NGUOIDUNG(TenNguoiDung = thongTinDK.get('TenNguoiDung'), HoTen= thongTinDK.get('HoTen'),SDT = thongTinDK.get('SDT'), MatKhau= maHoaMatKhau,Email = thongTinDK.get('Email'), NgaySinh= thongTinDK.get('NgaySinh'), GioiTinh= thongTinDK.get('GioiTinh'),Quyen = thongTinDK.get('Quyen'), Khoa = thongTinDK.get('Khoa'))
                   nguoiDungDk.save()
             except Exception as insertErr:
                   resp = {"code" : 404}
@@ -79,3 +113,5 @@ def dangxuat(request):
       del request.session['TenDangNhap']
       del request.session['Quyen']
       return redirect('/')
+
+# SinhVien

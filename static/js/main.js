@@ -49,6 +49,7 @@
                 "GioiTinh": thongTinDangKi[4].value,
                 "NgaySinh": thongTinDangKi[5].value,
                 "MatKhau": thongTinDangKi[6].value,
+                "Khoa": thongTinDangKi[8].value,
                 "Quyen": 3
             }
             // Nếu đầy đủ, trả về json thông tin
@@ -99,6 +100,7 @@
                 "GioiTinh": thongTinDangKi[4].value,
                 "NgaySinh": thongTinDangKi[5].value,
                 "MatKhau": thongTinDangKi[7].value,
+                "MatKhau": thongTinDangKi[8].value,
                 "Quyen": thongTinDangKi[6].value
             }
             // Nếu đầy đủ, trả về json thông tin
@@ -144,7 +146,8 @@
                 "GioiTinh": thongTinDangKi[3].value,
                 "NgaySinh": thongTinDangKi[4].value,
                 "MatKhau": thongTinDangKi[6].value,
-                "Quyen": thongTinDangKi[5].value
+                "Quyen": thongTinDangKi[5].value,
+                "Khoa": thongTinDangKi[8].value
             }
             // Nếu đầy đủ, trả về json thông tin
         return thongTinJSON;

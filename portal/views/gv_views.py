@@ -10,8 +10,7 @@ from django.db import connection
 from django.core.serializers.json import DjangoJSONEncoder
 import json
 MoiTrang = 3
-
-
+from . import chucnang as ChucNang
 def index(request):
     return redirect('detai/')
 # Hàm lấy danh sách đề tài của tôi phân trang
@@ -37,19 +36,20 @@ def danhSachDeTaiCuaToi(trang, moitrang, username):
                     portal_nguoidung.HoTen,
                     portal_nguoidung.TenNguoiDung,
                     portal_loaidetai.TenLoai,
-                    portal_loaidetai.DiemSan,
-                portal_detai.DangThucHien
+                    portal_khoa.TenKhoa,
+                    portal_detai.DangThucHien
                     FROM
                     portal_detai
                     JOIN portal_nguoidung ON portal_detai.IdUser = portal_nguoidung.IdUser
                     JOIN portal_loaidetai ON portal_loaidetai.IdLoai = portal_detai.IdLoai
+                    JOIN portal_khoa ON portal_detai.IdKhoa = portal_khoa.IdKhoa
                     WHERE
                     portal_detai.HoatDong = 1 AND
                     portal_nguoidung.HoatDong = 1 AND
                     portal_nguoidung.TenNguoiDung = '{2}'
             LIMIT {0} OFFSET {1}
             """.format(moitrang, (trang-1)*moitrang, username)  # Offset bắt đầu từ 0 --> trang - 1, công thức phân trang sql
-    dsDeTai_PhanTrang = TruyVanDuLieu(sql)
+    dsDeTai_PhanTrang = ChucNang.TruyVanDuLieu(sql)
     dsDeTai_PhanTrang['SoDeTai'] = len(dsDetai['data'])
     dsDeTai_PhanTrang['SoTrang'] = tongTrang
     return dsDeTai_PhanTrang
@@ -76,47 +76,22 @@ def danhSachDeTai(trang, moitrang):
                     portal_nguoidung.HoTen,
                     portal_nguoidung.TenNguoiDung,
                     portal_loaidetai.TenLoai,
-                    portal_loaidetai.DiemSan,
-                portal_detai.DangThucHien
+                    portal_khoa.TenKhoa,
+                    portal_detai.DangThucHien
                     FROM
                     portal_detai
                     JOIN portal_nguoidung ON portal_detai.IdUser = portal_nguoidung.IdUser
                     JOIN portal_loaidetai ON portal_loaidetai.IdLoai = portal_detai.IdLoai
+                    JOIN portal_khoa ON portal_detai.IdKhoa = portal_khoa.IdKhoa
                     WHERE
                     portal_detai.HoatDong = 1 AND
                     portal_nguoidung.HoatDong = 1
             LIMIT {0} OFFSET {1}
             """.format(moitrang, (trang-1)*moitrang)  # Offset bắt đầu từ 0 --> trang - 1, công thức phân trang sql
-    dsDeTai_PhanTrang = TruyVanDuLieu(sql)
+    dsDeTai_PhanTrang = ChucNang.TruyVanDuLieu(sql)
     dsDeTai_PhanTrang['SoDeTai'] = len(dsDetai['data'])
     dsDeTai_PhanTrang['SoTrang'] = tongTrang
     return dsDeTai_PhanTrang
-# Hàm để truy vấn dữ liệu bằng query sql
-def TruyVanDuLieu(sql):
-    with connection.cursor() as cursor:
-        # Data mẫu khi cursor : (('Tuyen', 8.5),('Phuc', 8.5)) : tức kết quả truy vấn được 2 dòng, mỗi dòng có 2 giá trị
-        # Mong muốn đầu ra JSON : 'data' : [{'HoTen' : 'Tuyen' , 'Diem' : 8.5}, {'HoTen' : 'Phuc' , 'Diem' : 8.5}]
-        cursor.execute(sql)
-        data = cursor.fetchall()
-        ketqua = {}
-        mangPhanTu = []
-        for dong in data:  # Lặp từng dòng : ('Tuyen', 8.5) --> ('Phuc', 8.5)
-            jsonData = {}
-            for giaTri in enumerate(dong):  # enumerate: thêm số thứ tự cho mảng
-                # VD : (0, ('Tuyen', 8.5)) , A[0] là 0, A[1] là ('Tuyen', 8.5)
-                # Vòng lặp này lặp các giá trị của từng dòng : 'Tuyen' --> 8,5
-
-                viTri = giaTri[0]  # 1, 2, 3,...
-                # cursor.description là mảng 2 chiều, mỗi phần tử là mảng thông tin của từng cột . VD : (('Hoten',1,2,4), ('Diem',23,5,6)
-                # Chỉ cần lấy [0] là tên của cột đó như dưới, giá trị vị trí mấy thì tương ứng tên cột thứ mấy. VD 'Tuyen' vị trị 0 --> Cột 0 là HoTen
-                tenCot = cursor.description[viTri][0]
-                # Gán vào JSON  {TenCot : GiaTri}
-                jsonData[tenCot] = giaTri[1]  # Kết quả : {'Hoten' : 'Tuyen}
-            mangPhanTu.append(jsonData)  # Thêm vô mảng các kết quả dòng
-        # Kết thúc vòng lặp thu được các JSON kết quả có tên cột của từng dòng
-        # Gán vào JSON kết quả , tức biến ketqua có thuộc tính data chứa mảng các dòng
-        ketqua['data'] = mangPhanTu
-        return ketqua
 # Hàm chuyển từ QuerySet --> JSON
 def querySetToJson(rawquerySet):
     # Chuyển rawQuerySet thành dạng Json với các phần tử là các fields
@@ -137,7 +112,7 @@ def querySetToJson(rawquerySet):
     # return json.dumps(jsonData)   #Trả về string JSON
 # Hàm lấy tất cả đề tài (ko bị xóa)
 def tatCaDeTai():
-    danhSachDeTai = TruyVanDuLieu("""SELECT
+    danhSachDeTai = ChucNang.TruyVanDuLieu("""SELECT
                 portal_detai.IdDeTai,
                 portal_detai.TenDeTai,
                 portal_detai.IdUser,
@@ -150,7 +125,7 @@ def tatCaDeTai():
                 portal_nguoidung.HoTen,
                 portal_nguoidung.TenNguoiDung,
                 portal_loaidetai.TenLoai,
-                portal_loaidetai.DiemSan,
+                portal_detai.IdKhoa,
                 portal_detai.DangThucHien
                 FROM
                 portal_detai
@@ -163,7 +138,7 @@ def tatCaDeTai():
     return danhSachDeTai
 # Hàm lấy tất cả đè tài theo userID
 def tatCaDeTaiCuaToi(username):
-    danhSachDeTai = TruyVanDuLieu("""SELECT
+    danhSachDeTai = ChucNang.TruyVanDuLieu("""SELECT
         portal_detai.IdDeTai,
         portal_detai.TenDeTai,
         portal_detai.IdUser,
@@ -176,7 +151,7 @@ def tatCaDeTaiCuaToi(username):
         portal_nguoidung.HoTen,
         portal_nguoidung.TenNguoiDung,
         portal_loaidetai.TenLoai,
-        portal_loaidetai.DiemSan,
+        portal_detai.IdKhoa,
         portal_detai.DangThucHien
         FROM
         portal_detai
@@ -234,10 +209,10 @@ def ds_detai(request, trang=1):  # Mặc định trang = 1
 # Handle route
 # Quản lí link : /detaicuatoi
 def my_detai(request, trang=1):  # Mặc định trang = 1
-    userID = request.session.get('TenDangNhap')
+    userName = request.session.get('TenDangNhap')
     trangHienTai = int(trang)
     # Lấy danh sách sinh viên theo trang / mỗi trang
-    dsDeTaiCuaToi_phanTrang = danhSachDeTaiCuaToi(trangHienTai, MoiTrang, userID)
+    dsDeTaiCuaToi_phanTrang = danhSachDeTaiCuaToi(trangHienTai, MoiTrang, userName)
     # Tạo JSON để render --> chứa phân trang, ds người dùng
     content = taoJsonQLDeTai(dsDeTaiCuaToi_phanTrang, trangHienTai,"detaicuatoi")
     return render(request, 'portal/giangvien/ql_detai.html', content)
@@ -256,8 +231,8 @@ def chitiet_detai(request, detaiID):  # Mặc định trang = 1
                 portal_nguoidung.HoTen,
                 portal_nguoidung.TenNguoiDung,
                 portal_loaidetai.TenLoai,
-                portal_loaidetai.DiemSan,
-            portal_detai.DangThucHien
+                portal_detai.IdKhoa,
+                portal_detai.DangThucHien
                 FROM
                 portal_detai
                 JOIN portal_nguoidung ON portal_detai.IdUser = portal_nguoidung.IdUser
@@ -266,8 +241,75 @@ def chitiet_detai(request, detaiID):  # Mặc định trang = 1
                 portal_detai.IdDeTai = {0} AND
                 portal_detai.HoatDong = 1 AND
                 portal_nguoidung.HoatDong = 1""".format(detaiID)
-    queryData = TruyVanDuLieu(sql)
+    queryData = ChucNang.TruyVanDuLieu(sql)
     if (len(queryData['data']))  < 1:
-              return HttpResponse("không có user")
+              return HttpResponse("không có dữ liệu")
     thongTinDeTai = queryData['data'][0] # Kết quả query là 1 mảng --> lấy phần tử đầu tiên cũng là duy nhất (id là duy nhất)
     return render(request, 'portal/giangvien/chitiet_detai.html', thongTinDeTai)
+# Quản lí link chitiet_detaicuatoi
+def chitiet_detaicuatoi(request, detaiID):
+    userName = request.session.get('TenDangNhap')
+    sql = """SELECT
+            portal_detai.IdDeTai,
+            portal_detai.TenDeTai,
+            portal_detai.IdUser,
+            portal_detai.ChiTiet,
+            portal_detai.NgayBD,
+            portal_detai.NgayKT,
+            portal_detai.SoLuong,
+            portal_detai.DaDangKi,
+            portal_detai.IdLoai,
+            portal_nguoidung.HoTen,
+            portal_nguoidung.TenNguoiDung,
+            portal_loaidetai.TenLoai,
+            portal_detai.IdKhoa,
+        portal_detai.DangThucHien
+            FROM
+            portal_detai
+            JOIN portal_nguoidung ON portal_detai.IdUser = portal_nguoidung.IdUser
+            JOIN portal_loaidetai ON portal_loaidetai.IdLoai = portal_detai.IdLoai
+            WHERE
+            portal_detai.IdDeTai = {0} AND
+            portal_detai.HoatDong = 1 AND
+            portal_nguoidung.HoatDong = 1""".format(detaiID)
+    queryData = ChucNang.TruyVanDuLieu(sql)
+    if (len(queryData['data']))  < 1:
+                return HttpResponse("không có dữ liệu")
+    thongTinDeTai = queryData['data'][0]
+    if (thongTinDeTai['TenNguoiDung'] != userName):
+        return HttpResponse("Giảng viên không quản lí đề tài này")
+    # Đã có thông tin đề tài, tạo JSON để đẩy dữ liệu ra giao diện
+    JsonRender = {
+        "DeTai" : thongTinDeTai,
+    }
+    # Kiểm tra đề tài có ai đăng kí không 
+    deTaiDuocDangKi = False
+    if (thongTinDeTai['DaDangKi'] > 0):
+        deTaiDuocDangKi = True
+    if (deTaiDuocDangKi):
+            #   Nếu đề tài được đăng kí --> lấy danh sách sinh viên đăng kí
+        dsSinhVien = dsSinhVienDkDeTai(thongTinDeTai['IdDeTai'])
+        JsonRender['DS_SinhVien'] = dsSinhVien['data'] # Thêm vào JSON
+    return render(request, 'portal/giangvien/chinhsua_detai.html',JsonRender)
+
+# Hàm lấy thông tin sinh viên đăng kí đề tài theo DeTaiID
+def dsSinhVienDkDeTai(deTaiID):
+    sinhVienDKDeTai = ChucNang.TruyVanDuLieu("""
+    SELECT
+        portal_detaidadangky.IdDTDDK,
+        portal_detaidadangky.IdDeTai,
+        portal_detaidadangky.IdUser,
+        portal_detaidadangky.NgayDKDT,
+        portal_nguoidung.HoTen,
+        portal_nguoidung.TenNguoiDung,
+        portal_nguoidung.Email,
+        portal_nguoidung.NgaySinh,
+        portal_nguoidung.GioiTinh
+        FROM
+        portal_detaidadangky
+        JOIN portal_nguoidung ON portal_detaidadangky.IdUser = portal_nguoidung.IdUser
+        WHERE
+        portal_nguoidung.HoatDong = 1 AND
+        portal_detaidadangky.IdDeTai = '{0}'
+    """.format(deTaiID))
+    return sinhVienDKDeTai

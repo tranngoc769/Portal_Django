@@ -71,6 +71,26 @@
                                 <input type="password" name="repassword" value="111222" placeholder="Password" required="">
                             </div>
 
+                            <!-- Form Group -->
+                            <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                                <label>Khóa</label>
+                                <select class="form-control" name="khoa" style="padding: 10px 25px;
+                                color: #888888;
+                                border: 1px solid transparent;
+                                height: 46px;
+                                border-radius: 50px;
+                                background: #f5fbff;
+                                -ms-transition: all 300ms ease;
+                                -o-transition: all 300ms ease;
+                                -moz-transition: all 300ms ease;
+                                transition: all 300ms ease;
+                                font-family: 'Roboto', sans-serif;">
+                                    
+                                {% for khoa in data %}
+                                    <option value="{{khoa.IdKhoa}}">{{khoa.TenKhoa}}</option>
+                                {%endfor %}
+                                    </select>
+                            </div>
                             <div class="form-group col-lg-12 col-md-12 col-sm-12 text-center">
                                 <button id="dangkiBtn" type="button" class="theme-btn btn-style-one"><span class="txt">Đăng ký</span></button>
                             </div>

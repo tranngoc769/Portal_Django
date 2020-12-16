@@ -1,0 +1,81 @@
+{% extends "../../pages/base.html" %} {% load static %} {% block title %}Trang Chủ{% endblock %} {% block content %}
+<div class="page-wrapper">
+    <div class="preloader"></div>
+    {% include './header.html' %}
+    <div class="sidebar-page-container">
+        <div class="auto-container">
+            <div class="row clearfix">
+                <div class="sidebar-side left-sidebar col-lg-4 col-md-12 col-sm-12">
+                    <div class="sidebar-widget categories-widget">
+                        <div class="widget-content">
+                            <div class="sidebar-title">
+                                <h6>Thông báo</h6>
+                            </div>
+                            <div class="content">
+                                <ul>
+                                {% for tb in ThongBao %}
+                                    <li><a href="$"><span class="icon flaticon-web-programming"></span></a> {{tb.TieuDe}}</li>
+                                {% endfor %}
+                                </ul>
+                                <a href="thong-bao.html" class="all-category">Xem tất cả thông báo</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  Support Widget -->
+                    <div class="sidebar-widget support-widget">
+                        <div class="widget-content">
+                            <h5>Đang trong đợt đăng ký đề tài</h5>
+                        </div>
+                    </div>
+
+                    </aside>
+                </div>
+                <!-- Content Side -->
+                <div class="content-side right-sidebar col-lg-8 col-md-12 col-sm-12">
+
+                    <div class="courses-section">
+                        <!-- Sec Title -->
+                        <div class="sec-title">
+                            <div class="clearfix">
+                                <div class="pull-left">
+                                    <h4>Danh sách hoạt động</h4>
+                                </div>
+                                <div class="pull-right">
+                                    <a href="latest-courses.html" class="see-all">Xem tất cả</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+                        
+                        {% for hoatdong in HoatDong %}
+                            <div class="course-block col-lg-4 col-md-6 col-sm-12">
+                                <div class="inner-box">
+                                    <div class="image">
+                                        <a href="course-lesson.html"><img src="{% static 'images/resource/course-1.jpg'%}" alt="" /></a>
+                                        <div class="time">{{hoatdong.SoLuong}} sinh viên</div>
+                                    </div>
+                                    <div class="lower-content">
+                                        <h6><a href="course-lesson.html">{{hoatdong.TenHoatDong}}</a></h6>
+                                        <ul class="post-meta">
+                                            <li>{{hoatdong.DaDangKi}} đăng kí</li>
+                                            <li>{{hoatdong.DiemRL}}đ</li>
+                                        </ul>
+                                        <div class="clearfix">
+                                            <div class="pull-left">
+                                                <div class="author">Giảng Viên: <span>{{hoatdong.HoTen}}</span></div>
+                                            </div>
+                                            <div class="pull-right">
+                                                <div class="price">{{hoatdong.NgayKT|date:'d-m-Y'}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {%endfor%}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include './sidebar.html' %} {% endblock %}

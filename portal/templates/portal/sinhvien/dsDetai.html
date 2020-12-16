@@ -1,0 +1,51 @@
+{% extends "../../pages/base.html" %} {% load static %} {% block title %}Trang Chủ{% endblock %} {% block content %}
+<div class="page-wrapper">
+    <div class="preloader"></div>
+    {% include './header.html' %}
+    <div class="sidebar-page-container">
+        <div class="auto-container">
+            <div class="row clearfix">
+                <!-- Content Side -->
+                <div class="content-side right-sidebar col-lg-12 col-md-12 col-sm-12">
+                    <div class="courses-section">
+                        <!-- Sec Title -->
+                        <div class="sec-title">
+                            <div class="clearfix">
+                                <div class="pull-left">
+                                    <h4>Danh sách đề tài</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+                            {% for deTai in DeTai %}
+                            <div class="course-block col-lg-4 col-md-6 col-sm-12">
+                                <div class="inner-box">
+                                    <div class="image">
+                                        <a href="course-lesson.html"><img src="{% static 'images/resource/course-1.jpg'%}" alt="" /></a>
+                                        <div class="time">{{deTai.SoLuong}} sinh viên</div>
+                                    </div>
+                                    <div class="lower-content">
+                                        <h6><a href="course-lesson.html">{{deTai.TendeTai}}</a></h6>
+                                        <ul class="post-meta">
+                                            <li>{{deTai.DaDangKi}} đăng kí</li>
+                                            <li>{{deTai.DiemRL}}đ</li>
+                                        </ul>
+                                        <div class="clearfix">
+                                            <div class="pull-left">
+                                                <div class="author">Giảng Viên: <span>{{deTai.HoTen}}</span></div>
+                                            </div>
+                                            <div class="pull-right">
+                                                <div class="price">{{deTai.NgayKT|date:'d-m-Y'}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {%endfor%}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include './sidebar.html' %} {% endblock %}
