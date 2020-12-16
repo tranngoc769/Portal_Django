@@ -18,6 +18,7 @@
                                         <div class="sub-text">Số lượng : {{DeTai.SoLuong}}</div>
                                         <div class="sub-text">Đã đăng ký : {{DeTai.DaDangKi}}</div>
                                         <div class="sub-text">Điểm yêu cầu: {{DeTai.Diem}}</div>
+                                        <div class="sub-text">Điểm hiện tại: {{Diem}}</div>
                                     </div>
                                     <div class="lower-content col-sm-6">
                                         <div class="instructor-info-tabs">
@@ -46,7 +47,13 @@
                                     </div>
                                 </div>
                                 <div class="buttons-box">
-                                    <a name="{{DeTai.IdDeTai}}" mask="dangkidetai" href="#" class="theme-btn btn-style-one"><span class="txt">Đăng Ký</span></a>
+                                    <a name="{{DeTai.IdDeTai}}" mask="dkdetai" href="/dkdetai/{{DeTai.IdDeTai}}" class="theme-btn btn-style-one {% if ChoDK == False %}disabled{% endif %}"><span class="txt">
+                                    {% if ChoDK %}
+                                        Đăng Ký
+                                    {% else %}
+                                        Không được đăng kí
+                                    {% endif %}
+                                        </span></a>
                                 </div>
                             </div>
                         </div>

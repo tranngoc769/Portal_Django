@@ -185,6 +185,7 @@ def importExcel(request, loai):
                 if (count == 0):
                     count = 1
                     continue
+                sql = ""
                 checksql = "SELECT IdUser FROM portal_nguoidung WHERE TenNguoiDung='{0}' LIMIT 1 ".format(row[1].value)
                 temp = ChucNang.TruyVanDuLieu(checksql)
                 if (len(temp['data']) == 1):
@@ -195,6 +196,17 @@ def importExcel(request, loai):
                     sql = """ 
                     INSERT INTO portal_nguoidung(HoTen,MatKhau,Email,Quyen,SDT,NgaySinh,GioiTinh,TenNguoiDung,HoatDong,Khoa) VALUES ('{0}', '{1}', '{2}', {3}, '{4}', '{5}', {6}, '{7}', 1, {8})
                     """.format(row[2].value, row[1].value, row[3].value, 3, row[4].value,  row[6].value, row[7].value, row[1].value,1,  row[8].value)
+                ChucNang.UpdateDuLieu(sql)
+                checksql = "SELECT * FROM portal_diemtrungbinh WHERE userID='{0}' LIMIT 1 ".format(row[1].value)
+                temp = ChucNang.TruyVanDuLieu(checksql)
+                if (len(temp['data']) == 1):
+                          sql = """
+                    UPDATE portal_diemtrungbinh SET Diem = '{0}' WHERE userID='{1}'
+                    """.format(row[9].value, row[1].value)
+                else:
+                    sql = """ 
+                    INSERT INTO portal_diemtrungbinh(userID,Diem) VALUES ('{0}', {1})
+                    """.format(row[0].value,row[9].value)
                 ChucNang.UpdateDuLieu(sql)
                 # Id,  1                  2             3         4             5         6                  7            8         9
                 # Id,  TenNguoiDung     HoTen       Email       SDT         Khoa         NgaySinh           GioiTinh  HoatDong   Diem

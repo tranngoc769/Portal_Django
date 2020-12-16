@@ -7,6 +7,7 @@ urlpatterns = [
     path('dangki/',views.dangki, name="dangki"),
     path('dangxuat/',views.dangxuat, name="dangxuat"),
     path('chitietdetai/<int:detaiID>', views.chitietdetai, name='chitietdetai'),
+    path('dkdetai/<int:detaiID>', views.dkdetai, name='dkdetai'),
    
 
 

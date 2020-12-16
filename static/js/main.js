@@ -287,7 +287,6 @@
             var formData = new FormData(form);
             file = a[0]
             formData.append('file', file);
-            formData.append('loai', loai);
             $.ajax({
                 type: "POST",
                 enctype: 'multipart/form-data',
@@ -297,7 +296,8 @@
                 contentType: false,
                 cache: false,
                 success: function(data) {
-                    if (data.code == 200) {
+                    noti = JSON.parse(data);
+                    if (noti.code == 200) {
                         alert("Success");
                     } else {
                         alert("Lỗi")

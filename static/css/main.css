@@ -10052,3 +10052,9 @@ table.table .avatar {
 .ui-state-disabled {
     opacity: 0.8
 }
+
+a.disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    background: black;
+}

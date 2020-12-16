@@ -9,6 +9,7 @@ from . import chucnang as ChucNang
 def kiemTraCookie(request):
       print(request)
 def dsDetai(request):
+
       sql = """
             SELECT
                   portal_detai.IdDeTai,
@@ -88,6 +89,34 @@ def chitietdetai(request, detaiID):
       data = {
             'DeTai' : chitietDetai['data'][0]
       }
+      TenDangNhap = request.session['TenDangNhap']
+      getUserIDSql = "select IdUser from portal_nguoidung where TenNguoiDung='{0}'".format(TenDangNhap)
+      temp = ChucNang.TruyVanDuLieu(getUserIDSql)
+      if (len(temp['data']) < 1):
+            return redirect('/dangxuat')
+      userId = temp['data'][0]['IdUser']
+
+      checkDkSQL = "select * from portal_detaidadangky where IdUser='{0}'".format(userId)
+      temp = ChucNang.TruyVanDuLieu(checkDkSQL)
+      daDangki = False
+      if (len(temp['data']) > 0):
+            daDangki = True
+
+      DiemTrungBinhSQL = "SELECT Diem from portal_diemtrungbinh where userID='{0}'".format(userId)
+      temp = ChucNang.TruyVanDuLieu(DiemTrungBinhSQL)
+      if (len(temp['data']) < 1):
+            data['ChoDK'] = False
+      else:
+            diemTB = temp['data'][0]['Diem']
+            print(diemTB)
+            if (diemTB < chitietDetai['data'][0]['Diem'] ):
+                  data['ChoDK'] = False
+                  data['Diem'] = diemTB
+            else:
+                  data['ChoDK'] = True
+                  data['Diem'] = diemTB
+      if (daDangki):
+            data['ChoDK'] = False
       return render(request,'portal/sinhvien/chitiet_detai.html', data)
 def index(request):
       quyen = request.session.get('Quyen')
@@ -127,9 +156,24 @@ def index(request):
             dsThongBao = ChucNang.TruyVanDuLieu(thongbaoSQL)
             dsHoatDong = ChucNang.TruyVanDuLieu(hoatDongSQL)
             return render(request, 'portal/sinhvien/trangchu.html', {"ThongBao": dsThongBao['data'], "HoatDong" : dsHoatDong['data']})
-
-
-
+from datetime import date
+def dkdetai(request, detaiID):
+      if request.method == "GET":
+            TenDangNhap = request.session['TenDangNhap']
+            getUserIDSql = "select IdUser from portal_nguoidung where TenNguoiDung='{0}'".format(TenDangNhap)
+            temp = ChucNang.TruyVanDuLieu(getUserIDSql)
+            if (len(temp['data']) < 1):
+                  return HttpResponse(json.dumps({"code" : 403, "msg" : "Không thấy user"}))
+            userId = temp['data'][0]['IdUser']
+            checkDkSQL = "select * from portal_detaidadangky where IdUser='{0}'".format(userId)
+            temp = ChucNang.TruyVanDuLieu(checkDkSQL)
+            if (len(temp['data']) > 0):
+                  return HttpResponse(json.dumps({"code" : 403, "msg" : "Đã đăng kí"}))
+            today = date.today()
+            sql = "INSERT INTO portal_detaidadangky (IdDeTai, IdUser, NgayDKDT) VALUES ({0}, {1}, '{2}')".format(detaiID,userId,today.strftime('%Y-%m-%d %H:%M:%S'))
+            ChucNang.UpdateDuLieu(sql)
+            return HttpResponse(json.dumps({"code" : 200, "msg" : "success"}, ensure_ascii=False))
+      return HttpResponse(json.dumps({"code" : 403, "msg" : "method not allow"}))
 
 
 
