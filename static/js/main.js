@@ -100,7 +100,6 @@
                 "GioiTinh": thongTinDangKi[4].value,
                 "NgaySinh": thongTinDangKi[5].value,
                 "MatKhau": thongTinDangKi[7].value,
-                "MatKhau": thongTinDangKi[8].value,
                 "Quyen": thongTinDangKi[6].value
             }
             // Nếu đầy đủ, trả về json thông tin
