@@ -136,6 +136,7 @@ def index(request):
                   portal_hoatdong.NgayBD,
                   portal_hoatdong.NgayKT,
                   portal_hoatdong.SoLuong,
+                  portal_hoatdong.TenHoatDong,
                   portal_hoatdong.IdDiaDiem,
                   portal_hoatdong.DiemRL,
                   portal_hoatdong.HoatDong,
