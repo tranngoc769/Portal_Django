@@ -46,19 +46,19 @@
                             </div>
                         </div>
                         <div class="row clearfix">
-
                             {% for hoatdong in HoatDong %}
                             <div class="course-block col-lg-4 col-md-6 col-sm-12">
                                 <div class="inner-box">
                                     <div class="image">
-                                        <a href="course-lesson.html"><img src="{% static 'images/resource/course-1.jpg'%}" alt="" /></a>
+                                        <a href="chitiethoatdong/{{hoatdong.IdHoatDong}}"><img src="{% static 'images/resource/course-1.jpg'%}" alt="" /></a>
                                         <div class="time">{{hoatdong.SoLuong}} sinh viên</div>
                                     </div>
                                     <div class="lower-content">
-                                        <h6><a href="course-lesson.html">{{hoatdong.TenHoatDong}}</a></h6>
+                                        <h6><a href="chitiethoatdong/{{hoatdong.IdHoatDong}}">{{hoatdong.TenHoatDong}}</a></h6>
                                         <ul class="post-meta">
                                             <li>{{hoatdong.DaDangKi}} đăng kí</li>
                                             <li>{{hoatdong.DiemRL}}đ</li>
+                                            <li>Kì : {{hoatdong.Ki}}</li>
                                         </ul>
                                         <div class="clearfix">
                                             <div class="pull-left">
