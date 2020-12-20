@@ -1,0 +1,62 @@
+{% extends "../../pages/base.html" %} {% load static %} {% block title %}Trang Chủ{% endblock %} {% block content %}
+<div class="page-wrapper">
+    <div class="preloader"></div>
+    {% include './header.html' %}
+    <div class="sidebar-page-container">
+        <div class="auto-container">
+            <div class="row clearfix">
+                <!-- Content Side -->
+                <div class="content-side right-sidebar col-lg-12 col-md-12 col-sm-12">
+                    <div class="courses-section">
+                        <!-- Sec Title -->
+                        <div class="sec-title">
+                            <div class="clearfix">
+                                <div class="pull-left">
+                                    <h4>Danh sách đề tài</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+                            {% for deTai in DsDetai %}
+                            <div class="feature-block-two col-lg-4 col-md-6 col-sm-12">
+                                <div class="inner-box">
+                                    <div class="content">
+                                        <div class="image">
+                                            <a href="/chitietdetai/{{deTai.IdDeTai}}"><img src="{% static 'images/resource/feature-4.jpg'%}" alt=""></a>
+                                        </div>
+                                        <h6><a href="/chitietdetai/{{deTai.IdDeTai}}">{{deTai.TenDeTai}}</a></h6>
+                                        <div class="text">Loại : {{deTai.TenLoai}}</div>
+                                        <div class="text">Khóa : {{deTai.TenKhoa}}</div>
+                                        <div class="author" name="{{deTai.TenNguoiDung}}">GV : <span>{{deTai.HoTen}}</span></div>
+                                        <div class="author">Yêu cầu : <span>{{deTai.Diem}}</span></div>
+                                        <div class="clearfix">
+                                            <div class="pull-left">
+                                                <div class="price">Số lượng : {{deTai.SoLuong}}</div>
+                                            </div>
+                                            <div class="pull-right">
+                                                <div class="price">Đã đăng ký : {{deTai.DaDangKi}}</div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Featured Dropdown Box -->
+                                        <div class="eps_dots more_dropdown">
+                                            <a href="#"><span></span><i></i></a>
+                                            <div class="dropdown-content">
+                                                <span><i class="flaticon-share"></i>Share</span>
+                                                <span><i class="flaticon-down-arrow-1"></i>Save</span>
+                                                <span><i class="flaticon-cancel"></i>Not Interested</span>
+                                                <span><i class="flaticon-edit-2"></i>Report</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            {%endfor%}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include './sidebar.html' %} {% endblock %}

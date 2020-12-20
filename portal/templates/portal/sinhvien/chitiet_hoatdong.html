@@ -1,0 +1,63 @@
+{% extends "../../pages/base.html" %} {% load static %} {% block title %} Danh sách đề tài {% endblock %} {% block content %}
+<div class="page-wrapper">
+    <div class="preloader"></div>
+    {% include './header.html' %}
+    <div class="sidebar-page-container">
+        <div class="auto-container">
+            <div class="course-detail-section">
+                <div class="auto-container">
+                    <div class="upper-content">
+                        <div class="row clearfix">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="row">
+                                    <div class="inner-column col-sm-6">
+                                        <h2>Tên đề tài : {{HoatDong.TenHoatDong}}</h2>
+                                        <div class="price">Giảng Viên : <span>{{HoatDong.HoTen}}</span></div>
+                                        <div class="sub-text">Kì : {{HoatDong.Ki}}</div>
+                                        <div class="sub-text">Số lượng : {{HoatDong.SoLuong}}</div>
+                                        <div class="sub-text">Đã đăng ký : {{HoatDong.DaDangKi}}</div>
+                                        <div class="sub-text">Điểm rèn luyện: {{HoatDong.DiemRL}}</div>
+                                    </div>
+                                    <div class="lower-content col-sm-6">
+                                        <div class="instructor-info-tabs">
+                                            <div class="instructor-tabs tabs-box">
+                                                <div class="tabs-content">
+                                                    <div class="tab active-tab" id="prod-about">
+                                                        <div class="content">
+                                                            <h6>Thời gian : </h6>
+                                                            <ul class="list-style-one">
+                                                                <li>
+                                                                    <p>Ngày bắt đầu: {{HoatDong.NgayBD|date:'d-m-Y'}}</p>
+                                                                </li>
+                                                                <li>
+                                                                    <p>Ngày kết thúc: {{HoatDong.NgayKT|date:'d-m-Y'}}</p>
+                                                                </li>
+                                                            </ul>
+                                                            <h6>Chi tiết : </h6>
+                                                            <div class="text">
+                                                                <p>{{HoatDong.ChiTiet}}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="buttons-box">
+                                    <a name="{{HoatDong.IdHoatDong}}" mask="dkdetai" href="/dkhoatdong/{{HoatDong.IdHoatDong}}" class="theme-btn btn-style-one {% if ChoDK == False %}disabled{% endif %}"><span class="txt">
+                                    {% if ChoDK %}
+                                        Đăng Ký
+                                    {% else %}
+                                        Không được đăng kí
+                                    {% endif %}
+                                        </span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include './sidebar.html' %} {% endblock %}

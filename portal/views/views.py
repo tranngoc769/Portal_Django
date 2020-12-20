@@ -12,8 +12,8 @@ from . import chucnang as ChucNang
 def kiemTraCookie(request):
     print(request)
 
+# Danh sách đề tài
 def dsDetai(request):
-
     sql = """
             SELECT
                   portal_detai.IdDeTai,
@@ -52,7 +52,7 @@ def dsDetai(request):
     }
     print(dsDetai['data'][0])
     return render(request, 'portal/sinhvien/dsDetai.html', data)
-
+# Danh sách hoạt động
 def dshoatdong(request):
     sql = """
                         SELECT
@@ -87,8 +87,7 @@ def dshoatdong(request):
     }
     print(dsHoatDong['data'][0])
     return render(request, 'portal/sinhvien/dsHoatDong.html', dsHoatDong)
-
-
+# Chi tiết đề tài
 def chitietdetai(request, detaiID):
     sql = """
             SELECT
@@ -161,7 +160,7 @@ def chitietdetai(request, detaiID):
     if (daDangki):
         data['ChoDK'] = False
     return render(request, 'portal/sinhvien/chitiet_detai.html', data)
-
+# Chi tiết hoạt động
 def chitiethoatdong(request, hoatdongID):
     sql = """
             SELECT
@@ -213,7 +212,7 @@ def chitiethoatdong(request, hoatdongID):
     else:
         data['ChoDK'] = True
     return render(request, 'portal/sinhvien/chitiet_hoatdong.html', data)
-
+# Trang chủ
 def index(request):
     quyen = request.session.get('Quyen')
     if (quyen == 1):
@@ -253,7 +252,7 @@ def index(request):
         dsThongBao = ChucNang.TruyVanDuLieu(thongbaoSQL)
         dsHoatDong = ChucNang.TruyVanDuLieu(hoatDongSQL)
         return render(request, 'portal/sinhvien/trangchu.html', {"ThongBao": dsThongBao['data'], "HoatDong": dsHoatDong['data']})
-
+# Đăng kí đề tài
 def dkdetai(request, detaiID):
     if request.method == "GET":
         ktDetaiSql = "Select * from portal_detai where IdDeTai='{0}'".format(
@@ -294,7 +293,7 @@ def dkdetai(request, detaiID):
         ChucNang.UpdateDuLieu(sql)
         return HttpResponse(json.dumps({"code": 200, "msg": "success"}, ensure_ascii=False))
     return HttpResponse(json.dumps({"code": 403, "msg": "method not allow"}))
-
+# Đăng kí hoạt động
 def dkhoatdong(request, hoatdongID):
       if request.method == "GET":
             ktHoatDongSql = "Select * from portal_hoatdong where IdHoatdong='{0}'".format(hoatdongID)
@@ -329,7 +328,6 @@ def dkhoatdong(request, hoatdongID):
             ChucNang.UpdateDuLieu(sql)
             return HttpResponse(json.dumps({"code": 200, "msg": "success"}, ensure_ascii=False))
       return HttpResponse(json.dumps({"code": 403, "msg": "method not allow"}))
-
 # Router /dangnhap
 @csrf_exempt  # Tránh lỗi--CSRF token missing or incorrect
 def dangnhap(request):
@@ -363,8 +361,6 @@ def dangnhap(request):
         # Trả về kết quả json (nếu không có lỗi gì+query có thông tin thì resp mặc định như khi khai báo do không bị update, ngược lại thì có code 404 và msg theo 2 trường hợp kia)
         return HttpResponse(json.dumps(resp, ensure_ascii=False))
 # Router /dangki
-
-
 @csrf_exempt  # Tránh lỗi--CSRF token missing or incorrect
 def dangki(request):
     if request.method == "GET":
