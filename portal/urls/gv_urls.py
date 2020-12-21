@@ -17,6 +17,6 @@ urlpatterns = [
     path('detaicuatoi/', views.my_detai, name='my_detai'),
     path('detaicuatoi/<trang>', views.my_detai, name='my_detai'),
     path('detai/chitiet/<int:detaiID>', views.chitiet_detai, name='chitiet_detai'),
-    
+    path('them_detai/', views.them_detai, name='them_detai'),
     path('detaicuatoi/chitiet/<int:detaiID>', views.chitiet_detaicuatoi, name='chitiet_detaicuatoi'),
 ]

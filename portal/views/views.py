@@ -354,6 +354,7 @@ def dangnhap(request):
                 request.session['TenDangNhap'] = tenDangNhap
                 # [0] vì chỉ có 1 nguoidung duy nhất (theo TenDangNhap)
                 request.session['Quyen'] = query_NguoiDung[0].Quyen
+                request.session['ID'] = query_NguoiDung[0].IdUser
         except Exception as query_erro:
             #   Có lỗi --> không có tài khoản
             resp["code"] = 404
@@ -393,6 +394,7 @@ def dangxuat(request):
     del request.session['DaDangNhap']
     del request.session['TenDangNhap']
     del request.session['Quyen']
+    del request.session['ID']
     return redirect('/')
 
 # SinhVien

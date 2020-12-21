@@ -274,7 +274,7 @@ def chitiet_detaicuatoi(request, detaiID):
             portal_nguoidung.HoatDong = 1""".format(detaiID)
     queryData = ChucNang.TruyVanDuLieu(sql)
     if (len(queryData['data']))  < 1:
-                return HttpResponse("không có dữ liệu")
+        return HttpResponse("không có dữ liệu")
     thongTinDeTai = queryData['data'][0]
     if (thongTinDeTai['TenNguoiDung'] != userName):
         return HttpResponse("Giảng viên không quản lí đề tài này")
@@ -313,3 +313,40 @@ def dsSinhVienDkDeTai(deTaiID):
         portal_detaidadangky.IdDeTai = '{0}'
     """.format(deTaiID))
     return sinhVienDKDeTai
+# Thêm đề tài
+
+@csrf_exempt  # Tránh lỗi--CSRF token missing or incorrect
+def them_detai(request):
+    if request.method == "GET":
+        khoaSql = "SELECT * FROM portal_khoa"
+        khoaData = ChucNang.TruyVanDuLieu(khoaSql)
+        loaiSql = "SELECT * FROM portal_loaidetai"
+        loaiData = ChucNang.TruyVanDuLieu(loaiSql)
+        if (len(khoaData['data']))  < 1:
+            return HttpResponse("không có dữ liệu")
+        if (len(loaiData['data']))  < 1:
+            return HttpResponse("không có dữ liệu")
+        jsonRender = {
+            'title' : 'Thêm đề tài',
+            'DsKhoa' : khoaData['data'],
+            'DsLoai' : loaiData['data']
+        }
+        return render(request, 'portal/giangvien/them_detai.html', jsonRender)
+    if request.method == "POST":
+        tenDetai = request.POST['tenDeTai']
+        khoaDeTai = request.POST['khoaDeTai']
+        loaiDeTai = request.POST['loaiDeTai']
+        soLuongDKDeTai = request.POST['soLuongDKDeTai']
+        ngayBDDeTai = request.POST['ngayBDDeTai']
+        ngayKTDeTai = request.POST['ngayKTDeTai']
+        chiTiet = request.POST['chiTiet']
+        userID = request.session.get('ID')
+        jsonRender = {'tieude' : 'Thành công', 'ThongBao' : 'Thành Công','ChiTiet' : 'Thêm đề tài thành công', 'backlink': '/'}
+        themDetaiSql = "INSERT INTO portal_detai (IdUser ,  ChiTiet ,  NgayBD , NgayKT, SoLuong, IdLoai, HoatDong, TenDeTai, DaDangKi, DangThucHien, IdKhoa) VALUES ({0}, '{1}', '{2}', '{3}', {4}, {5}, {6}, '{7}', {8}, {9}, {10})".format(userID, chiTiet,ngayBDDeTai, ngayKTDeTai,soLuongDKDeTai, loaiDeTai,1,tenDetai,0,0,khoaDeTai)
+        try:
+            ChucNang.UpdateDuLieu(themDetaiSql)
+        except Exception as exc:
+            jsonRender['ChiTiet'] = str(exc)
+            jsonRender['ThongBao'] = str("Không thành công")
+        return render(request, 'portal/giangvien/thongbao.html', jsonRender)
+# Router /dangki
