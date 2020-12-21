@@ -20,4 +20,9 @@ urlpatterns = [
     path('them_detai/', views.them_detai, name='them_detai'),
     path('them_hoatdong/', views.them_hoatdong, name='them_hoatdong'),
     path('detaicuatoi/chitiet/<int:detaiID>', views.chitiet_detaicuatoi, name='chitiet_detaicuatoi'),
+
+    path('sua_detai/<int:detaiID>', views.sua_detai, name='sua_detai'),
+    path('xoa_detai/<int:detaiID>', views.xoa_detai, name='xoa_detai')
+
+    
 ]

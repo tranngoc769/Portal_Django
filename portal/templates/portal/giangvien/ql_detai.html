@@ -56,11 +56,11 @@
                                             <i class="material-icons">pageview</i>
                                         </a>
                                         {% if Flag != "detai" %}
-                                        <a href="/gv/sua_detai/{{deTai.IdDeTai}}" class="settings" title="Sửa" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
-                                        <a href="#" class="delete delete-detai" detaiID = "{{deTai.IdDeTai}}" title="Xóa" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
-                                   
+                                            {% if deTai.DaDangKi != deTai.SoLuong and deTai.DangThucHien != 1 %}
+                                                <a href="/gv/sua_detai/{{deTai.IdDeTai}}" class="settings" title="Sửa" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
+                                                <a href="/gv/xoa_detai/{{deTai.IdDeTai}}" class="delete delete-detai" detaiID = "{{deTai.IdDeTai}}" title="Xóa" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
                                         {% endif %}
-
+                                        {% endif %}
                                     </td>
                                 </tr>
                                 {% endfor %}

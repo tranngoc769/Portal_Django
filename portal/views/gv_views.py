@@ -376,3 +376,25 @@ def them_hoatdong(request):
             jsonRender['ThongBao'] = str("Không thành công")
         return render(request, 'portal/giangvien/thongbao.html', jsonRender)
 # Router /dangki
+
+# Sua de tai
+
+def xoa_detai(request, detaiID):
+    sql = "UPDATE portal_detai SET HoatDong = 0 WHERE IdDeTai = {0}".format(detaiID)
+    jsonRender = {'tieude' : 'Thành công', 'ThongBao' : 'Thành Công','ChiTiet' : 'Xóa đề tài thành công', 'backlink': '../detaicuatoi/'}
+    try:
+        ChucNang.UpdateDuLieu(sql)
+    except Exception as identifier:
+        jsonRender['ChiTiet'] = str(identifier)
+        jsonRender['ThongBao'] = str("Không thành công")
+    return render(request, 'portal/giangvien/thongbao.html', jsonRender)
+
+def sua_detai(request, detaiID):
+    sql = "UPDATE portal_detai SET HoatDong = 0 WHERE IdDeTai = {0}".format(detaiID)
+    jsonRender = {'tieude' : 'Thành công', 'ThongBao' : 'Thành Công','ChiTiet' : 'Xóa đề tài thành công', 'backlink': 'gv/detaicuatoi/'}
+    try:
+        ChucNang.UpdateDuLieu(sql)
+    except Exception as identifier:
+        jsonRender['ChiTiet'] = str(identifier)
+        jsonRender['ThongBao'] = str("Không thành công")
+    return render(request, 'portal/giangvien/thongbao.html', jsonRender)
