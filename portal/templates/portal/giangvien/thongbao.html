@@ -1,0 +1,19 @@
+{% extends "../../pages/base.html" %} {% load static %} {% block title %}{{tieude}}{% endblock %} {% block content %}
+<div class="page-wrapper">
+    <div class="preloader"></div>
+    {% include './header.html' %}
+    <section class="error-section" style="background-image:url(images/background/pattern-4.png)">
+        <div class="auto-container">
+            <div class="content">
+                <div class="content-inner">
+                    <div class="logo">
+                        <a href="/"><img src="images/logo-2.png" alt=""></a>
+                    </div>
+                    <h1>{{ThongBao}}</h1>
+                    <div class="text">{{ChiTiet}}</div>
+                    <a href="{{backlink}}" class="theme-btn btn-style-one"><span class="txt">Trở về</span></a>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% include './sidebar.html' %} {% endblock %}

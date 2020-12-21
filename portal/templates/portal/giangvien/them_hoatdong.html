@@ -1,0 +1,65 @@
+{% extends "../../pages/base.html " %} {% load static %} {% block title %} {{title}} {% endblock %} {% block content %}
+<div class="page-wrapper ">
+    <!-- Preloader -->
+    <div class="preloader "></div>
+    <!-- Main Header-->
+    {% include './header.html' %}
+    <!-- End -->
+    <div class="sidebar-page-container ">
+        <div class="edit-cource-section ">
+            <div class="auto-container ">
+                <!-- Sec Title -->
+                <div class="sec-title ">
+                    <div class="clearfix ">
+                        <div class="pull-left ">
+                            <h4>Edit Courses</h4>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="inner-container ">
+                    <div class="row clearfix ">
+
+                        <!-- Left Column -->
+                        <div class="left-column col-lg-12 col-md-12 col-sm-12 ">
+                            <div class="inner-column ">
+                                <h6>Basic Information</h6>
+
+                                <!-- Edit Course Form -->
+                                <div class="edit-course-form ">
+                                    <form method="post " action="index.html ">
+
+                                        <!-- Form Group -->
+                                        <div class="form-group ">
+                                            <label>Course Title</label>
+                                            <input type="text " name="username " value=" " placeholder="First Name " required=" ">
+                                        </div>
+
+
+
+                                        <!-- Form Group -->
+
+
+                                        <div class="form-group ">
+                                            <button type="button " class="theme-btn btn-style-two "><span class="txt ">Add Section</span></button>
+                                        </div>
+
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Right Column -->
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Sidebar Footer  -->
+    {% include './sidebar.html' %}
+    <!-- End -->
+    {% endblock %}

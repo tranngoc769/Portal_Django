@@ -386,10 +386,7 @@ def dangki(request):
         resp = {"code": 200}
         resp['msg'] = "success"
         return HttpResponse(json.dumps(resp))
-
 # Dang Xuat
-
-
 def dangxuat(request):
     del request.session['DaDangNhap']
     del request.session['TenDangNhap']
