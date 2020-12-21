@@ -12,54 +12,57 @@
                 <div class="sec-title ">
                     <div class="clearfix ">
                         <div class="pull-left ">
-                            <h4>Edit Courses</h4>
+                            <h4>Thêm hoạt động</h4>
                         </div>
-
                     </div>
                 </div>
                 <div class="inner-container ">
                     <div class="row clearfix ">
-
-                        <!-- Left Column -->
                         <div class="left-column col-lg-12 col-md-12 col-sm-12 ">
                             <div class="inner-column ">
                                 <h6>Basic Information</h6>
-
-                                <!-- Edit Course Form -->
                                 <div class="edit-course-form ">
-                                    <form method="post " action="index.html ">
-
-                                        <!-- Form Group -->
+                                    <form method="POST" action="{% url 'them_hoatdong' %}">
                                         <div class="form-group ">
-                                            <label>Course Title</label>
-                                            <input type="text " name="username " value=" " placeholder="First Name " required=" ">
+                                            <label>Tên hoạt động</label>
+                                            <input type="text " name="tenHoatDong" value="" placeholder="Tên hoạt động" required=" ">
+                                        </div>
+                                        <div class="form-group ">
+                                            <label>Kì</label>
+                                            <input type="number" name="kiHoatDong" value="" placeholder="Kì" required=" ">
+                                        </div>
+                                        <div class="form-group ">
+                                            <label>Số lượng</label>
+                                            <input type="number" name="soLuongTGHD" value="" placeholder="Số lượng" required=" ">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Điểm rèn luyện</label>
+                                            <input type="number" name="diemHoatDong" value="" placeholder="Điểm" required=" ">
                                         </div>
 
-
-
-                                        <!-- Form Group -->
-
-
                                         <div class="form-group ">
-                                            <button type="button " class="theme-btn btn-style-two "><span class="txt ">Add Section</span></button>
+                                            <label>Ngày bắt đầu</label>
+                                            <input type="date" name="ngayBDHD" value="" placeholder="Ngày bắt đầu" required=" ">
                                         </div>
-
+                                        <div class="form-group ">
+                                            <label>Ngày kết thúc</label>
+                                            <input type="date" name="ngayKTHD" value="" placeholder="Ngày kết thúc" required=" ">
+                                        </div>
+                                        <div class="form-group ">
+                                            <label>Chi Tiết</label>
+                                            <textarea type="text" name="chiTietHD" value="" placeholder="Chi Tiết" required=" "></textarea>
+                                        </div>
+                                        <div class="form-group ">
+                                            <button type="button " class="theme-btn btn-style-two"><span class="txt ">Thêm hoạt động</span></button>
+                                        </div>
                                     </form>
                                 </div>
 
                             </div>
                         </div>
-
-                        <!-- Right Column -->
-
-
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
-    <!-- Sidebar Footer  -->
-    {% include './sidebar.html' %}
-    <!-- End -->
-    {% endblock %}
+    {% include './sidebar.html' %} {% endblock %}

@@ -358,18 +358,19 @@ def them_hoatdong(request):
         }
         return render(request, 'portal/giangvien/them_hoatdong.html', jsonRender)
     if request.method == "POST":
-        tenDetai = request.POST['tenDeTai']
-        khoaDeTai = request.POST['khoaDeTai']
-        loaiDeTai = request.POST['loaiDeTai']
-        soLuongDKDeTai = request.POST['soLuongDKDeTai']
-        ngayBDDeTai = request.POST['ngayBDDeTai']
-        ngayKTDeTai = request.POST['ngayKTDeTai']
-        chiTiet = request.POST['chiTiet']
+        tenHoatDong = request.POST['tenHoatDong']
+        kiHoatDong = request.POST['kiHoatDong']
+        soLuongTGHD = request.POST['soLuongTGHD']
+        diemHoatDong = request.POST['diemHoatDong']
+        ngayBDHD = request.POST['ngayBDHD']
+        ngayKTHD = request.POST['ngayKTHD']
+        chiTietHD = request.POST['chiTietHD']
         userID = request.session.get('ID')
+    
         jsonRender = {'tieude' : 'Thành công', 'ThongBao' : 'Thành Công','ChiTiet' : 'Thêm đề tài thành công', 'backlink': '/'}
-        themDetaiSql = "INSERT INTO portal_detai (IdUser ,  ChiTiet ,  NgayBD , NgayKT, SoLuong, IdLoai, HoatDong, TenDeTai, DaDangKi, DangThucHien, IdKhoa) VALUES ({0}, '{1}', '{2}', '{3}', {4}, {5}, {6}, '{7}', {8}, {9}, {10})".format(userID, chiTiet,ngayBDDeTai, ngayKTDeTai,soLuongDKDeTai, loaiDeTai,1,tenDetai,0,0,khoaDeTai)
+        themHDSql = "INSERT INTO portal_hoatdong (IdUser ,  ChiTiet ,  NgayBD , NgayKT, SoLuong, DiemRL, HoatDong, TenHoatDong, DaDangKi, DangThucHien, Ki) VALUES ({0}, '{1}', '{2}', '{3}', {4}, {5}, {6}, '{7}', {8}, {9}, {10})".format(userID, chiTietHD,ngayBDHD, ngayKTHD,soLuongTGHD, diemHoatDong,1,tenHoatDong,0,0, kiHoatDong)
         try:
-            ChucNang.UpdateDuLieu(themDetaiSql)
+            ChucNang.UpdateDuLieu(themHDSql)
         except Exception as exc:
             jsonRender['ChiTiet'] = str(exc)
             jsonRender['ThongBao'] = str("Không thành công")
