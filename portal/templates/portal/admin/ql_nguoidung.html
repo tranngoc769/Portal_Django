@@ -68,10 +68,12 @@
                                 <li class="page-item active"><a href="#" class="page-link">{{trang}}</a></li>
                                 {% else %}
                                 <li class="page-item"><a href="/admin/{{NguoiDung}}/{{trang}}" class="page-link">{{trang}}</a></li>
-                                {% endif %} {% endfor %} {% if TrangHienTai != TongTrang %}
+                                {% endif %} 
+                                {% endfor %} 
+                                {% if TrangHienTai != TongTrang %}
                                 <li class="page-item"><a href="/admin/{{NguoiDung}}/{{TrangSau}}">Trang sau</a></li>
-                                {% endif %} {% if TrangHienTai
-                                < TongTrang|add:-5 %} <li class="page-item"><a href="/admin/{{NguoiDung}}/{{TongTrang}}">Trang cuối</a></li>
+                                {% endif %} 
+                                {% if TrangHienTai < TongTrang|add:-5 %} <li class="page-item"><a href="/admin/{{NguoiDung}}/{{TongTrang}}">Trang cuối</a></li>
                                     {% endif %}
                             </ul>
                         </div>
