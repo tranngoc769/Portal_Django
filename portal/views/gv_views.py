@@ -610,7 +610,7 @@ def sua_hoatdong(request, detaiID):
         chiTietHD = request.POST['chiTietHD']
         userID = request.session.get('ID')
         jsonRender = {'tieude' : 'Thành công', 'ThongBao' : 'Thành Công','ChiTiet' : 'Thêm đề tài thành công', 'backlink': '/'}
-        themHDSql = "INSERT INTO portal_hoatdong (IdUser ,  ChiTiet ,  NgayBD , NgayKT, SoLuong, DiemRL, HoatDong, TenHoatDong, DaDangKi, DangThucHien, Ki) VALUES ({0}, '{1}', '{2}', '{3}', {4}, {5}, {6}, '{7}', {8}, {9}, {10})".format(userID, chiTietHD,ngayBDHD, ngayKTHD,soLuongTGHD, diemHoatDong,1,tenHoatDong,0,0, kiHoatDong)
+        themHDSql = "UPDATE portal_hoatdong SET ChiTiet  = '{0}',  SoLuong = {1},  Ki = {2},   TenHoatDong  = '{3}', NgayBD = '{4}', NgayKT = '{5}', DiemRL = {6} WHERE  IdHoatDong  = {7}".format(chiTietHD,soLuongTGHD,kiHoatDong,tenHoatDong, ngayBDHD, ngayKTHD,diemHoatDong, detaiID)
         try:
             ChucNang.UpdateDuLieu(themHDSql)
         except Exception as exc:

@@ -23,7 +23,7 @@
                             <div class="inner-column ">
                                 <!-- Edit Course Form -->
                                 <div class="edit-course-form ">
-                                    <form method="POST" action="">
+                                    <form method="POST" action="/gv/sua_hoatdong/{{HoatDong.IdHoatDong}}">
                                         <!-- Form Group -->
                                         <div class="form-group ">
                                             <label>Tên hoạt động</label>
@@ -52,11 +52,11 @@
                                         </div>
                                         <div class="form-group ">
                                             <label>Ngày bắt đầu</label>
-                                            <input type="date" name="ngayBDHD" value="{{HoatDong.ngayBD}}" placeholder="Ngày bắt đầu" required=" ">
+                                            <input type="date" name="ngayBDHD" value="{{HoatDong.NgayBD|date:'Y-m-d'}}" placeholder="Ngày bắt đầu" required=" ">
                                         </div>
                                         <div class="form-group ">
                                             <label>Ngày kết thúc</label>
-                                            <input type="date" name="ngayKTHD" value="{{HoatDong.NgayKT}}" placeholder="Ngày kết thúc" required=" ">
+                                            <input type="date" name="ngayKTHD" value="{{HoatDong.NgayKT|date:'Y-m-d'}}" placeholder="Ngày kết thúc" required=" ">
                                         </div>
                                         <div class="form-group ">
                                             <label>Chi Tiết</label>
