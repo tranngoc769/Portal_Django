@@ -151,8 +151,8 @@ def chitietdetai(request, detaiID):
     if (len(temp['data']) < 1):
         return redirect('/dangxuat')
     userId = temp['data'][0]['IdUser']
-    checkDkSQL = "select * from portal_detaidadangky where IdUser='{0}' and IdDetai ={1}".format(
-        userId, detaiID)
+    checkDkSQL = "select * from portal_detaidadangky where IdUser='{0}'".format(
+        userId)
     temp = ChucNang.TruyVanDuLieu(checkDkSQL)
     daDangki = False
     if (len(temp['data']) > 0):
