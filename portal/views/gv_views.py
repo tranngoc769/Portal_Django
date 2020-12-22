@@ -522,7 +522,6 @@ def them_hoatdong(request):
         ngayKTHD = request.POST['ngayKTHD']
         chiTietHD = request.POST['chiTietHD']
         userID = request.session.get('ID')
-    
         jsonRender = {'tieude' : 'Thành công', 'ThongBao' : 'Thành Công','ChiTiet' : 'Thêm đề tài thành công', 'backlink': '/'}
         themHDSql = "INSERT INTO portal_hoatdong (IdUser ,  ChiTiet ,  NgayBD , NgayKT, SoLuong, DiemRL, HoatDong, TenHoatDong, DaDangKi, DangThucHien, Ki) VALUES ({0}, '{1}', '{2}', '{3}', {4}, {5}, {6}, '{7}', {8}, {9}, {10})".format(userID, chiTietHD,ngayBDHD, ngayKTHD,soLuongTGHD, diemHoatDong,1,tenHoatDong,0,0, kiHoatDong)
         try:
@@ -542,24 +541,37 @@ def xoa_detai(request, detaiID):
         jsonRender['ChiTiet'] = str(identifier)
         jsonRender['ThongBao'] = str("Không thành công")
     return render(request, 'portal/giangvien/thongbao.html', jsonRender)
+
+@csrf_exempt 
 def sua_detai(request, detaiID):
     if request.method == "GET":
+        sql = "Select * from portal_detai where IdDeTai = {0}".format(detaiID)
+        hoatDong = ChucNang.TruyVanDuLieu(sql)
+        sqlKhoa = "Select * from portal_khoa"
+        DsKhoa = ChucNang.TruyVanDuLieu(sqlKhoa)
+        sqlLoai = "Select * from portal_loaidetai"
+        DsLoai = ChucNang.TruyVanDuLieu(sqlLoai)
+        print(hoatDong['data'][0])
         jsonRender = {
-            'title' : 'Sửa đề tài'
+            'title' : 'Sửa đề tài',
+            'HoatDong' : hoatDong['data'][0],
+            'DsKhoa' : DsKhoa['data'],
+            'DsLoai' : DsLoai['data']
+            
         }
         return render(request, 'portal/giangvien/sua_detai.html', jsonRender)
     if request.method == "POST":
-        tenHoatDong = request.POST['tenHoatDong']
-        kiHoatDong = request.POST['kiHoatDong']
-        soLuongTGHD = request.POST['soLuongTGHD']
-        diemHoatDong = request.POST['diemHoatDong']
-        ngayBDHD = request.POST['ngayBDHD']
-        ngayKTHD = request.POST['ngayKTHD']
-        chiTietHD = request.POST['chiTietHD']
+        tenDeTai = request.POST['tenDeTai']
+        khoaDeTai = request.POST['khoaDeTai']
+        loaiDeTai = request.POST['loaiDeTai']
+        soLuongDKDeTai = request.POST['soLuongDKDeTai']
+        ngayBDDeTai = request.POST['ngayBDDeTai']
+        ngayKTDeTai = request.POST['ngayKTDeTai']
+        chiTiet = request.POST['chiTiet']
         userID = request.session.get('ID')
-    
+
         jsonRender = {'tieude' : 'Thành công', 'ThongBao' : 'Thành Công','ChiTiet' : 'Thêm đề tài thành công', 'backlink': '/'}
-        themHDSql = "INSERT INTO portal_hoatdong (IdUser ,  ChiTiet ,  NgayBD , NgayKT, SoLuong, DiemRL, HoatDong, TenHoatDong, DaDangKi, DangThucHien, Ki) VALUES ({0}, '{1}', '{2}', '{3}', {4}, {5}, {6}, '{7}', {8}, {9}, {10})".format(userID, chiTietHD,ngayBDHD, ngayKTHD,soLuongTGHD, diemHoatDong,1,tenHoatDong,0,0, kiHoatDong)
+        themHDSql = "UPDATE portal_detai SET ChiTiet  = '{0}',  SoLuong = {1},  IdLoai = {2},   TenDeTai  = '{3}',  IdKhoa  = {4}, NgayBD = '{5}', NgayKT = '{6}' WHERE  IdDeTai  = {7}".format(chiTiet, soLuongDKDeTai,loaiDeTai, tenDeTai,khoaDeTai, ngayBDDeTai,ngayKTDeTai, detaiID)
         try:
             ChucNang.UpdateDuLieu(themHDSql)
         except Exception as exc:
@@ -568,7 +580,7 @@ def sua_detai(request, detaiID):
         return render(request, 'portal/giangvien/thongbao.html', jsonRender)
 # Sua de tai
 def xoa_hoatdong(request, detaiID):
-    sql = "UPDATE portal_hoatdong SET HoatDong = 0 WHERE IdDeTai = {0}".format(detaiID)
+    sql = "UPDATE portal_hoatdong SET HoatDong = 0 WHERE IdHoatDong = {0}".format(detaiID)
     jsonRender = {'tieude' : 'Thành công', 'ThongBao' : 'Thành Công','ChiTiet' : 'Xóa hoạt động thành công', 'backlink': '../hoatdongcuatoi/'}
     try:
         ChucNang.UpdateDuLieu(sql)
@@ -576,10 +588,16 @@ def xoa_hoatdong(request, detaiID):
         jsonRender['ChiTiet'] = str(identifier)
         jsonRender['ThongBao'] = str("Không thành công")
     return render(request, 'portal/giangvien/thongbao.html', jsonRender)
+
+@csrf_exempt 
 def sua_hoatdong(request, detaiID):
     if request.method == "GET":
+        sql = "Select * from portal_hoatdong where IdHoatDong = {0}".format(detaiID)
+        hoatDong = ChucNang.TruyVanDuLieu(sql)
+        print(hoatDong['data'][0])
         jsonRender = {
-            'title' : 'Sửa hoạt động'
+            'title' : 'Sửa hoạt động',
+            'HoatDong' : hoatDong['data'][0]
         }
         return render(request, 'portal/giangvien/sua_hoatdong.html', jsonRender)
     if request.method == "POST":
