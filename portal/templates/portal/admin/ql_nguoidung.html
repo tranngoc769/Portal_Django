@@ -4,8 +4,7 @@
     <!-- Preloader -->
     <div class="preloader"></div>
     <!-- Main Header-->
-    {% include './header.html' %}
-    {% comment %} End {% endcomment %}
+    {% include './header.html' %} {% comment %} End {% endcomment %}
     <div class="sidebar-page-container">
         <div class="auto-container">
             <div class="container-xl">
@@ -21,7 +20,7 @@
                                     <a href="/admin/them_nguoidung/" class="btn btn-secondary"><i class="material-icons">&#xE147;</i> <span>Thêm {{LoaiNguoiDung}}</span></a>
                                     <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE24D;</i> <span>Export ra Excel</span></a>
                                     <a id="importExcel_a" href="#" type="file" class="btn btn-secondary"><i class="material-icons">&#xE24D;</i> <span>Import từ Excel</span></a>
-                                    <input accept=".xls,.xlsx" mask="{{NguoiDung}}" hidden id="importExcel" type="file"/>
+                                    <input accept=".xls,.xlsx" mask="{{NguoiDung}}" hidden id="importExcel" type="file" />
                                 </div>
                             </div>
                         </div>
@@ -46,13 +45,13 @@
                                         <b>{{nguoiDung.HoTen}}</b>
                                     </td>
                                     <td>{{nguoiDung.TenNguoiDung}}</td>
-                                    <td>{{nguoiDung.NgaySinh}}</td>
+                                    <td>{{nguoiDung.NgaySinh|date:'Y-m-d'}}</td>
                                     <td>{{nguoiDung.SDT}}</td>
                                     <td>{{nguoiDung.Email}}</td>
                                     <td>{% if nguoiDung.GioiTinh == 1%} Nam {% elif nguoiDung.GioiTinh == 2 %} Nữ {% else %}Khác{% endif %}</td>
                                     <td>
                                         <a href="/admin/sua_nguoidung/{{nguoiDung.id}}" class="settings" title="Sửa" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
-                                        <a href="#" class="delete delete-user" nguoiDungID = "{{nguoiDung.id}}" title="Xóa" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
+                                        <a href="#" class="delete delete-user" nguoiDungID="{{nguoiDung.id}}" title="Xóa" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -65,20 +64,15 @@
                                 <li class="page-item"><a href="/admin/{{NguoiDung}}/">Trang đầu</a></li>
                                 {% endif %} {% if TrangHienTai > 1 %}
                                 <li class="page-item"><a href="/admin/{{NguoiDung}}/{{TrangTruoc}}">Trang trước</a></li>
-                                {% endif %} 
-                                {% for trang in SoTrang %} {% if TrangHienTai == trang %}
-                                    <li class="page-item active"><a href="#" class="page-link">{{trang}}</a></li>
-                                    {% else %}
-                                    <li class="page-item"><a href="/admin/{{NguoiDung}}/{{trang}}" class="page-link">{{trang}}</a></li>
-                                    {% endif %}
-                                {% endfor %}
-                                
-                                {% if TrangHienTai != TongTrang %}
+                                {% endif %} {% for trang in SoTrang %} {% if TrangHienTai == trang %}
+                                <li class="page-item active"><a href="#" class="page-link">{{trang}}</a></li>
+                                {% else %}
+                                <li class="page-item"><a href="/admin/{{NguoiDung}}/{{trang}}" class="page-link">{{trang}}</a></li>
+                                {% endif %} {% endfor %} {% if TrangHienTai != TongTrang %}
                                 <li class="page-item"><a href="/admin/{{NguoiDung}}/{{TrangSau}}">Trang sau</a></li>
-                                {% endif %} 
-                                {% if TrangHienTai < TongTrang|add:-5 %}
-                                <li class="page-item"><a href="/admin/{{NguoiDung}}/{{TongTrang}}">Trang cuối</a></li>
-                                {% endif %} 
+                                {% endif %} {% if TrangHienTai
+                                < TongTrang|add:-5 %} <li class="page-item"><a href="/admin/{{NguoiDung}}/{{TongTrang}}">Trang cuối</a></li>
+                                    {% endif %}
                             </ul>
                         </div>
                     </div>
@@ -87,6 +81,6 @@
         </div>
     </div>
 
-    <!-- Main Footer --><!-- Sidebar Nav -->
-    {% include './sidebar.html' %}
-{% endblock %}
+    <!-- Main Footer -->
+    <!-- Sidebar Nav -->
+    {% include './sidebar.html' %} {% endblock %}

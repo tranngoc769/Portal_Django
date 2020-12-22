@@ -44,8 +44,8 @@
                                     {% if Flag == 'hoatdong'%}
                                     <td>{{deTai.HoTen}}</td>
                                     {% endif %}
-                                    <td>{{deTai.NgayBD}}</td>
-                                    <td>{{deTai.NgayKT}}</td>
+                                    <td>{{deTai.NgayBD|date:'Y-m-d'}}</td>
+                                    <td>{{deTai.NgayKT|date:'Y-m-d'}}</td>
                                     <td>{{deTai.DiemRL}}</td>
                                     <td>{{deTai.SoLuong}}</td>
                                     <td>{{deTai.DaDangKi}}</td>

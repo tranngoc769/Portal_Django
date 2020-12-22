@@ -569,7 +569,6 @@ def sua_detai(request, detaiID):
         ngayKTDeTai = request.POST['ngayKTDeTai']
         chiTiet = request.POST['chiTiet']
         userID = request.session.get('ID')
-
         jsonRender = {'tieude' : 'Thành công', 'ThongBao' : 'Thành Công','ChiTiet' : 'Thêm đề tài thành công', 'backlink': '/'}
         themHDSql = "UPDATE portal_detai SET ChiTiet  = '{0}',  SoLuong = {1},  IdLoai = {2},   TenDeTai  = '{3}',  IdKhoa  = {4}, NgayBD = '{5}', NgayKT = '{6}' WHERE  IdDeTai  = {7}".format(chiTiet, soLuongDKDeTai,loaiDeTai, tenDeTai,khoaDeTai, ngayBDDeTai,ngayKTDeTai, detaiID)
         try:
@@ -578,6 +577,7 @@ def sua_detai(request, detaiID):
             jsonRender['ChiTiet'] = str(exc)
             jsonRender['ThongBao'] = str("Không thành công")
         return render(request, 'portal/giangvien/thongbao.html', jsonRender)
+
 # Sua de tai
 def xoa_hoatdong(request, detaiID):
     sql = "UPDATE portal_hoatdong SET HoatDong = 0 WHERE IdHoatDong = {0}".format(detaiID)

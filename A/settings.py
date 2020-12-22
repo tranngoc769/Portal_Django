@@ -24,12 +24,8 @@ SECRET_KEY = '^ybghymc(6f0e1rcg6fap)em1jj@lld4k#^b%b2&_h9ndjxmft'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
-
-
+ALLOWED_HOSTS = ['847e7fc03d2d.ngrok.io','localhost']
 # Application definition
-
 INSTALLED_APPS = [
     'portal.apps.PortalConfig',
     'django.contrib.admin',
@@ -39,7 +35,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
