@@ -1,4 +1,4 @@
-{% extends "../../pages/base.html" %} {% load static %} {% block title %}{% if Flag == 'dshoatdong' %}Hoạt động{% else %}Hoạt động của tôi{% endif %}{% endblock %} {% block content %}
+{% extends "../../pages/base.html" %} {% load static %} {% block title %}Đề tài của tôi{% endblock %} {% block content %}
 <div class="page-wrapper">
     <div class="preloader"></div>
     {% include './header.html' %}
@@ -12,7 +12,7 @@
                         <div class="sec-title">
                             <div class="clearfix">
                                 <div class="pull-left">
-                                    <h4>Danh sách hoạt động</h4>
+                                    <h4>Danh sách đề tài </h4>
                                 </div>
                             </div>
                         </div>
@@ -25,13 +25,12 @@
                                 <div class="inner-box">
                                     <div class="content">
                                         <div class="image">
-                                            <a href="/chitiethoatdong/{{deTai.IdHoatDong}}"><img src="{% static 'images/resource/feature-4.jpg'%}" alt=""></a>
+                                            <a href="/chitietdetai/{{deTai.IdDeTai}}"><img src="{% static 'images/resource/feature-4.jpg'%}" alt=""></a>
                                         </div>
-                                        <h6><a href="/chitiethoatdong/{{deTai.IdHoatDong}}">{{deTai.TenHoatDong}}</a></h6>
-                                        <div class="text">Điểm : {{deTai.DiemRL}}</div>
+                                        <h6><a href="/chitietdetai/{{deTai.IdDeTai}}">{{deTai.TenDeTai}}</a></h6>
                                         <div class="text">Ngày bắt đầu : {{deTai.NgayBD|date:'Y-m-d'}}</div>
                                         <div class="text">Ngày kết thúc : {{deTai.NgayKT|date:'Y-m-d'}}</div>
-                                        <div class="text">Ngày đăng kí : {{deTai.NgayDKHD|date:'Y-m-d'}}</div>
+                                        <div class="text">Ngày đăng kí : {{deTai.NgayDKDT|date:'Y-m-d'}}</div>
                                         <div class="author" name="{{deTai.TenNguoiDung}}">GV : <span>{{deTai.HoTen}}</span></div>
                                         <div class="eps_dots more_dropdown">
                                             <a href="#"><span></span><i></i></a>

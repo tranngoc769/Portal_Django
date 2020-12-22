@@ -57,6 +57,8 @@ def dsDetai(request):
         "DsDetai": dsDetai['data'],
         'Flag' : 'dsdetai'
     }
+    if (len(dsDetai['data'])> 0):
+            data['total'] = len(dsDetai['data'])
     return render(request, 'portal/sinhvien/dsDetai.html', data)
 # Danh sách hoạt động
 def dshoatdong(request):
@@ -98,6 +100,8 @@ def dshoatdong(request):
         "DsDetai": dsHoatDong['data'],
         'Flag' : 'dshoatdong'
     }
+    if (len(dsHoatDong['data'])> 0):
+            data['total'] = len(dsHoatDong['data'])
     return render(request, 'portal/sinhvien/dsHoatDong.html', data)
 # Chi tiết đề tài
 def chitietdetai(request, detaiID):
@@ -410,6 +414,7 @@ def dangxuat(request):
 
 def dshoatdongcuatoi(request):
     search = ""
+    userId = request.session['ID']
     try:
         search = request.GET['search']
     except:
@@ -433,15 +438,68 @@ def dshoatdongcuatoi(request):
             JOIN portal_nguoidung ON portal_hoatdongdadangky.IdUser = portal_nguoidung.IdUser
             WHERE portal_hoatdong.HoatDong = 1 AND
             portal_nguoidung.HoatDong = 1 AND
-            portal_hoatdong.TenHoatDong LIKE '%{0}%'
+            portal_hoatdong.TenHoatDong LIKE '%{0}%' AND
+            portal_hoatdongdadangky.IdUser = {1}
         ORDER BY
         portal_hoatdongdadangky.NgayDKHD ASC
-    """.format(search)
+    """.format(search, userId)
     dsHoatDong = ChucNang.TruyVanDuLieu(sql)
     data = {
         "DsDetai": dsHoatDong['data'],
         'Flag' : 'dshoatdongcuatoi'
     }
-    print(dsHoatDong['data'][0])
+    if (len(dsHoatDong['data'])> 0):
+        data['total'] = len(dsHoatDong['data'])
     return render(request, 'portal/sinhvien/dsHoatDongCuaToi.html', data)
+# SinhVien
+
+
+def dsdetaicuatoi(request):
+    userId = request.session['ID']
+    sql = """
+        SELECT
+            portal_detaidadangky.IdDTDDK,
+            portal_detaidadangky.IdDeTai,
+            portal_detaidadangky.IdUser,
+            portal_detaidadangky.NgayDKDT,
+            portal_detai.TenDeTai,
+            portal_detai.NgayKT,
+            portal_detai.NgayBD
+            FROM
+            portal_detaidadangky
+            JOIN portal_detai ON portal_detaidadangky.IdDeTai = portal_detai.IdDeTai
+            JOIN portal_nguoidung ON portal_detaidadangky.IdUser = portal_nguoidung.IdUser
+            WHERE
+            portal_detai.HoatDong = 1 AND
+            portal_nguoidung.HoatDong = 1 AND
+            portal_detaidadangky.IdUser = {0}
+        ORDER BY
+            portal_detaidadangky.NgayDKDT ASC
+    """.format(userId)
+    dsHoatDong = ChucNang.TruyVanDuLieu(sql)
+    data = {
+        "DsDetai": dsHoatDong['data']
+    }
+    if (len(dsHoatDong['data']) > 0):
+            data['total'] = len(dsHoatDong['data'])
+            user = dsHoatDong['data'][0]
+            detaiID = user['IdDeTai'] 
+            sql = """SELECT
+                portal_detai.IdDeTai,
+                portal_nguoidung.TenNguoiDung,
+                portal_nguoidung.HoTen,
+                portal_detai.IdUser
+                FROM
+                portal_detai
+                JOIN portal_nguoidung ON portal_detai.IdUser = portal_nguoidung.IdUser
+                WHERE
+                portal_detai.IdDeTai = {0} AND
+                portal_detai.HoatDong = 1 AND
+                portal_nguoidung.HoatDong = 1
+            """.format(detaiID)
+            giangvien = ChucNang.TruyVanDuLieu(sql)
+            if (len(giangvien['data'])> 0):
+                dsHoatDong['data'][0]['HoTen'] = giangvien['data'][0]['HoTen']
+                data['DsDetai'] = dsHoatDong['data']
+    return render(request, 'portal/sinhvien/dsDeTaiCuaToi.html', data)
 # SinhVien
