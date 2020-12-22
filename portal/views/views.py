@@ -98,7 +98,6 @@ def dshoatdong(request):
         "DsDetai": dsHoatDong['data'],
         'Flag' : 'dshoatdong'
     }
-    print(dsHoatDong['data'][0])
     return render(request, 'portal/sinhvien/dsHoatDong.html', data)
 # Chi tiết đề tài
 def chitietdetai(request, detaiID):
@@ -408,4 +407,41 @@ def dangxuat(request):
     del request.session['ID']
     return redirect('/')
 
+
+def dshoatdongcuatoi(request):
+    search = ""
+    try:
+        search = request.GET['search']
+    except:
+        pass
+    sql = """
+        SELECT
+            portal_hoatdongdadangky.IdHDDDK,
+            portal_hoatdongdadangky.NgayDKHD,
+            portal_hoatdongdadangky.IdHoatDong,
+            portal_hoatdongdadangky.IdUser,
+            portal_hoatdong.TenHoatDong,
+            portal_hoatdong.HoatDong,
+            portal_nguoidung.TenNguoiDung,
+            portal_nguoidung.HoTen,
+            portal_hoatdong.DiemRL,
+            portal_hoatdong.NgayKT,
+            portal_hoatdong.NgayBD
+        FROM
+            portal_hoatdongdadangky
+            JOIN portal_hoatdong ON portal_hoatdongdadangky.IdHoatDong = portal_hoatdong.IdHoatDong
+            JOIN portal_nguoidung ON portal_hoatdongdadangky.IdUser = portal_nguoidung.IdUser
+            WHERE portal_hoatdong.HoatDong = 1 AND
+            portal_nguoidung.HoatDong = 1 AND
+            portal_hoatdong.TenHoatDong LIKE '%{0}%'
+        ORDER BY
+        portal_hoatdongdadangky.NgayDKHD ASC
+    """.format(search)
+    dsHoatDong = ChucNang.TruyVanDuLieu(sql)
+    data = {
+        "DsDetai": dsHoatDong['data'],
+        'Flag' : 'dshoatdongcuatoi'
+    }
+    print(dsHoatDong['data'][0])
+    return render(request, 'portal/sinhvien/dsHoatDongCuaToi.html', data)
 # SinhVien
