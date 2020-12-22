@@ -92,8 +92,8 @@ def danhSachHoaDongCuaToi(trang, moitrang, username):
     dsDeTai_PhanTrang['SoTrang'] = tongTrang
     return dsDeTai_PhanTrang
 # Hàm lấy danh sách đề tài theo trang
-def danhSachDeTai(trang, moitrang):
-    dsDetai = tatCaDeTai()
+def danhSachDeTai(trang, moitrang,search=""):
+    dsDetai = tatCaDeTai(search)
     tongDetai = len(dsDetai['data'])
     # Tổng số trang = tổng sinh viên / số sV mỗi trang , làm tròn lên
     tongTrang = math.ceil(tongDetai / moitrang)
@@ -123,9 +123,10 @@ def danhSachDeTai(trang, moitrang):
                     JOIN portal_khoa ON portal_detai.IdKhoa = portal_khoa.IdKhoa
                     WHERE
                     portal_detai.HoatDong = 1 AND
-                    portal_nguoidung.HoatDong = 1
-            LIMIT {0} OFFSET {1}
-            """.format(moitrang, (trang-1)*moitrang)  # Offset bắt đầu từ 0 --> trang - 1, công thức phân trang sql
+                    portal_nguoidung.HoatDong = 1 AND
+                    portal_detai.TenDeTai LIKE '%{0}%'
+            LIMIT {1} OFFSET {2}
+            """.format(search,moitrang, (trang-1)*moitrang)  # Offset bắt đầu từ 0 --> trang - 1, công thức phân trang sql
     dsDeTai_PhanTrang = ChucNang.TruyVanDuLieu(sql)
     dsDeTai_PhanTrang['SoDeTai'] = len(dsDetai['data'])
     dsDeTai_PhanTrang['SoTrang'] = tongTrang
@@ -185,7 +186,7 @@ def querySetToJson(rawquerySet):
     return jsonData  # Trả về  JSON
     # return json.dumps(jsonData)   #Trả về string JSON
 # Hàm lấy tất cả đề tài (ko bị xóa)
-def tatCaDeTai():
+def tatCaDeTai(search=""):
     danhSachDeTai = ChucNang.TruyVanDuLieu("""SELECT
                 portal_detai.IdDeTai,
                 portal_detai.TenDeTai,
@@ -207,8 +208,9 @@ def tatCaDeTai():
                 JOIN portal_loaidetai ON portal_loaidetai.IdLoai = portal_detai.IdLoai
                 WHERE
                 portal_detai.HoatDong = 1 AND
-                portal_nguoidung.HoatDong = 1
-            """)
+                portal_nguoidung.HoatDong = 1 AND
+                portal_detai.TenDeTai LIKE '%{0}%'
+            """.format(search))
     return danhSachDeTai
 # Hàm lấy tất cả hoạt động (ko bị xóa)
 def tatCaHoatDong():
@@ -359,8 +361,13 @@ def taoJsonQLHoatDong(dsDeTai, trangHienTai, loaiQL):
 # Handle route
 def ds_detai(request, trang=1):  # Mặc định trang = 1
     trangHienTai = int(trang)
+    dsDeTai_phanTrang = None
+    try:
+        searchString = request.GET['search']
+        dsDeTai_phanTrang = danhSachDeTai(trangHienTai, MoiTrang,searchString)
+    except:
+        dsDeTai_phanTrang = danhSachDeTai(trangHienTai, MoiTrang)
     # Lấy danh sách sinh viên theo trang / mỗi trang
-    dsDeTai_phanTrang = danhSachDeTai(trangHienTai, MoiTrang)
     # Tạo JSON để render --> chứa phân trang, ds người dùng
     content = taoJsonQLDeTai(dsDeTai_phanTrang, trangHienTai, "detai")
     return render(request, 'portal/giangvien/ql_detai.html', content)
@@ -541,7 +548,6 @@ def xoa_detai(request, detaiID):
         jsonRender['ChiTiet'] = str(identifier)
         jsonRender['ThongBao'] = str("Không thành công")
     return render(request, 'portal/giangvien/thongbao.html', jsonRender)
-
 @csrf_exempt 
 def sua_detai(request, detaiID):
     if request.method == "GET":
@@ -577,7 +583,6 @@ def sua_detai(request, detaiID):
             jsonRender['ChiTiet'] = str(exc)
             jsonRender['ThongBao'] = str("Không thành công")
         return render(request, 'portal/giangvien/thongbao.html', jsonRender)
-
 # Sua de tai
 def xoa_hoatdong(request, detaiID):
     sql = "UPDATE portal_hoatdong SET HoatDong = 0 WHERE IdHoatDong = {0}".format(detaiID)
@@ -588,7 +593,6 @@ def xoa_hoatdong(request, detaiID):
         jsonRender['ChiTiet'] = str(identifier)
         jsonRender['ThongBao'] = str("Không thành công")
     return render(request, 'portal/giangvien/thongbao.html', jsonRender)
-
 @csrf_exempt 
 def sua_hoatdong(request, detaiID):
     if request.method == "GET":
