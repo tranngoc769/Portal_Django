@@ -19,14 +19,18 @@
                         </div>
                     </div>
                     <!-- Search -->
+
+                    {% if Flag %}
                     <div class="search-box">
-                        <form method="post" action="">
+                        <form method="GET" action="/{{Flag}}/?">
                             <div class="form-group">
-                                <input type="search" name="search-field" value="" placeholder="Tìm kiếm đề tài, sự kiện" required>
+                                <input type="search" name="search" value="" placeholder="Tìm kiếm">
                                 <button type="submit"><span class="icon fa fa-search"></span></button>
                             </div>
                         </form>
                     </div>
+                    {% endif %}
+
                 </div>
                 <!-- Header Right -->
                 <div class="header-right clearfix">

@@ -14,6 +14,11 @@ def kiemTraCookie(request):
 
 # Danh sách đề tài
 def dsDetai(request):
+    search = ""
+    try:
+        search = request.GET['search']
+    except:
+        pass
     sql = """
             SELECT
                   portal_detai.IdDeTai,
@@ -42,18 +47,24 @@ def dsDetai(request):
                   WHERE
                   portal_nguoidung.HoatDong = 1 AND
                   portal_detai.HoatDong = 1 AND
+                  portal_detai.TenDeTai LIKE '%{0}%' AND
                   portal_detai.DangThucHien = 0
             ORDER BY
             portal_detai.NgayBD ASC
-      """
+      """.format(search)
     dsDetai = ChucNang.TruyVanDuLieu(sql)
     data = {
-        "DsDetai": dsDetai['data']
+        "DsDetai": dsDetai['data'],
+        'Flag' : 'dsdetai'
     }
-    print(dsDetai['data'][0])
     return render(request, 'portal/sinhvien/dsDetai.html', data)
 # Danh sách hoạt động
 def dshoatdong(request):
+    search = ""
+    try:
+        search = request.GET['search']
+    except:
+        pass
     sql = """
                         SELECT
                                                 portal_hoatdong.IdHoatDong,
@@ -76,17 +87,19 @@ def dshoatdong(request):
                         WHERE
                         portal_nguoidung.HoatDong = 1 AND
                         portal_hoatdong.HoatDong = 1 AND
-                        portal_hoatdong.DangThucHien = 0
+                        portal_hoatdong.DangThucHien = 0 AND
+                        portal_hoatdong.TenHoatDong LIKE '%{0}%'
                         ORDER BY
                         portal_hoatdong.NgayBD ASC
 
-      """
+      """.format(search)
     dsHoatDong = ChucNang.TruyVanDuLieu(sql)
     data = {
-        "DsHoatDong": dsHoatDong['data']
+        "DsDetai": dsHoatDong['data'],
+        'Flag' : 'dshoatdong'
     }
     print(dsHoatDong['data'][0])
-    return render(request, 'portal/sinhvien/dsHoatDong.html', dsHoatDong)
+    return render(request, 'portal/sinhvien/dsHoatDong.html', data)
 # Chi tiết đề tài
 def chitietdetai(request, detaiID):
     sql = """

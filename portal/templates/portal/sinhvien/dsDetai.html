@@ -1,4 +1,4 @@
-{% extends "../../pages/base.html" %} {% load static %} {% block title %}Trang Chủ{% endblock %} {% block content %}
+{% extends "../../pages/base.html" %} {% load static %} {% block title %}{% if Flag == 'dsdetai' %}Đề tài{% else %}Đề tài của tôi{% endif %}{% endblock %} {% block content %}
 <div class="page-wrapper">
     <div class="preloader"></div>
     {% include './header.html' %}
