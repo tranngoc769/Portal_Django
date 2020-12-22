@@ -14,8 +14,8 @@ from . import chucnang as ChucNang
 def index(request):
     return redirect('detai/')
 # Hàm lấy danh sách đề tài của tôi phân trang
-def danhSachDeTaiCuaToi(trang, moitrang, username):
-    dsDetai = tatCaDeTaiCuaToi(username)
+def danhSachDeTaiCuaToi(trang, moitrang, username,searchString =""):
+    dsDetai = tatCaDeTaiCuaToi(username,searchString)
     tongDetai = len(dsDetai['data'])
     # Tổng số trang = tổng sinh viên / số sV mỗi trang , làm tròn lên
     tongTrang = math.ceil(tongDetai / moitrang)
@@ -45,17 +45,18 @@ def danhSachDeTaiCuaToi(trang, moitrang, username):
                     JOIN portal_khoa ON portal_detai.IdKhoa = portal_khoa.IdKhoa
                     WHERE
                     portal_detai.HoatDong = 1 AND
-                    portal_nguoidung.HoatDong = 1 AND
-                    portal_nguoidung.TenNguoiDung = '{2}'
-            LIMIT {0} OFFSET {1}
-            """.format(moitrang, (trang-1)*moitrang, username)  # Offset bắt đầu từ 0 --> trang - 1, công thức phân trang sql
+                    portal_nguoidung.HoatDong = 1 AND 
+                     portal_detai.TenDeTai LIKE '%{0}%' AND
+                    portal_nguoidung.TenNguoiDung = '{1}'
+            LIMIT {2} OFFSET {3}
+            """.format(searchString, username, moitrang, (trang-1)*moitrang)  # Offset bắt đầu từ 0 --> trang - 1, công thức phân trang sql
     dsDeTai_PhanTrang = ChucNang.TruyVanDuLieu(sql)
     dsDeTai_PhanTrang['SoDeTai'] = len(dsDetai['data'])
     dsDeTai_PhanTrang['SoTrang'] = tongTrang
     return dsDeTai_PhanTrang
 # Hàm lấy danh sách hoạt động của tôi phân trang
-def danhSachHoaDongCuaToi(trang, moitrang, username):
-    dsDetai = tatCaHoatDongCuaToi(username)
+def danhSachHoaDongCuaToi(trang, moitrang, username,searchString =""):
+    dsDetai = tatCaHoatDongCuaToi(username,searchString)
     tongDetai = len(dsDetai['data'])
     # Tổng số trang = tổng sinh viên / số sV mỗi trang , làm tròn lên
     tongTrang = math.ceil(tongDetai / moitrang)
@@ -84,9 +85,10 @@ def danhSachHoaDongCuaToi(trang, moitrang, username):
                     WHERE
                     portal_hoatdong.HoatDong = 1 AND
                     portal_nguoidung.HoatDong = 1 AND
-                    portal_nguoidung.TenNguoiDung = '{2}'
+                    portal_nguoidung.TenNguoiDung = '{2}' AND 
+                     portal_hoatdong.TenHoatDong LIKE '%{3}%'
             LIMIT {0} OFFSET {1}
-            """.format(moitrang, (trang-1)*moitrang, username)  # Offset bắt đầu từ 0 --> trang - 1, công thức phân trang sql
+            """.format(moitrang, (trang-1)*moitrang, username, searchString)  # Offset bắt đầu từ 0 --> trang - 1, công thức phân trang sql
     dsDeTai_PhanTrang = ChucNang.TruyVanDuLieu(sql)
     dsDeTai_PhanTrang['SoDeTai'] = len(dsDetai['data'])
     dsDeTai_PhanTrang['SoTrang'] = tongTrang
@@ -131,8 +133,8 @@ def danhSachDeTai(trang, moitrang,search=""):
     dsDeTai_PhanTrang['SoDeTai'] = len(dsDetai['data'])
     dsDeTai_PhanTrang['SoTrang'] = tongTrang
     return dsDeTai_PhanTrang
-def danhSachHoatDong(trang, moitrang):
-    dsHoatDong = tatCaHoatDong()
+def danhSachHoatDong(trang, moitrang,search=""):
+    dsHoatDong = tatCaHoatDong(search)
     tongDetai = len(dsHoatDong['data'])
     # Tổng số trang = tổng sinh viên / số sV mỗi trang , làm tròn lên
     tongTrang = math.ceil(tongDetai / moitrang)
@@ -160,9 +162,10 @@ def danhSachHoatDong(trang, moitrang):
                     JOIN portal_nguoidung ON portal_hoatdong.IdUser = portal_nguoidung.IdUser
                     WHERE
                     portal_hoatdong.HoatDong = 1 AND
-                    portal_nguoidung.HoatDong = 1
-            LIMIT {0} OFFSET {1}
-            """.format(moitrang, (trang-1)*moitrang)  # Offset bắt đầu từ 0 --> trang - 1, công thức phân trang sql
+                    portal_nguoidung.HoatDong = 1  AND 
+                    portal_hoatdong.TenHoatDong LIKE '%{0}%'
+            LIMIT {1} OFFSET {2}
+            """.format(search, moitrang, (trang-1)*moitrang)  # Offset bắt đầu từ 0 --> trang - 1, công thức phân trang sql
     dsDeTai_PhanTrang = ChucNang.TruyVanDuLieu(sql)
     dsDeTai_PhanTrang['SoDeTai'] = len(dsHoatDong['data'])
     dsDeTai_PhanTrang['SoTrang'] = tongTrang
@@ -213,7 +216,7 @@ def tatCaDeTai(search=""):
             """.format(search))
     return danhSachDeTai
 # Hàm lấy tất cả hoạt động (ko bị xóa)
-def tatCaHoatDong():
+def tatCaHoatDong(search=""):
     danhSachDeTai = ChucNang.TruyVanDuLieu("""SELECT
             portal_hoatdong.IdHoatDong,
             portal_hoatdong.IdUser,
@@ -234,11 +237,12 @@ def tatCaHoatDong():
             JOIN portal_nguoidung ON portal_hoatdong.IdUser = portal_nguoidung.IdUser
             WHERE
             portal_hoatdong.HoatDong = 1 AND
-            portal_nguoidung.HoatDong = 1
-            """)
+            portal_nguoidung.HoatDong = 1  AND 
+            portal_hoatdong.TenHoatDong LIKE '%{0}%'
+            """.format(search))
     return danhSachDeTai
 # Hàm lấy tất cả đè tài theo userID
-def tatCaDeTaiCuaToi(username):
+def tatCaDeTaiCuaToi(username,searchString=""):
     danhSachDeTai = ChucNang.TruyVanDuLieu("""SELECT
         portal_detai.IdDeTai,
         portal_detai.TenDeTai,
@@ -261,11 +265,12 @@ def tatCaDeTaiCuaToi(username):
         WHERE
         portal_detai.HoatDong = 1 AND
         portal_nguoidung.HoatDong = 1 AND
-        portal_nguoidung.TenNguoiDung = '{0}'
-    """.format(username))
+        portal_nguoidung.TenNguoiDung = '{0}' AND
+        portal_detai.TenDeTai LIKE '%{1}%'
+    """.format(username, searchString))
     return danhSachDeTai
 # Hàm lấy tất cả đè tài theo userID
-def tatCaHoatDongCuaToi(username):
+def tatCaHoatDongCuaToi(username,search=""):
     danhSachDeTai = ChucNang.TruyVanDuLieu("""SELECT
             portal_hoatdong.IdHoatDong,
             portal_hoatdong.IdUser,
@@ -287,8 +292,9 @@ def tatCaHoatDongCuaToi(username):
             WHERE
             portal_hoatdong.HoatDong = 1 AND
             portal_nguoidung.HoatDong = 1 AND
-        portal_nguoidung.TenNguoiDung = '{0}'
-    """.format(username))
+        portal_nguoidung.TenNguoiDung = '{0}' AND 
+                     portal_hoatdong.TenHoatDong LIKE '%{1}%'
+    """.format(username,search))
     return danhSachDeTai
 # Hàm tạo dữ liệu json để render quản lý đề tài
 def taoJsonQLDeTai(dsDeTai, trangHienTai, loaiQL):
@@ -374,8 +380,13 @@ def ds_detai(request, trang=1):  # Mặc định trang = 1
 # Handle route
 def ds_hoatdong(request, trang=1):  # Mặc định trang = 1
     trangHienTai = int(trang)
-    # Lấy danh sách sinh viên theo trang / mỗi trang
-    dsHoatDong_phanTrang = danhSachHoatDong(trangHienTai, MoiTrang)
+    dsHoatDong_phanTrang = None
+    try:
+        searchString = request.GET['search']
+        dsHoatDong_phanTrang = danhSachHoatDong(trangHienTai, MoiTrang,searchString)
+    except:
+        dsHoatDong_phanTrang = danhSachHoatDong(trangHienTai, MoiTrang)
+        # Lấy danh sách sinh viên theo trang / mỗi trang
     # Tạo JSON để render --> chứa phân trang, ds người dùng
     content = taoJsonQLDeTai(dsHoatDong_phanTrang, trangHienTai, "hoatdong")
     return render(request, 'portal/giangvien/ql_hoatdong.html', content)
@@ -383,16 +394,26 @@ def ds_hoatdong(request, trang=1):  # Mặc định trang = 1
 def my_detai(request, trang=1):  # Mặc định trang = 1
     userName = request.session.get('TenDangNhap')
     trangHienTai = int(trang)
+    dsDeTaiCuaToi_phanTrang = None
+    try:
+        searchString = request.GET['search']
+        dsDeTaiCuaToi_phanTrang = danhSachDeTaiCuaToi(trangHienTai, MoiTrang, userName, searchString)
+    except:
+        dsDeTaiCuaToi_phanTrang = danhSachDeTaiCuaToi(trangHienTai, MoiTrang, userName)
     # Lấy danh sách sinh viên theo trang / mỗi trang
-    dsDeTaiCuaToi_phanTrang = danhSachDeTaiCuaToi(trangHienTai, MoiTrang, userName)
     # Tạo JSON để render --> chứa phân trang, ds người dùng
     content = taoJsonQLDeTai(dsDeTaiCuaToi_phanTrang, trangHienTai,"detaicuatoi")
     return render(request, 'portal/giangvien/ql_detai.html', content)
 def my_hoatdong(request, trang=1):  # Mặc định trang = 1
     userName = request.session.get('TenDangNhap')
     trangHienTai = int(trang)
+    dsDeTaiCuaToi_phanTrang = None
+    try:
+        searchString = request.GET['search']
+        dsDeTaiCuaToi_phanTrang = danhSachHoaDongCuaToi(trangHienTai, MoiTrang, userName,searchString)
+    except:
     # Lấy danh sách sinh viên theo trang / mỗi trang
-    dsDeTaiCuaToi_phanTrang = danhSachHoaDongCuaToi(trangHienTai, MoiTrang, userName)
+        dsDeTaiCuaToi_phanTrang = danhSachHoaDongCuaToi(trangHienTai, MoiTrang, userName)
     # Tạo JSON để render --> chứa phân trang, ds người dùng
     content = taoJsonQLHoatDong(dsDeTaiCuaToi_phanTrang, trangHienTai,"hoatdongcuatoi")
     return render(request, 'portal/giangvien/ql_hoatdong.html', content)
