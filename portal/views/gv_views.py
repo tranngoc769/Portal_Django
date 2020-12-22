@@ -419,6 +419,36 @@ def chitiet_detai(request, detaiID):  # Mặc định trang = 1
               return HttpResponse("không có dữ liệu")
     thongTinDeTai = queryData['data'][0] # Kết quả query là 1 mảng --> lấy phần tử đầu tiên cũng là duy nhất (id là duy nhất)
     return render(request, 'portal/giangvien/chitiet_detai.html', thongTinDeTai)
+# Handle route
+def chitiet_hoatdong(request, hoatdongID):
+    sql = """SELECT
+                    portal_hoatdong.IdHoatDong,
+                    portal_hoatdong.IdUser,
+                    portal_hoatdong.ChiTiet,
+                    portal_hoatdong.NgayBD,
+                    portal_hoatdong.NgayKT,
+                    portal_hoatdong.SoLuong,
+                    portal_hoatdong.DiemRL,
+                    portal_hoatdong.HoatDong,
+                    portal_hoatdong.DaDangKi,
+                    portal_hoatdong.DangThucHien,
+                    portal_hoatdong.TenHoatDong,
+                    portal_hoatdong.Ki,
+                    portal_nguoidung.HoTen,
+                    portal_nguoidung.TenNguoiDung
+                    FROM
+                    portal_hoatdong
+                    JOIN portal_nguoidung ON portal_hoatdong.IdUser = portal_nguoidung.IdUser
+                    WHERE
+                    portal_hoatdong.HoatDong = 1 AND
+                portal_hoatdong.IdHoatDong = {0} AND
+                portal_nguoidung.HoatDong = 1""".format(hoatdongID)
+    queryData = ChucNang.TruyVanDuLieu(sql)
+    print(queryData['data'])
+    if (len(queryData['data']))  < 1:
+              return HttpResponse("không có dữ liệu")
+    thongTinDeTai = queryData['data'][0] # Kết quả query là 1 mảng --> lấy phần tử đầu tiên cũng là duy nhất (id là duy nhất)
+    return render(request, 'portal/giangvien/chitiet_hoatdong.html', thongTinDeTai)
 # Hàm lấy thông tin sinh viên đăng kí đề tài theo DeTaiID
 def dsSinhVienDkDeTai(deTaiID):
     sinhVienDKDeTai = ChucNang.TruyVanDuLieu("""
@@ -512,7 +542,6 @@ def xoa_detai(request, detaiID):
         jsonRender['ChiTiet'] = str(identifier)
         jsonRender['ThongBao'] = str("Không thành công")
     return render(request, 'portal/giangvien/thongbao.html', jsonRender)
-
 def sua_detai(request, detaiID):
     if request.method == "GET":
         jsonRender = {

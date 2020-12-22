@@ -30,7 +30,7 @@ urlpatterns = [
     # path('detai/<trang>', views.ds_detai, name='ds_detai'),
     path('hoatdongcuatoi/', views.my_hoatdong, name='my_hoatdong'),
     path('hoatdongcuatoi/<int:trang>', views.my_hoatdong, name='my_hoatdong'),
-    # path('detai/chitiet/<int:detaiID>', views.chitiet_detai, name='chitiet_detai'),
+    path('hoatdong/chitiet/<int:hoatdongID>', views.chitiet_hoatdong, name='chitiet_hoatdong'),
     
     
 ]

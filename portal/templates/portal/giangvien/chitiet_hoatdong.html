@@ -1,0 +1,67 @@
+{% extends "../../pages/base.html" %} {% load static %} {% block title %} Danh sách hoạt động {% endblock %} {% block content %}
+<div class="page-wrapper">
+    <div class="preloader"></div>
+    {% include './header.html' %}
+    <div class="sidebar-page-container">
+        <div class="auto-container">
+            <div class="row clearfix">
+                <div class="content-side col-lg-9 col-md-12 col-sm-12">
+                    <div class="sec-title">
+                        <h4 style="font-size: 20px">Hoạt động {{TenDeTai}}</h4>
+                    </div>
+                    <div class="checkout-section">
+                        <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                            <h4>Thông tin cơ bản</h4>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                            <div class="order-box">
+                                <ul>
+                                    <li name="loaiDT" loai="{{IdLoai}}" class="clearfix"><b>Kì :</b><span class="pull-right">{{Ki}}</span></li>
+                                    <li class="clearfix"><b>Người tạo :</b> <span class="pull-right">{{HoTen}}</span></li>
+                                    <li class="clearfix"><b>Điểm rèn luyện :</b> <span class="pull-right">{{DiemRL}}</span></li>
+                                    <li class="clearfix"><b>Ngày bắt đầu :</b><span class="pull-right">{{NgayBD|date:'d-m-Y'}}</span></li>
+                                    <li class="clearfix"><b>Ngày kết thúc :</b><span class="pull-right">{{NgayKT|date:'d-m-Y'}}</span></li>
+                                    <li class="clearfix"><b>Trạng thái :</b><span class="pull-right">
+                                {% if DangThucHien == 0 %}Đang chờ đăng ký {% else %} Đã đăng ký{% endif %}</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <h6>Chi tiết đề tài:</h6>
+                        <div class="checkout-form">
+                            <form method="post" action="/">
+                                <div class="row clearfix">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                                        <span class="icon flaticon-edit-3"></span>
+                                        <textarea disabled class="" placeholder="Chi Tiết">{{ChiTiet}}</textarea>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="sidebar-side col-lg-3 col-md-12 col-sm-12">
+                    <aside class="sidebar sticky-top">
+                        <div class="sec-title">
+                            <h4 style="font-size: 20px; color:transparent">Chi Tiết</h4>
+                        </div>
+                        <div class="sidebar-widget order-widget">
+                            <div class="widget-content">
+                                <div class="sidebar-title">
+                                    <h6>Tổng quan</h6>
+                                </div>
+                                <div class="order-box">
+                                    <ul>
+                                        <li class="clearfix">Số sinh viên <span class="pull-right">{{SoLuong}}</span></li>
+                                        <li class="clearfix">Đã đăng ký <span class="pull-right">{{DaDangKi}}</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main Footer -->
+    <!-- Sidebar Nav -->
+    {% include './sidebar.html' %} {% endblock %}
