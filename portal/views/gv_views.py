@@ -53,6 +53,44 @@ def danhSachDeTaiCuaToi(trang, moitrang, username):
     dsDeTai_PhanTrang['SoDeTai'] = len(dsDetai['data'])
     dsDeTai_PhanTrang['SoTrang'] = tongTrang
     return dsDeTai_PhanTrang
+# Hàm lấy danh sách hoạt động của tôi phân trang
+def danhSachHoaDongCuaToi(trang, moitrang, username):
+    dsDetai = tatCaHoatDongCuaToi(username)
+    tongDetai = len(dsDetai['data'])
+    # Tổng số trang = tổng sinh viên / số sV mỗi trang , làm tròn lên
+    tongTrang = math.ceil(tongDetai / moitrang)
+    if (trang > tongTrang):
+        trang = tongTrang  # VD : tổng 4 trang, yêu cầu trang 4 --> chỉ load tới trang 3
+    if (trang < 1):
+        trang = 1  # VD : tổng 4 trang, yêu cầu trang 4 --> chỉ load tới trang 3
+    sql = """SELECT
+                    portal_hoatdong.IdHoatDong,
+                    portal_hoatdong.IdUser,
+                    portal_hoatdong.ChiTiet,
+                    portal_hoatdong.NgayBD,
+                    portal_hoatdong.NgayKT,
+                    portal_hoatdong.SoLuong,
+                    portal_hoatdong.DiemRL,
+                    portal_hoatdong.HoatDong,
+                    portal_hoatdong.DaDangKi,
+                    portal_hoatdong.DangThucHien,
+                    portal_hoatdong.TenHoatDong,
+                    portal_hoatdong.Ki,
+                    portal_nguoidung.HoTen,
+                    portal_nguoidung.TenNguoiDung
+                    FROM
+                    portal_hoatdong
+                    JOIN portal_nguoidung ON portal_hoatdong.IdUser = portal_nguoidung.IdUser
+                    WHERE
+                    portal_hoatdong.HoatDong = 1 AND
+                    portal_nguoidung.HoatDong = 1 AND
+                    portal_nguoidung.TenNguoiDung = '{2}'
+            LIMIT {0} OFFSET {1}
+            """.format(moitrang, (trang-1)*moitrang, username)  # Offset bắt đầu từ 0 --> trang - 1, công thức phân trang sql
+    dsDeTai_PhanTrang = ChucNang.TruyVanDuLieu(sql)
+    dsDeTai_PhanTrang['SoDeTai'] = len(dsDetai['data'])
+    dsDeTai_PhanTrang['SoTrang'] = tongTrang
+    return dsDeTai_PhanTrang
 # Hàm lấy danh sách đề tài theo trang
 def danhSachDeTai(trang, moitrang):
     dsDetai = tatCaDeTai()
@@ -90,6 +128,42 @@ def danhSachDeTai(trang, moitrang):
             """.format(moitrang, (trang-1)*moitrang)  # Offset bắt đầu từ 0 --> trang - 1, công thức phân trang sql
     dsDeTai_PhanTrang = ChucNang.TruyVanDuLieu(sql)
     dsDeTai_PhanTrang['SoDeTai'] = len(dsDetai['data'])
+    dsDeTai_PhanTrang['SoTrang'] = tongTrang
+    return dsDeTai_PhanTrang
+def danhSachHoatDong(trang, moitrang):
+    dsHoatDong = tatCaHoatDong()
+    tongDetai = len(dsHoatDong['data'])
+    # Tổng số trang = tổng sinh viên / số sV mỗi trang , làm tròn lên
+    tongTrang = math.ceil(tongDetai / moitrang)
+    if (trang > tongTrang):
+        trang = tongTrang  # VD : tổng 4 trang, yêu cầu trang 4 --> chỉ load tới trang 3
+    if (trang < 1):
+        trang = 1  # VD : tổng 4 trang, yêu cầu trang 4 --> chỉ load tới trang 3
+    sql = """SELECT
+                    portal_hoatdong.IdHoatDong,
+                    portal_hoatdong.IdUser,
+                    portal_hoatdong.ChiTiet,
+                    portal_hoatdong.NgayBD,
+                    portal_hoatdong.NgayKT,
+                    portal_hoatdong.SoLuong,
+                    portal_hoatdong.DiemRL,
+                    portal_hoatdong.HoatDong,
+                    portal_hoatdong.DaDangKi,
+                    portal_hoatdong.DangThucHien,
+                    portal_hoatdong.TenHoatDong,
+                    portal_hoatdong.Ki,
+                    portal_nguoidung.HoTen,
+                    portal_nguoidung.TenNguoiDung
+                    FROM
+                    portal_hoatdong
+                    JOIN portal_nguoidung ON portal_hoatdong.IdUser = portal_nguoidung.IdUser
+                    WHERE
+                    portal_hoatdong.HoatDong = 1 AND
+                    portal_nguoidung.HoatDong = 1
+            LIMIT {0} OFFSET {1}
+            """.format(moitrang, (trang-1)*moitrang)  # Offset bắt đầu từ 0 --> trang - 1, công thức phân trang sql
+    dsDeTai_PhanTrang = ChucNang.TruyVanDuLieu(sql)
+    dsDeTai_PhanTrang['SoDeTai'] = len(dsHoatDong['data'])
     dsDeTai_PhanTrang['SoTrang'] = tongTrang
     return dsDeTai_PhanTrang
 # Hàm chuyển từ QuerySet --> JSON
@@ -136,6 +210,31 @@ def tatCaDeTai():
                 portal_nguoidung.HoatDong = 1
             """)
     return danhSachDeTai
+# Hàm lấy tất cả hoạt động (ko bị xóa)
+def tatCaHoatDong():
+    danhSachDeTai = ChucNang.TruyVanDuLieu("""SELECT
+            portal_hoatdong.IdHoatDong,
+            portal_hoatdong.IdUser,
+            portal_hoatdong.ChiTiet,
+            portal_hoatdong.NgayBD,
+            portal_hoatdong.NgayKT,
+            portal_hoatdong.SoLuong,
+            portal_hoatdong.DiemRL,
+            portal_hoatdong.HoatDong,
+            portal_hoatdong.DaDangKi,
+            portal_hoatdong.DangThucHien,
+            portal_hoatdong.TenHoatDong,
+            portal_hoatdong.Ki,
+            portal_nguoidung.HoTen,
+            portal_nguoidung.TenNguoiDung
+            FROM
+            portal_hoatdong
+            JOIN portal_nguoidung ON portal_hoatdong.IdUser = portal_nguoidung.IdUser
+            WHERE
+            portal_hoatdong.HoatDong = 1 AND
+            portal_nguoidung.HoatDong = 1
+            """)
+    return danhSachDeTai
 # Hàm lấy tất cả đè tài theo userID
 def tatCaDeTaiCuaToi(username):
     danhSachDeTai = ChucNang.TruyVanDuLieu("""SELECT
@@ -163,8 +262,68 @@ def tatCaDeTaiCuaToi(username):
         portal_nguoidung.TenNguoiDung = '{0}'
     """.format(username))
     return danhSachDeTai
+# Hàm lấy tất cả đè tài theo userID
+def tatCaHoatDongCuaToi(username):
+    danhSachDeTai = ChucNang.TruyVanDuLieu("""SELECT
+            portal_hoatdong.IdHoatDong,
+            portal_hoatdong.IdUser,
+            portal_hoatdong.ChiTiet,
+            portal_hoatdong.NgayBD,
+            portal_hoatdong.NgayKT,
+            portal_hoatdong.SoLuong,
+            portal_hoatdong.DiemRL,
+            portal_hoatdong.HoatDong,
+            portal_hoatdong.DaDangKi,
+            portal_hoatdong.DangThucHien,
+            portal_hoatdong.TenHoatDong,
+            portal_hoatdong.Ki,
+            portal_nguoidung.HoTen,
+            portal_nguoidung.TenNguoiDung
+            FROM
+            portal_hoatdong
+            JOIN portal_nguoidung ON portal_hoatdong.IdUser = portal_nguoidung.IdUser
+            WHERE
+            portal_hoatdong.HoatDong = 1 AND
+            portal_nguoidung.HoatDong = 1 AND
+        portal_nguoidung.TenNguoiDung = '{0}'
+    """.format(username))
+    return danhSachDeTai
 # Hàm tạo dữ liệu json để render quản lý đề tài
 def taoJsonQLDeTai(dsDeTai, trangHienTai, loaiQL):
+    tongSoTrang = int(dsDeTai['SoTrang'])  # Lấy tổng số trang
+    if (tongSoTrang == 0):
+        tongSoTrang = 1
+    if trangHienTai > tongSoTrang:  # Nếu trang yêu cầu > tổng số --> Quay về trang 1
+        return redirect('/')
+    # Chỗ này hiển thị mấy nút đến trang  1 2 3 4 5 Cuối
+    dsTrang = range(trangHienTai - 5, trangHienTai + 5)
+    if (trangHienTai-5 < 1):
+        dsTrang = range(1, 11)
+    if (trangHienTai + 5 > tongSoTrang):
+        dsTrang = range(tongSoTrang-10, tongSoTrang+1)
+    if (tongSoTrang < 10):
+        dsTrang = range(1, tongSoTrang+1)
+    trangSau = trangHienTai + 1
+    if trangHienTai > tongSoTrang:
+        trangHienTai = tongSoTrang
+    trangTruoc = trangHienTai - 1
+    if trangTruoc < 1:
+        trangTruoc = 1
+    # Tạo Json để render ra HTML
+    content = {
+        'Flag' : loaiQL,
+        'DS_DeTai': dsDeTai['data'],
+        'TongDeTai': dsDeTai['SoDeTai'],
+        'SoTrang': dsTrang,
+        'TrangHienTai': trangHienTai,
+        'TongTrang': tongSoTrang,
+        'SoDeTai': len(dsDeTai['data']),
+        'TrangSau':  trangSau,
+        'TrangTruoc': trangTruoc
+    }
+    return content
+# Hàm tạo dữ liệu json để render quản lý đề tài
+def taoJsonQLHoatDong(dsDeTai, trangHienTai, loaiQL):
     tongSoTrang = int(dsDeTai['SoTrang'])  # Lấy tổng số trang
     if (tongSoTrang == 0):
         tongSoTrang = 1
@@ -203,10 +362,16 @@ def ds_detai(request, trang=1):  # Mặc định trang = 1
     # Lấy danh sách sinh viên theo trang / mỗi trang
     dsDeTai_phanTrang = danhSachDeTai(trangHienTai, MoiTrang)
     # Tạo JSON để render --> chứa phân trang, ds người dùng
-    print(dsDeTai_phanTrang)
     content = taoJsonQLDeTai(dsDeTai_phanTrang, trangHienTai, "detai")
     return render(request, 'portal/giangvien/ql_detai.html', content)
 # Handle route
+def ds_hoatdong(request, trang=1):  # Mặc định trang = 1
+    trangHienTai = int(trang)
+    # Lấy danh sách sinh viên theo trang / mỗi trang
+    dsHoatDong_phanTrang = danhSachHoatDong(trangHienTai, MoiTrang)
+    # Tạo JSON để render --> chứa phân trang, ds người dùng
+    content = taoJsonQLDeTai(dsHoatDong_phanTrang, trangHienTai, "hoatdong")
+    return render(request, 'portal/giangvien/ql_hoatdong.html', content)
 # Quản lí link : /detaicuatoi
 def my_detai(request, trang=1):  # Mặc định trang = 1
     userName = request.session.get('TenDangNhap')
@@ -216,6 +381,14 @@ def my_detai(request, trang=1):  # Mặc định trang = 1
     # Tạo JSON để render --> chứa phân trang, ds người dùng
     content = taoJsonQLDeTai(dsDeTaiCuaToi_phanTrang, trangHienTai,"detaicuatoi")
     return render(request, 'portal/giangvien/ql_detai.html', content)
+def my_hoatdong(request, trang=1):  # Mặc định trang = 1
+    userName = request.session.get('TenDangNhap')
+    trangHienTai = int(trang)
+    # Lấy danh sách sinh viên theo trang / mỗi trang
+    dsDeTaiCuaToi_phanTrang = danhSachHoaDongCuaToi(trangHienTai, MoiTrang, userName)
+    # Tạo JSON để render --> chứa phân trang, ds người dùng
+    content = taoJsonQLHoatDong(dsDeTaiCuaToi_phanTrang, trangHienTai,"hoatdongcuatoi")
+    return render(request, 'portal/giangvien/ql_hoatdong.html', content)
 # Handle route
 def chitiet_detai(request, detaiID):  # Mặc định trang = 1
     sql = """SELECT
@@ -246,52 +419,6 @@ def chitiet_detai(request, detaiID):  # Mặc định trang = 1
               return HttpResponse("không có dữ liệu")
     thongTinDeTai = queryData['data'][0] # Kết quả query là 1 mảng --> lấy phần tử đầu tiên cũng là duy nhất (id là duy nhất)
     return render(request, 'portal/giangvien/chitiet_detai.html', thongTinDeTai)
-# Quản lí link chitiet_detaicuatoi
-def chitiet_detaicuatoi(request, detaiID):
-    userName = request.session.get('TenDangNhap')
-    sql = """SELECT
-            portal_detai.IdDeTai,
-            portal_detai.TenDeTai,
-            portal_detai.IdUser,
-            portal_detai.ChiTiet,
-            portal_detai.NgayBD,
-            portal_detai.NgayKT,
-            portal_detai.SoLuong,
-            portal_detai.DaDangKi,
-            portal_detai.IdLoai,
-            portal_nguoidung.HoTen,
-            portal_nguoidung.TenNguoiDung,
-            portal_loaidetai.TenLoai,
-            portal_detai.IdKhoa,
-        portal_detai.DangThucHien
-            FROM
-            portal_detai
-            JOIN portal_nguoidung ON portal_detai.IdUser = portal_nguoidung.IdUser
-            JOIN portal_loaidetai ON portal_loaidetai.IdLoai = portal_detai.IdLoai
-            WHERE
-            portal_detai.IdDeTai = {0} AND
-            portal_detai.HoatDong = 1 AND
-            portal_nguoidung.HoatDong = 1""".format(detaiID)
-    queryData = ChucNang.TruyVanDuLieu(sql)
-    if (len(queryData['data']))  < 1:
-        return HttpResponse("không có dữ liệu")
-    thongTinDeTai = queryData['data'][0]
-    if (thongTinDeTai['TenNguoiDung'] != userName):
-        return HttpResponse("Giảng viên không quản lí đề tài này")
-    # Đã có thông tin đề tài, tạo JSON để đẩy dữ liệu ra giao diện
-    JsonRender = {
-        "DeTai" : thongTinDeTai,
-    }
-    # Kiểm tra đề tài có ai đăng kí không 
-    deTaiDuocDangKi = False
-    if (thongTinDeTai['DaDangKi'] > 0):
-        deTaiDuocDangKi = True
-    if (deTaiDuocDangKi):
-            #   Nếu đề tài được đăng kí --> lấy danh sách sinh viên đăng kí
-        dsSinhVien = dsSinhVienDkDeTai(thongTinDeTai['IdDeTai'])
-        JsonRender['DS_SinhVien'] = dsSinhVien['data'] # Thêm vào JSON
-    return render(request, 'portal/giangvien/chinhsua_detai.html',JsonRender)
-
 # Hàm lấy thông tin sinh viên đăng kí đề tài theo DeTaiID
 def dsSinhVienDkDeTai(deTaiID):
     sinhVienDKDeTai = ChucNang.TruyVanDuLieu("""
@@ -348,7 +475,6 @@ def them_detai(request):
             jsonRender['ChiTiet'] = str(exc)
             jsonRender['ThongBao'] = str("Không thành công")
         return render(request, 'portal/giangvien/thongbao.html', jsonRender)
-
 # Thêm đề tài
 @csrf_exempt  # Tránh lỗi--CSRF token missing or incorrect
 def them_hoatdong(request):
@@ -376,9 +502,7 @@ def them_hoatdong(request):
             jsonRender['ThongBao'] = str("Không thành công")
         return render(request, 'portal/giangvien/thongbao.html', jsonRender)
 # Router /dangki
-
 # Sua de tai
-
 def xoa_detai(request, detaiID):
     sql = "UPDATE portal_detai SET HoatDong = 0 WHERE IdDeTai = {0}".format(detaiID)
     jsonRender = {'tieude' : 'Thành công', 'ThongBao' : 'Thành Công','ChiTiet' : 'Xóa đề tài thành công', 'backlink': '../detaicuatoi/'}
@@ -390,11 +514,27 @@ def xoa_detai(request, detaiID):
     return render(request, 'portal/giangvien/thongbao.html', jsonRender)
 
 def sua_detai(request, detaiID):
-    sql = "UPDATE portal_detai SET HoatDong = 0 WHERE IdDeTai = {0}".format(detaiID)
-    jsonRender = {'tieude' : 'Thành công', 'ThongBao' : 'Thành Công','ChiTiet' : 'Xóa đề tài thành công', 'backlink': 'gv/detaicuatoi/'}
-    try:
-        ChucNang.UpdateDuLieu(sql)
-    except Exception as identifier:
-        jsonRender['ChiTiet'] = str(identifier)
-        jsonRender['ThongBao'] = str("Không thành công")
-    return render(request, 'portal/giangvien/thongbao.html', jsonRender)
+    if request.method == "GET":
+        jsonRender = {
+            'title' : 'Sửa đề tài'
+        }
+        return render(request, 'portal/giangvien/sua_detai.html', jsonRender)
+    if request.method == "POST":
+        tenHoatDong = request.POST['tenHoatDong']
+        kiHoatDong = request.POST['kiHoatDong']
+        soLuongTGHD = request.POST['soLuongTGHD']
+        diemHoatDong = request.POST['diemHoatDong']
+        ngayBDHD = request.POST['ngayBDHD']
+        ngayKTHD = request.POST['ngayKTHD']
+        chiTietHD = request.POST['chiTietHD']
+        userID = request.session.get('ID')
+    
+        jsonRender = {'tieude' : 'Thành công', 'ThongBao' : 'Thành Công','ChiTiet' : 'Thêm đề tài thành công', 'backlink': '/'}
+        themHDSql = "INSERT INTO portal_hoatdong (IdUser ,  ChiTiet ,  NgayBD , NgayKT, SoLuong, DiemRL, HoatDong, TenHoatDong, DaDangKi, DangThucHien, Ki) VALUES ({0}, '{1}', '{2}', '{3}', {4}, {5}, {6}, '{7}', {8}, {9}, {10})".format(userID, chiTietHD,ngayBDHD, ngayKTHD,soLuongTGHD, diemHoatDong,1,tenHoatDong,0,0, kiHoatDong)
+        try:
+            ChucNang.UpdateDuLieu(themHDSql)
+        except Exception as exc:
+            jsonRender['ChiTiet'] = str(exc)
+            jsonRender['ThongBao'] = str("Không thành công")
+        return render(request, 'portal/giangvien/thongbao.html', jsonRender)
+# Router /dangki

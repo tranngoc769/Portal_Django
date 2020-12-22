@@ -13,16 +13,24 @@ urlpatterns = [
 
     # Path đề tài
     path('detai/', views.ds_detai, name='ds_detai'),
-    path('detai/<trang>', views.ds_detai, name='ds_detai'),
+    path('detai/<int:trang>', views.ds_detai, name='ds_detai'),
     path('detaicuatoi/', views.my_detai, name='my_detai'),
     path('detaicuatoi/<trang>', views.my_detai, name='my_detai'),
     path('detai/chitiet/<int:detaiID>', views.chitiet_detai, name='chitiet_detai'),
+
     path('them_detai/', views.them_detai, name='them_detai'),
     path('them_hoatdong/', views.them_hoatdong, name='them_hoatdong'),
-    path('detaicuatoi/chitiet/<int:detaiID>', views.chitiet_detaicuatoi, name='chitiet_detaicuatoi'),
-
     path('sua_detai/<int:detaiID>', views.sua_detai, name='sua_detai'),
-    path('xoa_detai/<int:detaiID>', views.xoa_detai, name='xoa_detai')
-
+    path('xoa_detai/<int:detaiID>', views.xoa_detai, name='xoa_detai'),
+    
+    # 
+    
+    path('hoatdong/', views.ds_hoatdong, name='ds_hoatdong'),
+    path('hoatdong/<int:trang>', views.ds_hoatdong, name='ds_hoatdong'),
+    # path('detai/<trang>', views.ds_detai, name='ds_detai'),
+    path('hoatdongcuatoi/', views.my_hoatdong, name='my_hoatdong'),
+    path('hoatdongcuatoi/<int:trang>', views.my_hoatdong, name='my_hoatdong'),
+    # path('detai/chitiet/<int:detaiID>', views.chitiet_detai, name='chitiet_detai'),
+    
     
 ]

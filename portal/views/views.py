@@ -135,14 +135,12 @@ def chitietdetai(request, detaiID):
     if (len(temp['data']) < 1):
         return redirect('/dangxuat')
     userId = temp['data'][0]['IdUser']
-
     checkDkSQL = "select * from portal_detaidadangky where IdUser='{0}' and IdDetai ={1}".format(
         userId, detaiID)
     temp = ChucNang.TruyVanDuLieu(checkDkSQL)
     daDangki = False
     if (len(temp['data']) > 0):
         daDangki = True
-
     DiemTrungBinhSQL = "SELECT Diem from portal_diemtrungbinh where userID='{0}'".format(
         userId)
     temp = ChucNang.TruyVanDuLieu(DiemTrungBinhSQL)
@@ -194,6 +192,9 @@ def chitiethoatdong(request, hoatdongID):
     data = {
         'HoatDong': chitietHoatDong['data'][0]
     }
+    if (request.session['Quyen'] != 3):
+        data['ChoDK'] = False
+        return render(request, 'portal/sinhvien/chitiet_hoatdong.html', data)
     TenDangNhap = request.session['TenDangNhap']
     getUserIDSql = "select IdUser from portal_nguoidung where TenNguoiDung='{0}'".format(
         TenDangNhap)
