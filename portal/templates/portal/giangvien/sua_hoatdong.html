@@ -1,0 +1,81 @@
+{% extends "../../pages/base.html " %} {% load static %} {% block title %} {{title}} {% endblock %} {% block content %}
+<div class="page-wrapper ">
+    <!-- Preloader -->
+    <div class="preloader "></div>
+    <!-- Main Header-->
+    {% include './header.html' %}
+    <!-- End -->
+    <div class="sidebar-page-container ">
+        <div class="edit-cource-section ">
+            <div class="auto-container ">
+                <!-- Sec Title -->
+                <div class="sec-title ">
+                    <div class="clearfix ">
+                        <div class="pull-left ">
+                            <h4>Sửa hoạt động</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="inner-container ">
+                    <div class="row clearfix ">
+                        <!-- Left Column -->
+                        <div class="left-column col-lg-12 col-md-12 col-sm-12 ">
+                            <div class="inner-column ">
+                                <!-- Edit Course Form -->
+                                <div class="edit-course-form ">
+                                    <form method="POST" action="{% url 'sua_HoatDong' %}">
+                                        <!-- Form Group -->
+                                        <div class="form-group ">
+                                            <label>Tên hoạt động</label>
+                                            <input type="text" name="tenHoatDong" value="" placeholder="Tên hoạt động" required=" ">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Kì</label>
+                                            <select class="custom-select-box" name="kiHoatDong" style="display: none;">
+                                                <option value="1">Kì 1</option>
+                                                <option value="2">Kì 2</option>
+                                                <option value="3">Kì 3</option>
+                                                <option value="4">Kì 4</option>
+                                                <option value="5">Kì 5</option>
+                                                <option value="6">Kì 6</option>
+                                                <option value="7">Kì 7</option>
+                                                <option value="8">Kì 8</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label>Số lượng sinh viên</label>
+                                            <input type="number" name="soLuongTGHD" value="" placeholder="Số lượng tối đa" required=" ">
+                                        </div>
+                                        <div class="form-group ">
+                                            <label>Điểm rèn luyện</label>
+                                            <input type="number" name="diemHoatDong" value="" placeholder="Điểm rèn luyện" required=" ">
+                                        </div>
+                                        <div class="form-group ">
+                                            <label>Ngày bắt đầu</label>
+                                            <input type="date" name="ngayBDHD" value="" placeholder="Ngày bắt đầu" required=" ">
+                                        </div>
+                                        <div class="form-group ">
+                                            <label>Ngày kết thúc</label>
+                                            <input type="date" name="ngayKTHD" value="" placeholder="Ngày kết thúc" required=" ">
+                                        </div>
+                                        <div class="form-group ">
+                                            <label>Chi Tiết</label>
+                                            <textarea name="chiTietHD" value="" placeholder="Chi tiết" required=" "></textarea>
+                                        </div>
+                                        <!-- Form Group -->
+                                        <div class="form-group ">
+                                            <button type="submit" class="theme-btn btn-style-two "><span class="txt ">Thêm</span></button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include './sidebar.html' %}
+    <!-- End -->
+    {% endblock %}

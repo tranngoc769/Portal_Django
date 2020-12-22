@@ -566,4 +566,37 @@ def sua_detai(request, detaiID):
             jsonRender['ChiTiet'] = str(exc)
             jsonRender['ThongBao'] = str("Không thành công")
         return render(request, 'portal/giangvien/thongbao.html', jsonRender)
+# Sua de tai
+def xoa_hoatdong(request, detaiID):
+    sql = "UPDATE portal_hoatdong SET HoatDong = 0 WHERE IdDeTai = {0}".format(detaiID)
+    jsonRender = {'tieude' : 'Thành công', 'ThongBao' : 'Thành Công','ChiTiet' : 'Xóa hoạt động thành công', 'backlink': '../hoatdongcuatoi/'}
+    try:
+        ChucNang.UpdateDuLieu(sql)
+    except Exception as identifier:
+        jsonRender['ChiTiet'] = str(identifier)
+        jsonRender['ThongBao'] = str("Không thành công")
+    return render(request, 'portal/giangvien/thongbao.html', jsonRender)
+def sua_hoatdong(request, detaiID):
+    if request.method == "GET":
+        jsonRender = {
+            'title' : 'Sửa hoạt động'
+        }
+        return render(request, 'portal/giangvien/sua_hoatdong.html', jsonRender)
+    if request.method == "POST":
+        tenHoatDong = request.POST['tenHoatDong']
+        kiHoatDong = request.POST['kiHoatDong']
+        soLuongTGHD = request.POST['soLuongTGHD']
+        diemHoatDong = request.POST['diemHoatDong']
+        ngayBDHD = request.POST['ngayBDHD']
+        ngayKTHD = request.POST['ngayKTHD']
+        chiTietHD = request.POST['chiTietHD']
+        userID = request.session.get('ID')
+        jsonRender = {'tieude' : 'Thành công', 'ThongBao' : 'Thành Công','ChiTiet' : 'Thêm đề tài thành công', 'backlink': '/'}
+        themHDSql = "INSERT INTO portal_hoatdong (IdUser ,  ChiTiet ,  NgayBD , NgayKT, SoLuong, DiemRL, HoatDong, TenHoatDong, DaDangKi, DangThucHien, Ki) VALUES ({0}, '{1}', '{2}', '{3}', {4}, {5}, {6}, '{7}', {8}, {9}, {10})".format(userID, chiTietHD,ngayBDHD, ngayKTHD,soLuongTGHD, diemHoatDong,1,tenHoatDong,0,0, kiHoatDong)
+        try:
+            ChucNang.UpdateDuLieu(themHDSql)
+        except Exception as exc:
+            jsonRender['ChiTiet'] = str(exc)
+            jsonRender['ThongBao'] = str("Không thành công")
+        return render(request, 'portal/giangvien/thongbao.html', jsonRender)
 # Router /dangki
