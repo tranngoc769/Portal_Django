@@ -12,7 +12,7 @@ from . import chucnang as ChucNang
 def kiemTraCookie(request):
     print(request)
 
-# Danh sách đề tài
+# Danh sách đề tàisd
 def dsDetai(request):
     search = ""
     try:

@@ -1,0 +1,80 @@
+{% extends "../../pages/base.html" %} {% load static %} {% block title %} Quản lý {{LoaiNguoiDung}} {% endblock %} {% block content %}
+
+<div class="page-wrapper">
+    <!-- Preloader -->
+    <div class="preloader"></div>
+    <!-- Main Header-->
+    {% include './header.html' %} {% comment %} End {% endcomment %}
+    <div class="sidebar-page-container">
+        <div class="auto-container">
+            <div class="container-xl">
+                <div class="table-responsive">
+                    <div class="table-wrapper">
+                        <div class="table-title">
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <h2>Quản lý <b>{{LoaiNguoiDung}}</b></h2>
+                                </div>
+                                <div class="col-sm-7">
+                                    <form></form>
+                                    <a href="/admin/them_nguoidung/" class="btn btn-secondary"><i class="material-icons">&#xE147;</i> <span>Thêm {{LoaiNguoiDung}}</span></a>
+                                    <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE24D;</i> <span>Export ra Excel</span></a>
+                                    <a id="importExcel_a" href="#" type="file" class="btn btn-secondary"><i class="material-icons">&#xE24D;</i> <span>Import từ Excel</span></a>
+                                    <input accept=".xls,.xlsx" mask="{{NguoiDung}}" hidden id="importExcel" type="file" />
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Tiêu đề</th>
+                                    <th>Ngày thông báo</th>
+                                    <th style="width: 200px;">Thao Tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for nguoiDung in DS_NguoiDung %}
+                                <tr>
+                                    <td>{{nguoiDung.IdThongBao}}</td>
+                                    <td>
+                                        <b>{{nguoiDung.TieuDe}}</b>
+                                    </td>
+                                    <td>{{nguoiDung.NgayThongBao|date:'Y-m-d'}}</td>
+                                    <td style="width: 200px;">
+                                        <a href="/admin/chitiet_thongbao/{{nguoiDung.IdThongBao}}" class="settings" title="Xem" data-toggle="tooltip">
+                                            <i class="material-icons">pageview</i>
+                                        </a>
+                                        <a href="/admin/sua_thongbao/{{nguoiDung.IdThongBao}}" class="settings" title="Sửa" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
+                                        <a href="/admin/xoa_thongbao/{{nguoiDung.IdThongBao}}" class="delete delete-user" nguoiDungID="{{nguoiDung.id}}" title="Xóa" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <div class="clearfix">
+                            <div class="hint-text">Hiển thị <b>{{SoNguoiDung}}</b> trên tổng số <b>{{TongNguoiDung}}</b> {{LoaiNguoiDung}}</div>
+                            <ul class="pagination">
+                                {% if TrangHienTai > 5 %}
+                                <li class="page-item"><a href="/admin/{{NguoiDung}}/">Trang đầu</a></li>
+                                {% endif %} {% if TrangHienTai > 1 %}
+                                <li class="page-item"><a href="/admin/{{NguoiDung}}/{{TrangTruoc}}">Trang trước</a></li>
+                                {% endif %} {% for trang in SoTrang %} {% if TrangHienTai == trang %}
+                                <li class="page-item active"><a href="#" class="page-link">{{trang}}</a></li>
+                                {% else %}
+                                <li class="page-item"><a href="/admin/{{NguoiDung}}/{{trang}}" class="page-link">{{trang}}</a></li>
+                                {% endif %} {% endfor %} {% if TrangHienTai != TongTrang %}
+                                <li class="page-item"><a href="/admin/{{NguoiDung}}/{{TrangSau}}">Trang sau</a></li>
+                                {% endif %} {% if TrangHienTai < TongTrang|add:-5 %} <li class="page-item"><a href="/admin/{{NguoiDung}}/{{TongTrang}}">Trang cuối</a></li>
+                                    {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Footer -->
+    <!-- Sidebar Nav -->
+    {% include './sidebar.html' %} {% endblock %}

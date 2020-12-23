@@ -11,5 +11,8 @@ urlpatterns = [
     path('giangvien/', views.quanly_giangvien, name='quanly_giangvien'),
     path('giangvien/<trang>', views.quanly_giangvien, name='quanly_giangvien'),
     # Path thông báo
+    path('thongbao/', views.quanly_thongbao, name='quanly_thongbao'),
+    path('thongbao/<trang>', views.quanly_thongbao, name='quanly_thongbao'),
     path('import/<loai>', views.importExcel, name='importExcel'),
+
 ]

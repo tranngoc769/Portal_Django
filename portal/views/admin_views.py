@@ -89,6 +89,34 @@ def quanly_giangvien(request, trang=1):  # Mặc định trang = 1
     # Tạo JSON để render --> chứa phân trang, ds người dùng
     content = taoJsonQLNguoiDung(dsGiangVien_phanTrang, trangHienTai, 'giangvien')
     return render(request, 'portal/admin/ql_nguoidung.html', content)
+
+def quanly_thongbao(request, trang=1):  # Mặc định trang = 1
+    trangHienTai = int(trang)
+    # Lấy danh sách sinh viên theo trang / mỗi trang
+    dsThongBao_phanTrang = danhSachThongBao(trangHienTai, MoiTrang)
+    # Tạo JSON để render --> chứa phân trang, ds người dùng
+    content = taoJsonQLNguoiDung(dsThongBao_phanTrang, trangHienTai, 'thongbao')
+    return render(request, 'portal/admin/ql_thongbao.html', content)
+
+def danhSachThongBao(trang, moitrang,search=""):
+    dsDetai = tatCaThongBao(search)
+    tongDetai = len(dsDetai['data'])
+    # Tổng số trang = tổng sinh viên / số sV mỗi trang , làm tròn lên
+    tongTrang = math.ceil(tongDetai / moitrang)
+    if (trang > tongTrang):
+        trang = tongTrang  # VD : tổng 4 trang, yêu cầu trang 4 --> chỉ load tới trang 3
+    if (trang < 1):
+        trang = 1  # VD : tổng 4 trang, yêu cầu trang 4 --> chỉ load tới trang 3
+    sql = """SELECT * from portal_thongbao where portal_thongbao.ChiTiet LIKE '%{0}%' OR portal_thongbao.TieuDe LIKE '%{1}%'
+            LIMIT {2} OFFSET {3}
+            """.format(search,search,moitrang, (trang-1)*moitrang)  # Offset bắt đầu từ 0 --> trang - 1, công thức phân trang sql
+    dsDeTai_PhanTrang = ChucNang.TruyVanDuLieu(sql)
+    dsDeTai_PhanTrang['SoDeTai'] = len(dsDetai['data'])
+    dsDeTai_PhanTrang['SoTrang'] = tongTrang
+    return dsDeTai_PhanTrang
+def tatCaThongBao(search=""):
+    danhSachDeTai = ChucNang.TruyVanDuLieu("""SELECT * from portal_thongbao where portal_thongbao.ChiTiet LIKE '%{0}%' OR portal_thongbao.TieuDe LIKE '%{1}%'""".format(search,search))
+    return danhSachDeTai
 # Hàm logic
 def danhSachNguoiDung(trang, moitrang, quyen):
     dsNguoiDung = tatCaNguoiDung(quyen)
@@ -154,12 +182,15 @@ def taoJsonQLNguoiDung(dsNguoiDung, trangHienTai, loaiNguoiDung):
     if loaiNguoiDung == 'giangvien':
         tenLoai = "giảng viên"
     if loaiNguoiDung == 'sinhvien':
-        tenLoai = "sinh viên"
+              tenLoai = "sinh viên"
+    if loaiNguoiDung == 'thongbao':
+              tenLoai = "thông báo"
+    
     content = {
         'NguoiDung': loaiNguoiDung,
         'LoaiNguoiDung': tenLoai,
         'DS_NguoiDung': dsNguoiDung['data'],
-        'TongNguoiDung': dsNguoiDung['SoNguoiDung'],
+        'TongNguoiDung': dsNguoiDung['SoDeTai'],
         'SoTrang': dsTrang,
         'TrangHienTai': trangHienTai,
         'TongTrang': tongSoTrang,
