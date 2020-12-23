@@ -76,8 +76,7 @@
                                 <li class="page-item"><a href="/gv/{{Flag}}/{{trang}}" class="page-link">{{trang}}</a></li>
                                 {% endif %} {% endfor %} {% if TrangHienTai != TongTrang %}
                                 <li class="page-item"><a href="/gv/{{Flag}}/{{TrangSau}}">Trang sau</a></li>
-                                {% endif %} {% if TrangHienTai
-                                < TongTrang|add:-5 %} <li class="page-item"><a href="/gv/{{Flag}}/{{TongTrang}}">Trang cuối</a></li>
+                                {% endif %} {% if TrangHienTai < TongTrang|add:-5 %} <li class="page-item"><a href="/gv/{{Flag}}/{{TongTrang}}">Trang cuối</a></li>
                                     {% endif %}
                             </ul>
                         </div>
