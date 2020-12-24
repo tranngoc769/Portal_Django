@@ -255,3 +255,30 @@ def importExcel(request, loai):
         return HttpResponse(json.dumps(resp))
     return HttpResponse(json.dumps({'code': 403, 'msg': 'Not allow method'}))
 # 
+# Chi tiet thong bao 
+def chitiet_thongbao(request, idTB):
+    sql = "SELECT * FROM portal_thongbao WHERE IdThongBao={0}".format(idTB)
+    data = ChucNang.TruyVanDuLieu(sql)
+    chitiet = data['data'][0]
+    return render(request, 'portal/admin/chitiet_thongbao.html', {'ThongBao':chitiet})
+# Chi tiet thong bao 
+
+@csrf_exempt
+def sua_thongbao(request, idTB):
+    if request.method == "GET":
+        sql = "SELECT * FROM portal_thongbao WHERE IdThongBao={0}".format(idTB)
+        data = ChucNang.TruyVanDuLieu(sql)
+        chitiet = data['data'][0]
+        return render(request, 'portal/admin/sua_thongbao.html', {'ThongBao':chitiet})
+    else:
+        tenHoatDong = request.POST['tenThongBao']
+        Ngay = request.POST['ngayKTHD']
+        ChiTiet = request.POST['chiTietHD']
+        jsonRender = {'tieude' : 'Thành công', 'ThongBao' : 'Thành Công','ChiTiet' : 'Sửa thông báo thành công', 'backlink': '/admin/sua_thongbao/{0}'.format(idTB)}
+        updatesql = "UPDATE portal_thongbao SET ChiTiet  = '{0}',  TieuDe = '{1}',  NgayThongBao = '{2}' WHERE  IdThongBao  = {3}".format(ChiTiet,tenHoatDong, Ngay,idTB)
+        try:
+            ChucNang.UpdateDuLieu(updatesql)
+        except Exception as exc:
+            jsonRender['ChiTiet'] = str(exc)
+            jsonRender['ThongBao'] = str("Không thành công")
+        return render(request, 'portal/giangvien/thongbao.html', jsonRender)

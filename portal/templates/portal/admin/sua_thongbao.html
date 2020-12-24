@@ -1,0 +1,56 @@
+{% extends "../../pages/base.html " %} {% load static %} {% block title %} Sửa thông báo {% endblock %} {% block content %}
+<div class="page-wrapper ">
+    <!-- Preloader -->
+    <div class="preloader "></div>
+    <!-- Main Header-->
+    {% include './header.html' %}
+    <!-- End -->
+    <div class="sidebar-page-container ">
+        <div class="edit-cource-section ">
+            <div class="auto-container ">
+                <!-- Sec Title -->
+                <div class="sec-title ">
+                    <div class="clearfix ">
+                        <div class="pull-left ">
+                            <h4>Sửa thông báo</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="inner-container ">
+                    <div class="row clearfix ">
+                        <!-- Left Column -->
+                        <div class="left-column col-lg-12 col-md-12 col-sm-12 ">
+                            <div class="inner-column ">
+                                <!-- Edit Course Form -->
+                                <div class="edit-course-form ">
+                                    <form method="POST" action="/admin/sua_thongbao/{{ThongBao.IdThongBao}}">
+                                        <!-- Form Group -->
+                                        <div class="form-group ">
+                                            <label>Tiêu đề</label>
+                                            <input type="text" name="tenThongBao" value="{{ThongBao.TieuDe}}" placeholder="Tiêu Đề" required=" ">
+                                        </div>
+                                        <div class="form-group ">
+                                            <label>Ngày thông báo</label>
+                                            <input type="date" name="ngayKTHD" value="{{ThongBao.NgayThongBao|date:'Y-m-d'}}" placeholder="Ngày thông báo" required=" ">
+                                        </div>
+                                        <div class="form-group ">
+                                            <label>Chi Tiết</label>
+                                            <textarea name="chiTietHD" value="" placeholder="Chi tiết" required=" ">{{ThongBao.ChiTiet}}</textarea>
+                                        </div>
+                                        <!-- Form Group -->
+                                        <div class="form-group ">
+                                            <button type="submit" class="theme-btn btn-style-two "><span class="txt ">Cập nhật</span></button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include './sidebar.html' %}
+    <!-- End -->
+    {% endblock %}

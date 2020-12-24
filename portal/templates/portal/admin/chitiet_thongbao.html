@@ -1,0 +1,46 @@
+{% extends "../../pages/base.html" %} {% load static %} {% block title %} Chi Tiết Thông Báo {% endblock %} {% block content %}
+<div class="page-wrapper">
+    <div class="preloader"></div>
+    {% include './header.html' %}
+    <div class="sidebar-page-container">
+        <div class="auto-container">
+            <div class="course-detail-section">
+                <div class="auto-container">
+                    <div class="upper-content">
+                        <div class="row clearfix">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="row">
+                                    <div class="inner-column col-sm-6">
+                                        <h2>Tiêu Đề : {{ThongBao.TieuDe}}</h2>
+                                    </div>
+                                    <div class="lower-content col-sm-6">
+                                        <div class="instructor-info-tabs">
+                                            <div class="instructor-tabs tabs-box">
+                                                <div class="tabs-content">
+                                                    <div class="tab active-tab" id="prod-about">
+                                                        <div class="content">
+                                                            <h6>Thời gian : </h6>
+                                                            <ul class="list-style-one">
+                                                                <li>
+                                                                    <p>Ngày thông báo: {{ThongBao.NgayThongBao|date:'d-m-Y'}}</p>
+                                                                </li>
+                                                            </ul>
+                                                            <h6>Chi tiết : </h6>
+                                                            <div class="text">
+                                                                <p>{{ThongBao.ChiTiet}}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include './sidebar.html' %} {% endblock %}
