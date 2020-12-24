@@ -282,3 +282,49 @@ def sua_thongbao(request, idTB):
             jsonRender['ChiTiet'] = str(exc)
             jsonRender['ThongBao'] = str("Không thành công")
         return render(request, 'portal/giangvien/thongbao.html', jsonRender)
+
+@csrf_exempt
+def sua_thongbao(request, idTB):
+    if request.method == "GET":
+        sql = "SELECT * FROM portal_thongbao WHERE IdThongBao={0}".format(idTB)
+        data = ChucNang.TruyVanDuLieu(sql)
+        chitiet = data['data'][0]
+        return render(request, 'portal/admin/sua_thongbao.html', {'ThongBao':chitiet})
+    else:
+        tenHoatDong = request.POST['tenThongBao']
+        Ngay = request.POST['ngayKTHD']
+        ChiTiet = request.POST['chiTietHD']
+        jsonRender = {'tieude' : 'Thành công', 'ThongBao' : 'Thành Công','ChiTiet' : 'Sửa thông báo thành công', 'backlink': '/admin/sua_thongbao/{0}'.format(idTB)}
+        updatesql = "UPDATE portal_thongbao SET ChiTiet  = '{0}',  TieuDe = '{1}',  NgayThongBao = '{2}' WHERE  IdThongBao  = {3}".format(ChiTiet,tenHoatDong, Ngay,idTB)
+        try:
+            ChucNang.UpdateDuLieu(updatesql)
+        except Exception as exc:
+            jsonRender['ChiTiet'] = str(exc)
+            jsonRender['ThongBao'] = str("Không thành công")
+        return render(request, 'portal/giangvien/thongbao.html', jsonRender)
+@csrf_exempt
+def them_thongbao(request):
+    if (request.method == "GET"):
+        return render(request, 'portal/admin/them_thongbao.html')
+    else:
+        tenHoatDong = request.POST['tenThongBao']
+        Ngay = request.POST['ngayKTHD']
+        ChiTiet = request.POST['chiTietHD']
+        jsonRender = {'tieude' : 'Thành công', 'ThongBao' : 'Thành Công','ChiTiet' : 'Thêm thông báo thành công', 'backlink': '/admin/thongbao'}
+        updatesql = "INSERT INTO `portal`.`portal_thongbao`(`ChiTiet`, `NgayThongBao`, `TieuDe`) VALUES ('{0}', '{1}', '{2}')".format(ChiTiet, Ngay,tenHoatDong)
+        try:
+            ChucNang.UpdateDuLieu(updatesql)
+        except Exception as exc:
+            jsonRender['ChiTiet'] = str(exc)
+            jsonRender['ThongBao'] = str("Không thành công")
+        return render(request, 'portal/giangvien/thongbao.html', jsonRender)
+
+def xoa_thongbao(request, idTB):
+    sql = "DELETE FROM `portal`.`portal_thongbao` WHERE `IdThongBao` = {0}".format(idTB)
+    jsonRender = {'tieude' : 'Thành công', 'ThongBao' : 'Thành Công','ChiTiet' : 'Xóa thông báo thành công', 'backlink': '/admin/thongbao'}
+    try:
+        ChucNang.UpdateDuLieu(sql)
+    except Exception as exc:
+        jsonRender['ChiTiet'] = str(exc)
+        jsonRender['ThongBao'] = str("Không thành công")
+    return render(request, 'portal/giangvien/thongbao.html', jsonRender)

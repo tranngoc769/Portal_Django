@@ -1,4 +1,4 @@
-{% extends "../../pages/base.html " %} {% load static %} {% block title %} {{title}} {% endblock %} {% block content %}
+{% extends "../../pages/base.html " %} {% load static %} {% block title %} Thêm thông báo {% endblock %} {% block content %}
 <div class="page-wrapper ">
     <!-- Preloader -->
     <div class="preloader "></div>
@@ -23,47 +23,23 @@
                             <div class="inner-column ">
                                 <!-- Edit Course Form -->
                                 <div class="edit-course-form ">
-                                    <form method="POST" action="{% url 'them_detai' %}">
+                                    <form method="POST" action="/admin/them_thongbao">
                                         <!-- Form Group -->
                                         <div class="form-group ">
-                                            <label>Tên đề tài</label>
-                                            <input type="text" name="tenDeTai" value="" placeholder="Tên đề tài" required=" ">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Khóa</label>
-                                            <select class="custom-select-box" name="khoaDeTai" style="display: none;">
-                                            {% for khoa in DsKhoa %}
-                                                <option value="{{khoa.IdKhoa}}">{{khoa.TenKhoa}}</option>
-                                            {% endfor %}
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Loại</label>
-                                            <select class="custom-select-box" name="loaiDeTai" style="display: none;">
-                                                {% for loai in DsLoai %}
-                                                <option value="{{loai.IdLoai}}">{{loai.TenLoai}}</option>
-                                                {% endfor %}
-                                            </select>
+                                            <label>Tiêu đề</label>
+                                            <input type="text" name="tenThongBao" placeholder="Tiêu Đề" required=" ">
                                         </div>
                                         <div class="form-group ">
-                                            <label>Số lượng sinh viên</label>
-                                            <input type="number" name="soLuongDKDeTai" value="" placeholder="Số lượng tối đa" required=" ">
-                                        </div>
-                                        <div class="form-group ">
-                                            <label>Ngày bắt đầu</label>
-                                            <input type="date" name="ngayBDDeTai" value="" placeholder="Ngày bắt đầu" required=" ">
-                                        </div>
-                                        <div class="form-group ">
-                                            <label>Ngày kết thúc</label>
-                                            <input type="date" name="ngayKTDeTai" value="" placeholder="Ngày kết thúc" required=" ">
+                                            <label>Ngày thông báo</label>
+                                            <input type="date" name="ngayKTHD" placeholder="Ngày thông báo" required=" ">
                                         </div>
                                         <div class="form-group ">
                                             <label>Chi Tiết</label>
-                                            <textarea name="chiTiet" value="" placeholder="Chi tiết" required=" "></textarea>
+                                            <textarea name="chiTietHD" value="" placeholder="Chi tiết" required=" "></textarea>
                                         </div>
                                         <!-- Form Group -->
                                         <div class="form-group ">
-                                            <button type="submit" class="theme-btn btn-style-two "><span class="txt ">Thêm</span></button>
+                                            <button type="submit" class="theme-btn btn-style-two "><span class="txt ">Cập nhật</span></button>
                                         </div>
                                     </form>
                                 </div>

@@ -14,6 +14,8 @@ urlpatterns = [
     path('thongbao/', views.quanly_thongbao, name='quanly_thongbao'),
     path('thongbao/<trang>', views.quanly_thongbao, name='quanly_thongbao'),
     path('import/<loai>', views.importExcel, name='importExcel'),
+    path('xoa_thongbao/<int:idTB>', views.xoa_thongbao, name='xoa_thongbao'),
     path('chitiet_thongbao/<int:idTB>', views.chitiet_thongbao, name='chitiet_thongbao'),
     path('sua_thongbao/<int:idTB>', views.sua_thongbao, name='sua_thongbao'),
+    path('them_thongbao', views.them_thongbao, name='them_thongbao'),
 ]
