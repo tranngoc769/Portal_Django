@@ -185,12 +185,16 @@ def taoJsonQLNguoiDung(dsNguoiDung, trangHienTai, loaiNguoiDung):
               tenLoai = "sinh viên"
     if loaiNguoiDung == 'thongbao':
               tenLoai = "thông báo"
-    
+    tongso = 0
+    try:
+        tongso = dsNguoiDung['SoNguoiDung']
+    except:
+        tongso = dsNguoiDung['SoDeTai']
     content = {
         'NguoiDung': loaiNguoiDung,
         'LoaiNguoiDung': tenLoai,
         'DS_NguoiDung': dsNguoiDung['data'],
-        'TongNguoiDung': dsNguoiDung['SoDeTai'],
+        'TongNguoiDung': tongso,
         'SoTrang': dsTrang,
         'TrangHienTai': trangHienTai,
         'TongTrang': tongSoTrang,
