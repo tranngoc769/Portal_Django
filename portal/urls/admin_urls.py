@@ -22,5 +22,5 @@ urlpatterns = [
     path('dshoatdong/', views.quanly_hoatdong, name='quanlyhoatdong'),
     path('hoatdong/chitiet/<int:id>', views.chitiethoatdong, name='chitiethoatdong'),
     path('hoatdong/diemdanh/', views.diemdanh, name='diemdanh'),
-    path('hoatdong/exportHoatDong/<int:id>', views.exportHoatDong, name='export'),
+    path('hoatdong/export/<int:id>', views.exportHoatDong, name='export'),
 ]

@@ -1,4 +1,4 @@
-
+import csv
 import openpyxl
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
@@ -405,7 +405,42 @@ def diemdanh(request):
         return HttpResponse(json.dumps(resp))
 def exportHoatDong(request, id):
     if request.method == "GET":
-       pass
+        sql ="""
+                     SELECT
+                portal_hoatdongdadangky.IdHoatDong,
+                portal_hoatdongdadangky.IdUser,
+                portal_nguoidung.TenNguoiDung,
+                portal_nguoidung.HoTen,
+                portal_nguoidung.Khoa,
+                portal_nguoidung.SDT,
+                portal_nguoidung.Email,
+                portal_hoatdongdadangky.NgayDKHD,
+                hoatdong_nguoidung.HoTen as NguoiDH,
+                hoatdong_nguoidung.TenHoatDong,
+                hoatdong_nguoidung.Ki,
+                portal_hoatdongdadangky.DaChamDiem
+                FROM
+                portal_hoatdongdadangky
+                JOIN portal_nguoidung ON portal_nguoidung.IdUser = portal_hoatdongdadangky.IdUser
+                JOIN (SELECT HoTen,DiemRL, Ki,IdHoatDong, TenHoatDong FROM portal_hoatdong JOIN portal_nguoidung on portal_nguoidung.IdUser = portal_hoatdong.IdUser) AS hoatdong_nguoidung ON hoatdong_nguoidung.IdHoatDong= portal_hoatdongdadangky.IdHoatDong
+            WHERE portal_hoatdongdadangky.IdHoatDong = {0}
+        """.format(id)
+        dataexport_res = ChucNang.TruyVanDuLieu(sql)
+        header = 0
+        try:
+            for item in dataexport_res['data']:
+                with open('csvfile.csv', mode='w', encoding='UTF-8') as csvfile:
+                    csvfile_writer_writer = csv.writer(csvfile, delimiter=',')
+                    if (header ==0):
+                        csvfile_writer_writer.writerow(['IDHoatDong', 'IdUser', 'MSSV', 'HoTen', 'Khoa', 'SDT', 'Email', 'NgayDKHD', 'NguoiDH', 'TenHoatDong', 'Ki', 'DaDiemDanh'])
+                        header = 1
+                    csvfile_writer_writer.writerow([str(item['IdHoatDong']), str(item['IdUser']), str(item['TenNguoiDung']), str(item['HoTen']), str(item['Khoa']), str(item['SDT']),str(item['Email']), item['NgayDKHD'].strftime("%m/%d/%Y %H:%M:%S"), str(item['NguoiDH']), str(item['TenHoatDong']), str(item['Ki']), str(item['DaChamDiem'])])
+            with open('csvfile.csv') as myfile:
+                response = HttpResponse(myfile, content_type='text/csv')
+                response['Content-Disposition'] = 'attachment; filename=csvfile.csv'
+                return response
+        except  Exception as err:
+            print(err)
 @csrf_exempt
 def them_thongbao(request):
     if (request.method == "GET"):
