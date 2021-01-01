@@ -176,6 +176,10 @@ def chitietdetai(request, detaiID):
     return render(request, 'portal/sinhvien/chitiet_detai.html', data)
 # Chi tiết hoạt động
 def chitiethoatdong(request, hoatdongID):
+    if (request.session['Quyen'] != 1):
+        
+        pass
+        # Trang admin
     sql = """
             SELECT
                   portal_hoatdong.IdHoatDong,

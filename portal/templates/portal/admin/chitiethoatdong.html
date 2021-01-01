@@ -1,0 +1,118 @@
+{% extends "../../pages/base.html" %} {% load static %} {% block title %} Chi Tiết Thông Báo {% endblock %} {% block content %}
+<div class="page-wrapper">
+    <div class="preloader"></div>
+    {% include './header.html' %}
+    <div class="sidebar-page-container">
+        <div class="auto-container">
+            <div class="course-detail-section">
+                <div class="auto-container">
+                    <div class="upper-content">
+                        <div class="row clearfix">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="row">
+                                    <div class="inner-column col-sm-6">
+                                        <h2>Tên : {{HoatDong.TenHoatDong}}</h2>
+                                        <ul class="list-style-one">
+                                            <li>
+                                                <h6>Ngày bắt đầu : {{HoatDong.NgayBD|date:'d-m-Y'}}</h6>
+                                            </li>
+                                            <li>
+                                                <h6>Ngày kết thúc : {{HoatDong.NgayKT|date:'d-m-Y'}}</h6>
+                                            </li>
+                                            <li>
+                                                <h6>Số lượng: {{HoatDong.SoLuong}}</h6>
+                                            </li>
+                                            <li>
+                                                <h6>Đã đăng ký : {{HoatDong.DaDangKi}}</h6>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="lower-content col-sm-6">
+                                        <div class="instructor-info-tabs">
+                                            <div class="instructor-tabs tabs-box">
+                                                <div class="tabs-content">
+                                                    <div class="tab active-tab" id="prod-about">
+                                                        <div class="content">
+                                                            <h6>Thời gian : </h6>
+                                                            <ul class="list-style-one">
+                                                                <li>
+                                                                    <p>Loại hoạt động: {{HoatDong.TenLoaiHD}}</p>
+                                                                </li>
+                                                                <li>
+                                                                    <p>Điểm rèn luyện : {{HoatDong.DiemRL}}</p>
+                                                                </li>
+                                                            </ul>
+                                                            <h6>Chi tiết : </h6>
+                                                            <p style="overflow-wrap: anywhere;
+                                                            overflow-y: auto;">
+                                                                {{HoatDong.ChiTiet}}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row container pt-5">
+                                    <table id="dssv" class="table table-bordered table-definition mb-5">
+                                        <thead class="table-warning ">
+                                            <tr>
+                                                <th></th>
+                                                <th>ID</th>
+                                                <th>Họ Tên</th>
+                                                <th>MSSV</th>
+                                                <th>Điểm</th>
+                                                <th>Kì</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- portal_hoatdongdadangky.IdHDDDK,
+                                          portal_hoatdongdadangky.IdHoatDong,
+                                          portal_hoatdongdadangky.DaChamDiem,
+                                          portal_nguoidung.IdUser,
+                                          portal_nguoidung.TenNguoiDung,
+                                          portal_nguoidung.HoTen,
+                                          portal_hoatdong.DiemRL,
+                                          portal_hoatdong.Ki -->
+                                            {% for nguoiDung in DSThamGia %}
+                                            <tr>
+                                                <td>
+                                                    <label class="custom-control custom-checkbox">
+                                                      <input type="checkbox" uid ="1"  class="custom-control-input" {% if nguoiDung.DaChamDiem == 1 %}checked{% endif %}>
+                                                      <span class="custom-control-indicator"></span>
+                                                  </label>
+                                                </td>
+                                                <td>{{nguoiDung.IdUser}}</td>
+                                                <td>{{nguoiDung.TenNguoiDung}}</td>
+                                                <td>{{nguoiDung.HoTen}}</td>
+                                                <td>{{nguoiDung.DiemRL}}</td>
+                                                <td>{{nguoiDung.Ki}}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th colspan="4" style="border: none;">
+                                                    <button class="btn btn-default" id="chontatca">Chọn tất cả</button>
+                                                    <button class="btn btn-default" id="huychontatca">Hủy chọn tất cả</button>
+                                                </th>
+                                                <th style="border: none;">
+                                                    <button class="btn btn-primary float-right" hd="{{HoatDong.IdHoatDong}}" id="diemDanh">Điểm Danh</button>
+                                                </th>
+                                                <th style="border: none;">
+                                                    <a class="btn btn-primary float-right" id="exportExcel">Export</a></th>
+
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include './sidebar.html' %} {% endblock %}

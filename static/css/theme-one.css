@@ -1,4 +1,5 @@
 @charset "utf-8";
+
 /* CSS Document */
 
 a,
@@ -20,14 +21,15 @@ a,
 .testimonial-block .inner-box:hover .quote,
 .main-footer .links-widget li a:hover,
 .news-block .inner-box .reading,
-.main-menu .navigation > li > a,
+.main-menu .navigation>li>a,
 .certificate-box .box-inner ul li a,
 .news-block .inner-box h6 a:hover,
 .checkout-form .form-group .icon,
 .news-detail .inner-box .lower-content .author,
 .main-footer .logo-widget .social-box a:hover,
 .sidebar-page-container .comments-area .reply-option li a:hover,
-.hidden-bar .pages-list li.active a, .hidden-bar .pages-list li a:hover,
+.hidden-bar .pages-list li.active a,
+.hidden-bar .pages-list li a:hover,
 .main-header .header-right .options-box .profile-box .pages li a:hover,
 .main-header .header-right .options-box .notification-box .view,
 .checkout-tabs .tab-btns .tab-btn.active-btn .icon,
@@ -58,11 +60,13 @@ a,
 .edit-cource-section .right-column .video-boxed .intro-video-box,
 .testview-section .inner-container .upper-box .question-box .question,
 .course-detail-section .upper-content .left-column .intro-video .intro-video-box,
-.hidden-bar .pages-list li:hover a .icon, .hidden-bar .pages-list li.active a .icon,
+.hidden-bar .pages-list li:hover a .icon,
+.hidden-bar .pages-list li.active a .icon,
 .main-header .header-right .options-box .notification-block .inner h3 a:hover,
-.main-header .header-right .options-box .notification-box .notification-box-btn:hover{
-	color:#ff5773;
+.main-header .header-right .options-box .notification-box .notification-box-btn:hover {
+    color: #0498db;
 }
+
 
 /* Background Color */
 
@@ -81,14 +85,16 @@ a,
 .testimonial-section .owl-nav .owl-prev:hover,
 .testimonial-section .owl-nav .owl-next:hover,
 .feature-block-two .inner-box .content .image,
-.main-menu .navigation > li > ul > li:hover > a,
-.main-menu .navigation > li > ul > li > ul > li:hover > a,
+.main-menu .navigation>li>ul>li:hover>a,
+.main-menu .navigation>li>ul>li>ul>li:hover>a,
 .hidden-bar .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar,
-.styled-pagination li.active a, .styled-pagination li:hover a,
+.styled-pagination li.active a,
+.styled-pagination li:hover a,
 .feature-block-three .inner-box:hover .icon,
 .category-page-container .owl-nav .owl-prev:hover,
 .category-page-container .owl-nav .owl-next:hover,
-.ui-state-active, .ui-widget-content .ui-state-active,
+.ui-state-active,
+.ui-widget-content .ui-state-active,
 .help-tabs .tab-btns .tab-btn:before,
 .checkout-tabs .tab-btns .tab-btn:before,
 .course-detail-section .upper-content .right-column .rating .rate,
@@ -104,10 +110,11 @@ a,
 .result-section .inner-container .result-options li:nth-child(2) .icon,
 .introduction-section .inner-box .lower-box .rating .rate,
 .signup-tabs .tab-btns .tab-btn:before,
-.quiz-form .check-box input[type="checkbox"]:checked + label:after,
-.main-header .header-right .options-box .notification-box .notification-alert{
-	background-color:#ff5773;
+.quiz-form .check-box input[type="checkbox"]:checked+label:after,
+.main-header .header-right .options-box .notification-box .notification-alert {
+    background-color: #0498db;
 }
+
 
 /* Light Background Color */
 
@@ -117,20 +124,21 @@ a,
 .main-header .header-left .form-group input[type="search"],
 .main-header .header-right .options-box .notification-box .view,
 .feature-block-two .inner-box .content .dropdown-content span:hover,
-.hidden-bar .pages-list li.active a, .hidden-bar .pages-list li a:hover,
-.main-header .header-right .options-box .profile-box .profile-content .dark-mode .icon{
-	background-color:#fff0f3;
+.hidden-bar .pages-list li.active a,
+.hidden-bar .pages-list li a:hover,
+.main-header .header-right .options-box .profile-box .profile-content .dark-mode .icon {
+    background-color: #fff0f3;
 }
 
-.news-block .inner-box .content .image:before{
-	background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,87,115,.4) 100%);
-    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,87,115,.4) 100%);
+.news-block .inner-box .content .image:before {
+    background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 87, 115, .4) 100%);
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 87, 115, .4) 100%);
 }
 
 .btn-style-one,
 .dashboard-block .inner-box .content .icon-box,
-.earning-block .inner-box .content .icon-box{
-	box-shadow:0px 10px 15px rgba(255,87,115,0.10);
+.earning-block .inner-box .content .icon-box {
+    box-shadow: 0px 10px 15px rgba(255, 87, 115, 0.10);
 }
 
 .video-box .ripple,
@@ -138,17 +146,18 @@ a,
 .video-box .ripple:after,
 .accordion-box .block .play-icon .ripple,
 .accordion-box .block .play-icon .ripple:before,
-.accordion-box .block .play-icon .ripple:after{
-	-webkit-box-shadow: 0 0 0 0 rgba(255,87,115, .6);
-    -moz-box-shadow: 0 0 0 0 rgba(255,87,115, .6);
-    -ms-box-shadow: 0 0 0 0 rgba(255,87,115, .6);
-    -o-box-shadow: 0 0 0 0 rgba(255,87,115, .6);
-    box-shadow: 0 0 0 0 rgba(255,87,115, .6);
+.accordion-box .block .play-icon .ripple:after {
+    -webkit-box-shadow: 0 0 0 0 rgba(255, 87, 115, .6);
+    -moz-box-shadow: 0 0 0 0 rgba(255, 87, 115, .6);
+    -ms-box-shadow: 0 0 0 0 rgba(255, 87, 115, .6);
+    -o-box-shadow: 0 0 0 0 rgba(255, 87, 115, .6);
+    box-shadow: 0 0 0 0 rgba(255, 87, 115, .6);
 }
 
-.edit-cource-section .right-column .video-boxed:before{
-	background-color:rgba(255,87,115,0.50);
+.edit-cource-section .right-column .video-boxed:before {
+    background-color: rgba(255, 87, 115, 0.50);
 }
+
 
 /*Border Color*/
 
@@ -169,7 +178,8 @@ a,
 .comment-form .form-group input[type="email"]:focus,
 .comment-form .form-group select:focus,
 .comment-form .form-group textarea:focus,
-.ui-state-active, .ui-widget-content .ui-state-active,
+.ui-state-active,
+.ui-widget-content .ui-state-active,
 .category-page-container .owl-nav .owl-prev:hover,
 .category-page-container .owl-nav .owl-next:hover,
 .styled-form .form-group textarea:focus,
@@ -187,7 +197,7 @@ a,
 .feedback-form .form-group select:focus,
 .feedback-form .form-group textarea:focus,
 .styled-form .form-group .check-box label:before,
-.styled-form .form-group .check-box input[type="checkbox"]:checked + label:before,
+.styled-form .form-group .check-box input[type="checkbox"]:checked+label:before,
 .setting-form .form-group input[type="text"]:focus,
 .setting-form .form-group input[type="password"]:focus,
 .setting-form .form-group input[type="tel"]:focus,
@@ -195,36 +205,30 @@ a,
 .setting-form .form-group select:focus,
 .setting-form .form-group textarea:focus,
 .quiz-form .form-group textarea:focus,
-.quiz-form .check-box input[type="checkbox"]:checked + label:before,
-.testview-section .inner-container .upper-box .certificate{
-	border-color:#ff5773;
+.quiz-form .check-box input[type="checkbox"]:checked+label:before,
+.testview-section .inner-container .upper-box .certificate {
+    border-color: #0498db;
 }
+
 
 /*RGBA Color Dark*/
 
-@media only screen and (max-width: 767px){
-	
-	.main-menu .navbar-header .navbar-toggle{
-		
-	}
-	
-	.main-menu .navbar-header .navbar-toggle,
-	.main-menu .navbar-collapse > .navigation,
-	.main-menu .navbar-collapse > .navigation > li > ul,
-	.main-menu .navbar-collapse > .navigation > li > ul > li > ul,
-	.main-menu .navbar-collapse > .navigation > li > a,
-	.main-menu .navbar-collapse > .navigation > li > ul > li > a,
-	.main-menu .navbar-collapse > .navigation > li > ul > li > ul > li > a,
-	.main-menu .navbar-collapse > .navigation > li > a:hover,
-	.main-menu .navbar-collapse > .navigation > li > a:active,
-	.main-menu .navbar-collapse > .navigation > li > a:focus,
-	.main-menu .navbar-collapse > .navigation > li:hover > a,
-	.main-menu .navbar-collapse > .navigation > li > ul > li:hover > a,
-	.main-menu .navbar-collapse > .navigation > li > ul > li > ul > li:hover > a,
-	.main-menu .navbar-collapse > .navigation > li.current > a,
-	.main-menu .navbar-collapse > .navigation > li.current-menu-item > a,
-	.header-style-two.inner-header .main-menu .navigation > li > a{
-		
-	}
-	
+@media only screen and (max-width: 767px) {
+    .main-menu .navbar-header .navbar-toggle {}
+    .main-menu .navbar-header .navbar-toggle,
+    .main-menu .navbar-collapse>.navigation,
+    .main-menu .navbar-collapse>.navigation>li>ul,
+    .main-menu .navbar-collapse>.navigation>li>ul>li>ul,
+    .main-menu .navbar-collapse>.navigation>li>a,
+    .main-menu .navbar-collapse>.navigation>li>ul>li>a,
+    .main-menu .navbar-collapse>.navigation>li>ul>li>ul>li>a,
+    .main-menu .navbar-collapse>.navigation>li>a:hover,
+    .main-menu .navbar-collapse>.navigation>li>a:active,
+    .main-menu .navbar-collapse>.navigation>li>a:focus,
+    .main-menu .navbar-collapse>.navigation>li:hover>a,
+    .main-menu .navbar-collapse>.navigation>li>ul>li:hover>a,
+    .main-menu .navbar-collapse>.navigation>li>ul>li>ul>li:hover>a,
+    .main-menu .navbar-collapse>.navigation>li.current>a,
+    .main-menu .navbar-collapse>.navigation>li.current-menu-item>a,
+    .header-style-two.inner-header .main-menu .navigation>li>a {}
 }

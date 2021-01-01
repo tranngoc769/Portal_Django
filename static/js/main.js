@@ -311,6 +311,61 @@
             console.log("no file")
         }
     });
+
+    $("#diemDanh").on("click", function(e) {
+        var hid = $(this).attr('hd');
+        var obj = $('#dssv tbody tr').map(function() {
+            var $row = $(this);
+            // 1 2   3       4       5      6
+            //0  ID	Họ Tên	MSSV	Điểm	Kì
+            var t1 = $row.find(':nth-child(1)')[2].checked;
+            var t2 = $row.find(':nth-child(2)').text();
+            var t4 = $row.find(':nth-child(3)').text();
+            var t5 = $row.find(':nth-child(5)').text();
+            var t6 = $row.find(':nth-child(6)').text();
+            return {
+                dadiemdanh: t1,
+                id: t2,
+                diem: t4,
+                hoatdongid: hid,
+                diem: t5,
+                ki: t6,
+            };
+        }).get();
+        $.ajax({
+            type: "POST",
+            url: "/admin/hoatdong/diemdanh/",
+            data: JSON.stringify(obj),
+            success: function(resp) {
+                ketqua = JSON.parse(resp)
+                if (ketqua.code != 200) { // Có lỗi
+                    alert(ketqua.msg)
+                } else {
+                    // Đăng ký thành công, chuyển sang trang đăng nhập
+                    alert(ketqua.msg)
+                    window.location.reload()
+                }
+            },
+            error: function(resp) {
+                console.log("errr");
+                console.log(resp);
+            }
+        });
+    });
+    $("#chontatca").on("click", function(e) {
+        console.log("Chon tat ca");
+        var listCheckbox = $(".custom-control-input");
+        for (var i = 0; i < listCheckbox.length; i++) {
+            listCheckbox[i].checked = true;
+        }
+    });
+    $("#huychontatca").on("click", function(e) {
+        console.log("Huy chon tat ca");
+        var listCheckbox = $(".custom-control-input");
+        for (var i = 0; i < listCheckbox.length; i++) {
+            listCheckbox[i].checked = false;
+        }
+    });
     $("#importExcel_a").on("click", function(e) {
         console.log("oke")
         e.preventDefault();

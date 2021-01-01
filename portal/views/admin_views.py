@@ -49,7 +49,6 @@ def them_nguoidung(request):
         resp['msg'] = "success"
         return HttpResponse(json.dumps(resp))
     return HttpResponse(json.dumps({'code': 403, 'msg': 'Not allow method'}))
-# 
 @csrf_exempt
 def sua_nguoidung(request, nguoidungID):
     # Giống hệt đăng ký
@@ -74,7 +73,6 @@ def sua_nguoidung(request, nguoidungID):
         resp['msg'] = "success"
         return HttpResponse(json.dumps(resp))
     return HttpResponse(json.dumps({'code': 403, 'msg': 'Not allow method'}))
-# 
 def quanly_sinhvien(request, trang=1):  # Mặc định trang = 1
     trangHienTai = int(trang)
     # Lấy danh sách sinh viên theo trang / mỗi trang
@@ -89,7 +87,6 @@ def quanly_giangvien(request, trang=1):  # Mặc định trang = 1
     # Tạo JSON để render --> chứa phân trang, ds người dùng
     content = taoJsonQLNguoiDung(dsGiangVien_phanTrang, trangHienTai, 'giangvien')
     return render(request, 'portal/admin/ql_nguoidung.html', content)
-
 def quanly_thongbao(request, trang=1):  # Mặc định trang = 1
     trangHienTai = int(trang)
     # Lấy danh sách sinh viên theo trang / mỗi trang
@@ -97,7 +94,34 @@ def quanly_thongbao(request, trang=1):  # Mặc định trang = 1
     # Tạo JSON để render --> chứa phân trang, ds người dùng
     content = taoJsonQLNguoiDung(dsThongBao_phanTrang, trangHienTai, 'thongbao')
     return render(request, 'portal/admin/ql_thongbao.html', content)
-
+def quanly_hoatdong(request):  # Mặc định trang = 1
+    sql = """SELECT
+        portal_hoatdong.IdHoatDong,
+        portal_hoatdong.IdUser,
+        portal_hoatdong.ChiTiet,
+        portal_hoatdong.NgayBD,
+        portal_hoatdong.NgayKT,
+        portal_hoatdong.SoLuong,
+        portal_hoatdong.DiemRL,
+        portal_hoatdong.HoatDong,
+        portal_hoatdong.DaDangKi,
+        portal_hoatdong.DangThucHien,
+        portal_hoatdong.TenHoatDong,
+        portal_hoatdong.Ki,
+        portal_hoatdong.Loai,
+        portal_nguoidung.HoTen,
+        portal_loaihd.TenLoaiHD
+        FROM
+        portal_hoatdong
+        JOIN portal_nguoidung ON portal_hoatdong.IdUser = portal_nguoidung.IdUser
+        JOIN portal_loaihd ON portal_loaihd.idLoaiHD = portal_hoatdong.Loai
+        WHERE portal_hoatdong.HoatDong = 1
+        """
+    dsHoatDong = ChucNang.TruyVanDuLieu(sql)
+    content = {
+        "DS_NguoiDung" : dsHoatDong['data']
+    }
+    return render(request, 'portal/admin/ql_hoatdong.html', content)
 def danhSachThongBao(trang, moitrang,search=""):
     dsDetai = tatCaThongBao(search)
     tongDetai = len(dsDetai['data'])
@@ -203,7 +227,6 @@ def taoJsonQLNguoiDung(dsNguoiDung, trangHienTai, loaiNguoiDung):
         'TrangTruoc': trangTruoc
     }
     return content
-# 
 @csrf_exempt
 def importExcel(request, loai):
     if request.method == "POST":
@@ -254,7 +277,6 @@ def importExcel(request, loai):
         resp['msg'] = "success"
         return HttpResponse(json.dumps(resp))
     return HttpResponse(json.dumps({'code': 403, 'msg': 'Not allow method'}))
-# 
 # Chi tiet thong bao 
 def chitiet_thongbao(request, idTB):
     sql = "SELECT * FROM portal_thongbao WHERE IdThongBao={0}".format(idTB)
@@ -262,7 +284,6 @@ def chitiet_thongbao(request, idTB):
     chitiet = data['data'][0]
     return render(request, 'portal/admin/chitiet_thongbao.html', {'ThongBao':chitiet})
 # Chi tiet thong bao 
-
 @csrf_exempt
 def sua_thongbao(request, idTB):
     if request.method == "GET":
@@ -282,7 +303,57 @@ def sua_thongbao(request, idTB):
             jsonRender['ChiTiet'] = str(exc)
             jsonRender['ThongBao'] = str("Không thành công")
         return render(request, 'portal/giangvien/thongbao.html', jsonRender)
+@csrf_exempt
+def chitiethoatdong(request, id):
+    if request.method == "GET":
+        sqlChiTietHD = """SELECT
+        portal_hoatdong.IdHoatDong,
+        portal_hoatdong.IdUser,
+        portal_hoatdong.ChiTiet,
+        portal_hoatdong.NgayBD,
+        portal_hoatdong.NgayKT,
+        portal_hoatdong.SoLuong,
+        portal_hoatdong.DiemRL,
+        portal_hoatdong.HoatDong,
+        portal_hoatdong.DaDangKi,
+        portal_hoatdong.DangThucHien,
+        portal_hoatdong.TenHoatDong,
+        portal_hoatdong.Ki,
+        portal_hoatdong.Loai,
+        portal_nguoidung.HoTen,
+        portal_loaihd.TenLoaiHD
+        FROM
+        portal_hoatdong
+        JOIN portal_nguoidung ON portal_hoatdong.IdUser = portal_nguoidung.IdUser
+        JOIN portal_loaihd ON portal_loaihd.idLoaiHD = portal_hoatdong.Loai
+        WHERE portal_hoatdong.HoatDong = 1 AND portal_nguoidung.HoatDong = 1 AND portal_hoatdong.IdHoatDong = {0}
+        """.format(id)
+        chiTietHoatDong_qr = ChucNang.TruyVanDuLieu(sqlChiTietHD)
+        if (len(chiTietHoatDong_qr['data'])==0):
+            jsonRender = {'tieude' : 'Không thành công', 'ThongBao' : 'Không thành công','ChiTiet' : 'Không tìm thấy hoạt động', 'backlink': '/admin/dshoatdong'}
+            return render(request, 'portal/giangvien/thongbao.html', jsonRender)
+        sql = """ SELECT
+                            portal_hoatdongdadangky.IdHDDDK,
+                            portal_hoatdongdadangky.IdHoatDong,
+                            portal_hoatdongdadangky.DaChamDiem,
+                            portal_nguoidung.IdUser,
+                            portal_nguoidung.TenNguoiDung,
+                            portal_nguoidung.HoTen,
+                            portal_hoatdong.DiemRL,
+                            portal_hoatdong.Ki
 
+                            FROM
+                                portal_hoatdongdadangky
+                                JOIN portal_nguoidung ON portal_nguoidung.IdUser = portal_hoatdongdadangky.IdUser
+                                JOIN portal_hoatdong ON portal_hoatdong.IdHoatDong = portal_hoatdongdadangky.IdHoatDong
+                            WHERE
+                            portal_hoatdongdadangky.IdHoatDong = {0} AND
+                            portal_hoatdong.HoatDong = 1 AND
+                            portal_nguoidung.HoatDong = 1
+        """.format(id)
+        dsSVThamGia = ChucNang.TruyVanDuLieu(sql)
+        chitiet = chiTietHoatDong_qr['data'][0]
+        return render(request, 'portal/admin/chitiethoatdong.html', {'HoatDong':chitiet, 'DSThamGia' : dsSVThamGia['data']})
 @csrf_exempt
 def sua_thongbao(request, idTB):
     if request.method == "GET":
@@ -302,6 +373,39 @@ def sua_thongbao(request, idTB):
             jsonRender['ChiTiet'] = str(exc)
             jsonRender['ThongBao'] = str("Không thành công")
         return render(request, 'portal/giangvien/thongbao.html', jsonRender)
+@csrf_exempt
+def diemdanh(request):
+    if request.method == "GET":
+        jsonRender = {'tieude' : 'Thành công', 'ThongBao' : 'KHONG CO PHEP','ChiTiet' : 'POST REQUIRED', 'backlink': '/admin/dshoatdong'}
+        return render(request, 'portal/giangvien/thongbao.html', jsonRender)
+    else:
+        print(request)
+        dsSV = json.loads(request.body)
+        resp = {"code": 200}
+        resp['msg'] = "success"
+        for svdk in dsSV:
+            try:
+                sql = "UPDATE `portal`.`portal_hoatdongdadangky` SET `DaChamDiem` = {0} WHERE `IdHDDDK` = {1} AND IdUser={2}".format(svdk['dadiemdanh'], svdk['hoatdongid'], svdk['id'])
+                ChucNang.UpdateDuLieu(sql)
+                if (svdk['dadiemdanh']):
+                    checkTonTaiSql = "SELECT * from portal_diemrenluyen where hoatdongid = {0} and userID = {1} and Ki={2}".format(svdk['hoatdongid'], svdk['id'], svdk['ki'])
+                    tontai_res = ChucNang.TruyVanDuLieu(checkTonTaiSql)
+                    if (len(tontai_res['data'])==0): #SV chưa có điểm
+                        themdiemSql = "INSERT INTO portal_diemrenluyen(userID,Diem,Ki,hoatDongId) VALUES ({0},{1},{2},{3})".format(svdk['id'],svdk['diem'],svdk['ki'], svdk['hoatdongid'])
+                        ChucNang.UpdateDuLieu(themdiemSql)
+                else:
+                    checkTonTaiSql = "SELECT * from portal_diemrenluyen where hoatdongid = {0} and userID = {1} and Ki={2}".format(svdk['hoatdongid'], svdk['id'], svdk['ki'])
+                    tontai_res = ChucNang.TruyVanDuLieu(checkTonTaiSql)
+                    if (len(tontai_res['data'])!=0): #SV chưa có điểm
+                        deleteSql = "DELETE FROM portal_diemrenluyen WHERE hoatdongid = {0} AND userID={1} and Ki={2}".format(svdk['hoatdongid'], svdk['id'], svdk['ki'])
+                        ChucNang.UpdateDuLieu(deleteSql)
+            except Exception as errr:
+                resp['msg'] = str(errr)
+                return HttpResponse(json.dumps(resp))
+        return HttpResponse(json.dumps(resp))
+def exportHoatDong(request, id):
+    if request.method == "GET":
+       pass
 @csrf_exempt
 def them_thongbao(request):
     if (request.method == "GET"):
@@ -318,7 +422,6 @@ def them_thongbao(request):
             jsonRender['ChiTiet'] = str(exc)
             jsonRender['ThongBao'] = str("Không thành công")
         return render(request, 'portal/giangvien/thongbao.html', jsonRender)
-
 def xoa_thongbao(request, idTB):
     sql = "DELETE FROM `portal`.`portal_thongbao` WHERE `IdThongBao` = {0}".format(idTB)
     jsonRender = {'tieude' : 'Thành công', 'ThongBao' : 'Thành Công','ChiTiet' : 'Xóa thông báo thành công', 'backlink': '/admin/thongbao'}

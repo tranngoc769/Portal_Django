@@ -18,4 +18,9 @@ urlpatterns = [
     path('chitiet_thongbao/<int:idTB>', views.chitiet_thongbao, name='chitiet_thongbao'),
     path('sua_thongbao/<int:idTB>', views.sua_thongbao, name='sua_thongbao'),
     path('them_thongbao', views.them_thongbao, name='them_thongbao'),
+    # Path hoạt động
+    path('dshoatdong/', views.quanly_hoatdong, name='quanlyhoatdong'),
+    path('hoatdong/chitiet/<int:id>', views.chitiethoatdong, name='chitiethoatdong'),
+    path('hoatdong/diemdanh/', views.diemdanh, name='diemdanh'),
+    path('hoatdong/exportHoatDong/<int:id>', views.exportHoatDong, name='export'),
 ]

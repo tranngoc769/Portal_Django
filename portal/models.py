@@ -42,6 +42,7 @@ class  HOATDONG(models.Model):
       DiemRL = models.IntegerField(null=False,default=0)
       Ki = models.IntegerField(null=False, default= 1)
       HoatDong = models.BooleanField(default = True)
+      Loai = models.IntegerField(default=1)
       DangThucHien = models.BooleanField(null=True, default = False)
 # DETAIDADANGKY
 class  DETAIDADANGKY(models.Model):
@@ -54,6 +55,7 @@ class  HOATDONGDADANGKY(models.Model):
       IdHDDDK = models.IntegerField(primary_key=True,auto_created=True)
       IdHoatDong = models.IntegerField(null = False)
       IdUser = models.IntegerField(null = False)
+      DaChamDiem = models.IntegerField(default=0)
       NgayDKHD = models.DateTimeField(null=False)
 # LOAIDETAI
 class  LOAIDETAI(models.Model):
@@ -85,6 +87,11 @@ class DIEMTRUNGBINH(models.Model):
       Diem = models.FloatField(default=0)
 class DIEMRENLUYEN(models.Model):
       idDiem = models.IntegerField(primary_key=True,auto_created=True)
+      hoatDongId = models.IntegerField(default=0)
       userID = models.IntegerField()
       Diem = models.FloatField(default=0)
       Ki = models.IntegerField(default=1)
+# LOAIHOATDONG
+class LOAIHD(models.Model):
+      idLoaiHD = models.IntegerField(primary_key=True, auto_created=True)
+      TenLoaiHD = models.CharField(max_length=1000)
