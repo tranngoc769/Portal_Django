@@ -77,7 +77,7 @@ DATABASES = {
         'USER': 'root', 
         'PASSWORD': '',
         'HOST': 'localhost',
-        'PORT': '3306',   #my port is 3306
+        'PORT': '3307',   #my port is 3306
         'OPTIONS' :
         {
             'sql_mode':'traditional'
