@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.core import serializers
 from portal.models import *
 import hashlib
+import requests
 import math
 from django.core.serializers.json import DjangoJSONEncoder
 import json
@@ -466,3 +467,47 @@ def xoa_thongbao(request, idTB):
         jsonRender['ChiTiet'] = str(exc)
         jsonRender['ThongBao'] = str("Không thành công")
     return render(request, 'portal/giangvien/thongbao.html', jsonRender)
+# 
+@csrf_exempt
+def loaihoatdong(request):
+    if request.method == "GET":
+        sql = "SELECT * FROM `portal`.`portal_loaihd`"
+        dsLoaiHD = ChucNang.TruyVanDuLieu(sql)
+        jsonRender = {"DsLoai":dsLoaiHD["data"]}
+        # jsonRender = {'tieude' : 'Thành công', 'ThongBao' : 'KHONG CO PHEP','ChiTiet' : 'POST REQUIRED', 'backlink': '/admin/dshoatdong'}
+        return render(request, 'portal/admin/ql_loaihd.html', jsonRender)
+    else:
+        dsSV = json.loads(request.body)
+        ten = dsSV['Ten']
+        resp = {"code": 200}
+        resp['msg'] = "OK"
+        try:
+            sql ="INSERT INTO `portal`.`portal_loaihd`(`TenLoaiHD`) VALUES ('{0}')".format(ten)
+            ChucNang.UpdateDuLieu(sql)
+        except Exception as ere:
+            resp['msg'] = str(ere)
+        return HttpResponse(json.dumps(resp))
+def xoaloaihoatdong(request,id):
+    resp = {"code": 200}
+    resp['msg'] = "success"
+    if request.method == "GET":
+        sql = "SELECT * FROM `portal`.`portal_hoatdong` where Loai = {0}".format(id)
+        ds = ChucNang.TruyVanDuLieu(sql)
+        if (len(ds['data'])==0):
+            sqlDel = "DELETE FROM `portal`.`portal_loaihd` WHERE `idLoaiHD` = {0}".format(id)
+            try:
+                ChucNang.UpdateDuLieu(sqlDel)
+                resp['msg'] = "OK"
+            except  Exception as ere:
+                resp = {"code": 404}
+                resp['msg'] = str(ere)
+            return HttpResponse(json.dumps(resp))
+        resp['msg'] = "Khong the xoa, da co hoat dong dang ki"
+        return HttpResponse(json.dumps(resp))
+def loaihoatdong(request):
+        if request.method == "GET":
+            sql = "SELECT * FROM `portal`.`portal_loaihd`"
+            dsLoaiHD = ChucNang.TruyVanDuLieu(sql)
+            jsonRender = {"DsLoai":dsLoaiHD["data"]}
+            # jsonRender = {'tieude' : 'Thành công', 'ThongBao' : 'KHONG CO PHEP','ChiTiet' : 'POST REQUIRED', 'backlink': '/admin/dshoatdong'}
+        return render(request, 'portal/admin/ql_loaihd.html', jsonRender)

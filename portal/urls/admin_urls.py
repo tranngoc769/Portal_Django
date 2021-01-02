@@ -23,4 +23,10 @@ urlpatterns = [
     path('hoatdong/chitiet/<int:id>', views.chitiethoatdong, name='chitiethoatdong'),
     path('hoatdong/diemdanh/', views.diemdanh, name='diemdanh'),
     path('hoatdong/export/<int:id>', views.exportHoatDong, name='export'),
+    # 
+    # Loai 
+    path('loaihd/', views.loaihoatdong, name='loaihoatdong'),
+    path('loaihd/xoa/<int:id>', views.xoaloaihoatdong, name='xoaloaihoatdong'),
+    # DeTai
+    path('dsdetaidk/', views.dsdetaidk, name='dsdetaidk'),
 ]
