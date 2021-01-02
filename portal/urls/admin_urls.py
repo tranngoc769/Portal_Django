@@ -29,4 +29,5 @@ urlpatterns = [
     path('loaihd/xoa/<int:id>', views.xoaloaihoatdong, name='xoaloaihoatdong'),
     # DeTai
     path('dsdetaidk/', views.dsdetaidk, name='dsdetaidk'),
+    path('exportDshddadk/', views.exportDshddadk, name='exportDshddadk'),
 ]

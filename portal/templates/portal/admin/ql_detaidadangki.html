@@ -1,0 +1,72 @@
+{% extends "../../pages/base.html" %} {% load static %} {% block title %} Quản lý hoạt động {% endblock %} {% block content %}
+
+<div class="page-wrapper">
+    <!-- Preloader -->
+    <div class="preloader"></div>
+    <!-- Main Header-->
+    {% include './header.html' %}
+    <div class="sidebar-page-container">
+        <div class="auto-container">
+            <div class="container-xl">
+                <div class="table-responsive">
+                    <div class="table-wrapper">
+                        <div class="table-title">
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <h2>Danh sách đề tài đã đăng kí</b>
+                                    </h2>
+                                </div>
+                                <div class="col-sm-7">
+                                    <a href="/admin/exportDshddadk" class="btn btn-secondary"><i class="material-icons">&#xE147;</i> <span>Export</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th hidden>IdHoatDong</th>
+                                    <th hidden>IdUser</th>
+                                    <th hidden>ID_gv</th>
+                                    <th>MSSV</th>
+                                    <th>Họ Tên</th>
+                                    <th>Tên Giảng Viên</th>
+                                    <th>Tên Hoạt Động</th>
+                                    <th>Số Lượng</th>
+                                    <th>Đang Thực Hiện</th>
+                                    <th>Kì</th>
+                                    <th>Tên Loại</th>
+                                    <th>Ngày đăng kí</th>
+                                    <th>Đã chấm điểm</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for nguoiDung in DS_NguoiDung %}
+                                <tr>
+                                    <td hidden>
+                                        <b>{{nguoiDung.IdHoatDong}}</b>
+                                    </td>
+                                    <td hidden>{{nguoiDung.IdUser}}</td>
+                                    <td hidden>{{nguoiDung.ID_gv}}</td>
+                                    <td>{{nguoiDung.TenNguoiDung}}</td>
+                                    <td>{{nguoiDung.HoTen}}</td>
+                                    <td>{{nguoiDung.TenGiangVien}}</td>
+                                    <td>{{nguoiDung.TenHoatDong}}</td>
+                                    <td>{{nguoiDung.SoLuong}}</td>
+                                    <td>{{nguoiDung.DangThucHien}}</td>
+                                    <td>{{nguoiDung.Ki}}</td>
+                                    <td>{{nguoiDung.TenLoaiHD}}</td>
+                                    <td>{{nguoiDung.NgayDKHD|date:'Y-m-d'}}</td>
+                                    <td>{% if nguoiDung.DaChamDiem == 1 %} Đang điểm danh{% else %}Chưa điểm danh{% endif %}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Footer -->
+    <!-- Sidebar Nav -->
+    {% include './sidebar.html' %} {% endblock %}

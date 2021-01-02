@@ -429,8 +429,8 @@ def exportHoatDong(request, id):
         dataexport_res = ChucNang.TruyVanDuLieu(sql)
         header = 0
         try:
-            for item in dataexport_res['data']:
-                with open('csvfile.csv', mode='w', encoding='UTF-8') as csvfile:
+            with open('csvfile.csv', mode='w',newline='', encoding='UTF-8') as csvfile:
+                for item in dataexport_res['data']:
                     csvfile_writer_writer = csv.writer(csvfile, delimiter=',')
                     if (header ==0):
                         csvfile_writer_writer.writerow(['IDHoatDong', 'IdUser', 'MSSV', 'HoTen', 'Khoa', 'SDT', 'Email', 'NgayDKHD', 'NguoiDH', 'TenHoatDong', 'Ki', 'DaDiemDanh'])
@@ -511,3 +511,80 @@ def loaihoatdong(request):
             jsonRender = {"DsLoai":dsLoaiHD["data"]}
             # jsonRender = {'tieude' : 'Thành công', 'ThongBao' : 'KHONG CO PHEP','ChiTiet' : 'POST REQUIRED', 'backlink': '/admin/dshoatdong'}
         return render(request, 'portal/admin/ql_loaihd.html', jsonRender)
+def exportDshddadk(request):
+    if (request.method == "GET"):
+        sql ="""
+        SELECT
+            portal_hoatdongdadangky.IdHDDDK,
+            portal_hoatdongdadangky.IdHoatDong,
+            portal_hoatdongdadangky.IdUser,
+            portal_hoatdongdadangky.NgayDKHD,
+            portal_hoatdongdadangky.DaChamDiem,
+            portal_nguoidung.HoTen,
+            portal_nguoidung.TenNguoiDung,
+            hoatdong_giangvien.GV_username,
+            hoatdong_giangvien.ID_gv,
+            hoatdong_giangvien.TenGiangVien,
+            portal_hoatdong.TenHoatDong, 
+            portal_hoatdong.SoLuong, 
+            portal_hoatdong.DangThucHien,
+            portal_hoatdong.Ki,
+            portal_loaihd.TenLoaiHD
+            FROM
+            portal_hoatdongdadangky
+            JOIN portal_nguoidung ON portal_hoatdongdadangky.IdUser = portal_nguoidung.IdUser
+            JOIN portal_hoatdong on portal_hoatdongdadangky.IdHoatDong = portal_hoatdong.IdHoatDong
+            JOIN (SELECT  portal_hoatdong.Loai, portal_hoatdong.IdHoatDong as hdid,portal_nguoidung.IdUser as ID_gv,portal_nguoidung.HoTen as TenGiangVien, portal_nguoidung.TenNguoiDung as GV_username FROM portal_hoatdong JOIN portal_nguoidung ON portal_nguoidung.IdUser = portal_hoatdong.IdUser) AS 
+            hoatdong_giangvien
+            ON hoatdong_giangvien.hdid= portal_hoatdongdadangky.IdHoatDong
+            JOIN portal_loaihd on hoatdong_giangvien.Loai = portal_loaihd.idLoaiHD
+        """
+        dataexport_res = ChucNang.TruyVanDuLieu(sql)
+        header = 0
+        try:
+            with open('DanhSachDaDangKi.csv', mode='w',newline='', encoding='UTF-8') as csvfile:
+                for item in dataexport_res['data']:
+                    csvfile_writer_writer = csv.writer(csvfile, delimiter=',')
+                    if (header ==0):
+                        csvfile_writer_writer.writerow(['IdHDDDK','IdHoatDong','IdUser','ID_gv','GV_username','TenNguoiDung','HoTen','TenGiangVien','TenHoatDong','SoLuong','DangThucHien','Ki','TenLoaiHD','NgayDKHD','DaChamDiem'])
+                        header = 1
+                    csvfile_writer_writer.writerow([item['IdHDDDK'],item['IdHoatDong'],item['IdUser'],item['ID_gv'],item['GV_username'],item['TenNguoiDung'],item['HoTen'],item['TenGiangVien'],item['TenHoatDong'],item['SoLuong'],item['DangThucHien'],item['Ki'],item['TenLoaiHD'],item['NgayDKHD'],item['DaChamDiem']])
+            with open('DanhSachDaDangKi.csv') as myfile:
+                response = HttpResponse(myfile, content_type='text/csv')
+                response['Content-Disposition'] = 'attachment; filename=DanhSachDaDangKi.csv'
+                return response
+        except  Exception as err:
+            print(err)
+def dsdetaidk(request):
+    if (request.method == "GET"):
+        sql = """
+            SELECT
+                portal_hoatdongdadangky.IdHDDDK,
+                portal_hoatdongdadangky.IdHoatDong,
+                portal_hoatdongdadangky.IdUser,
+                portal_hoatdongdadangky.NgayDKHD,
+                portal_hoatdongdadangky.DaChamDiem,
+                portal_nguoidung.HoTen,
+                portal_nguoidung.TenNguoiDung,
+                hoatdong_giangvien.GV_username,
+                hoatdong_giangvien.ID_gv,
+                hoatdong_giangvien.TenGiangVien,
+                portal_hoatdong.TenHoatDong, 
+                portal_hoatdong.SoLuong, 
+                portal_hoatdong.DangThucHien,
+                portal_hoatdong.Ki,
+                portal_loaihd.TenLoaiHD
+                FROM
+                portal_hoatdongdadangky
+                JOIN portal_nguoidung ON portal_hoatdongdadangky.IdUser = portal_nguoidung.IdUser
+                JOIN portal_hoatdong on portal_hoatdongdadangky.IdHoatDong = portal_hoatdong.IdHoatDong
+                JOIN (SELECT  portal_hoatdong.Loai, portal_hoatdong.IdHoatDong as hdid,portal_nguoidung.IdUser as ID_gv,portal_nguoidung.HoTen as TenGiangVien, portal_nguoidung.TenNguoiDung as GV_username FROM portal_hoatdong JOIN portal_nguoidung ON portal_nguoidung.IdUser = portal_hoatdong.IdUser) AS 
+                hoatdong_giangvien
+                ON hoatdong_giangvien.hdid= portal_hoatdongdadangky.IdHoatDong
+                JOIN portal_loaihd on hoatdong_giangvien.Loai = portal_loaihd.idLoaiHD
+            """
+        data = ChucNang.TruyVanDuLieu(sql)
+        jsonRender = {
+            "DS_NguoiDung" :data['data']
+        }
+        return render(request, 'portal/admin/ql_detaidadangki.html', jsonRender) 

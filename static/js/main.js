@@ -311,27 +311,39 @@
             console.log("no file")
         }
     });
-
-    $("#themloaihoatdong").on("click", function(e) {
+    $("#exportDsDaDangKiHoatDong").on("click", function(e) {
         $.ajax({
             type: "POST",
-            url: `/admin/loaihd/`,
-            data: JSON.stringify({ "Ten": $("#tenloaihoatdong")[0].value }),
+            url: `/admin/dsdetaidk/`,
             success: function(resp) {
-                ketqua = JSON.parse(resp)
-                if (ketqua.code != 200) { // Có lỗi
-                    alert(ketqua.msg)
-                } else {
-                    alert(ketqua.msg)
-                    window.location.reload()
-                }
+                console.log('success');
             },
             error: function(resp) {
-                console.log("errr");
                 console.log(resp);
             }
         })
+
     });
+    // $("#themloaihoatdong").on("click", function(e) {
+    //     $.ajax({
+    //         type: "POST",
+    //         url: `/admin/loaihd/`,
+    //         data: JSON.stringify({ "Ten": $("#tenloaihoatdong")[0].value }),
+    //         success: function(resp) {
+    //             ketqua = JSON.parse(resp)
+    //             if (ketqua.code != 200) { // Có lỗi
+    //                 alert(ketqua.msg)
+    //             } else {
+    //                 alert(ketqua.msg)
+    //                 window.location.reload()
+    //             }
+    //         },
+    //         error: function(resp) {
+    //             console.log("errr");
+    //             console.log(resp);
+    //         }
+    //     })
+    // });
     $("#diemDanh").on("click", function(e) {
         var hid = $(this).attr('hd');
         var obj = $('#dssv tbody tr').map(function() {
