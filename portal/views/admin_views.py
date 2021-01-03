@@ -732,8 +732,6 @@ def dsdetai(request):
         "DS_NguoiDung" :data['data']
     }
     return render(request, 'portal/admin/dsdetai.html', jsonRender) 
-
-
 def dsdkdetai(request):
     sql = """
         SELECT
@@ -757,3 +755,40 @@ def dsdkdetai(request):
         "DS_NguoiDung" :data['data']
     }
     return render(request, 'portal/admin/dsdkdetai.html', jsonRender) 
+def diemrenluyen(request, ki = 0):
+    sql = """SELECT
+                Sum(portal_diemrenluyen.Diem) AS Diem,
+                portal_nguoidung.HoTen,
+                portal_diemrenluyen.Ki,
+                portal_nguoidung.IdUser,
+                portal_nguoidung.TenNguoiDung
+                FROM
+                portal_diemrenluyen
+                JOIN portal_nguoidung ON portal_nguoidung.IdUser = portal_diemrenluyen.userID
+                WHERE portal_nguoidung.HoatDong = 1
+                GROUP BY
+                portal_nguoidung.IdUser,
+                portal_diemrenluyen.Ki
+"""
+    if (ki != 0):
+        sql = """
+                SELECT
+                Sum(portal_diemrenluyen.Diem) AS Diem,
+                portal_nguoidung.HoTen,
+                portal_diemrenluyen.Ki,
+                portal_nguoidung.IdUser,
+                portal_nguoidung.TenNguoiDung
+                FROM
+                portal_diemrenluyen
+                JOIN portal_nguoidung ON portal_nguoidung.IdUser = portal_diemrenluyen.userID
+                WHERE
+                portal_diemrenluyen.Ki = {0} AND portal_nguoidung.HoatDong = 1
+                GROUP BY
+                portal_nguoidung.IdUser,
+                portal_diemrenluyen.Ki
+        """.format(ki)
+    data = ChucNang.TruyVanDuLieu(sql)
+    jsonRender = {
+    "DS_NguoiDung" :data['data']
+    }
+    return render(request, 'portal/admin/diemrenluyen.html', jsonRender) 

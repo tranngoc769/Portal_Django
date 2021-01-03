@@ -311,6 +311,11 @@
             console.log("no file")
         }
     });
+
+    $("#diemrenluyenpage").on("click", function(e) {
+        var page = $("#diemrenluyenpageselect")[0].value;
+        window.location.replace("/admin/diemrenluyen/" + page)
+    });
     $("#themloaihoatdong").on("click", function(e) {
         $.ajax({
             type: "POST",

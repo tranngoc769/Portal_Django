@@ -37,4 +37,6 @@ urlpatterns = [
     path('dsdkdetai/', views.dsdkdetai, name='dsdetai'),
     path('importdetai/', views.importdetai, name='importdetai'),
     path('exportdkdt/', views.exportdkdt, name='exportdkdt'),
+    path('diemrenluyen/', views.diemrenluyen, name='diemrenluyen'),
+    path('diemrenluyen/<int:ki>', views.diemrenluyen, name='diemrenluyen'),
 ]
