@@ -1,0 +1,30 @@
+{% extends "../../pages/base.html" %} {% load static %} {% block title %} Danh sách đề tài {% endblock %} {% block content %}
+<div class="page-wrapper">
+    <div class="preloader"></div>
+    {% include './header.html' %}
+    <div class="sidebar-page-container">
+        <div class="auto-container">
+            <div class="course-detail-section">
+                <div class="auto-container">
+                    <div class="upper-content">
+                        <div class="row clearfix">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="row">
+                                    <div class="lower-content">
+                                        <div class="instructor-info-tabs">
+
+                                            <div class="sub-text">Tiêu đề: {{ThongBao.TieuDe}}</div>
+                                            <div class="price">Ngày thông báo: {{ThongBao.NgayThongBao|date:'d-m-Y'}}</span>
+                                            </div>
+                                            <p>{{ThongBao.ChiTiet}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include './sidebar.html' %} {% endblock %}

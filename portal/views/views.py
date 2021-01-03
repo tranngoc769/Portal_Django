@@ -413,7 +413,22 @@ def dangxuat(request):
     del request.session['Quyen']
     del request.session['ID']
     return redirect('/')
-
+def dsthongbao(request):
+    sql = """
+        SELECT * FROM portal_thongbao
+        ORDER BY NgayThongBao DESC
+    """
+    data = ChucNang.TruyVanDuLieu(sql)
+    jsonRender = {"DsThongbao" : data['data']}
+    return render(request, 'portal/sinhvien/dsthongbao.html', jsonRender)
+def chitietthongbao(request,id):
+    sql = """
+        SELECT * FROM portal_thongbao
+        where IdThongBao ={0}
+    """.format(id)
+    data = ChucNang.TruyVanDuLieu(sql)
+    jsonRender = {"ThongBao" : data['data'][0]}
+    return render(request, 'portal/sinhvien/chitietthongbao.html', jsonRender)
 
 def dshoatdongcuatoi(request):
     search = ""

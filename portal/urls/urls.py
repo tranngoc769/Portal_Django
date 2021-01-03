@@ -14,5 +14,6 @@ urlpatterns = [
 
     path('dshoatdongcuatoi/', views.dshoatdongcuatoi, name='dshoatdongcuatoi'),
     path('dsdetaicuatoi/', views.dsdetaicuatoi, name='dsdetaicuatoi'),
-
+    path('dsthongbao/', views.dsthongbao, name='dsthongbao'),
+    path('chitietthongbao/<int:id>', views.chitietthongbao, name='chitietthongbao'),
 ]

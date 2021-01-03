@@ -1,0 +1,46 @@
+{% extends "../../pages/base.html" %} {% load static %} {% block title %} Thông báo {% endblock %} {% block content %}
+
+<div class="page-wrapper">
+    <!-- Preloader -->
+    <div class="preloader"></div>
+    <!-- Main Header-->
+    {% include './header.html' %} {% comment %} End {% endcomment %}
+    <div class="sidebar-page-container">
+        <div class="auto-container">
+            <div class="container-xl">
+                <div class="table-responsive">
+                    <div class="table-wrapper">
+                        <div class="table-title">
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <h2>Thông báo</b>
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th style="width: 60%;">Tiêu Đề</th>
+                                    <th style="width: 30%;">Ngày thông báo</th>
+                                    <th style="width: 10%;"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for nguoidung in DsThongbao %}
+                                <tr>
+                                    <th style="width: 60%;">{{nguoidung.TieuDe}}</th>
+                                    <th style="width: 30%;">{{nguoidung.NgayThongBao|date:'Y-m-d'}}</th>
+                                    <th style="width: 10%;">
+                                        <a href="/chitietthongbao/{{nguoidung.IdThongBao}}">Chi tiết</a>
+                                    </th>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include './sidebar.html' %} {% endblock %}

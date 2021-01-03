@@ -1,4 +1,4 @@
-/* Akadimia HTML Template */
+/* Portal HTML Template */
 
 
 /************ TABLE OF CONTENTS ***************
@@ -6795,8 +6795,9 @@ img {
     position: relative;
     max-width: 665px;
     padding: 35px 35px 5px;
-    background-color: #ffffff;
+    background-color: #efefef;
     border-radius: 3px;
+    border: 1px solid #f1acac;
     margin: 0 auto;
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.04);
 }
