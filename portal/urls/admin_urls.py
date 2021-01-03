@@ -19,15 +19,20 @@ urlpatterns = [
     path('sua_thongbao/<int:idTB>', views.sua_thongbao, name='sua_thongbao'),
     path('them_thongbao', views.them_thongbao, name='them_thongbao'),
     # Path hoạt động
+    path('dshoatdongdk/', views.dshoatdongdk, name='dshoatdongdk'),
     path('dshoatdong/', views.quanly_hoatdong, name='quanlyhoatdong'),
     path('hoatdong/chitiet/<int:id>', views.chitiethoatdong, name='chitiethoatdong'),
     path('hoatdong/diemdanh/', views.diemdanh, name='diemdanh'),
     path('hoatdong/export/<int:id>', views.exportHoatDong, name='export'),
+    path('exportDshddadk/', views.exportDshddadk, name='exportDshddadk'),
     # 
     # Loai 
     path('loaihd/', views.loaihoatdong, name='loaihoatdong'),
     path('loaihd/xoa/<int:id>', views.xoaloaihoatdong, name='xoaloaihoatdong'),
+    # LoaiDetai 
+    path('loaidetai/', views.loaidetai, name='loaidetai'),
+    path('loaidetai/xoa/<int:id>', views.xoaloaidetai, name='xoaloaidetai'),
     # DeTai
-    path('dsdetaidk/', views.dsdetaidk, name='dsdetaidk'),
-    path('exportDshddadk/', views.exportDshddadk, name='exportDshddadk'),
+    path('dsdetai/', views.dsdetai, name='dsdetai'),
+    path('importdetai/', views.importdetai, name='importdetai'),
 ]

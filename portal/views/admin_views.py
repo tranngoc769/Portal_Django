@@ -228,6 +228,55 @@ def taoJsonQLNguoiDung(dsNguoiDung, trangHienTai, loaiNguoiDung):
         'TrangTruoc': trangTruoc
     }
     return content
+def dieukienexportDetai(row):
+    sql = "SELECT * from portal_nguoidung WHERE IdUser = {0}".format(row[1].value)
+    if (len(ChucNang.TruyVanDuLieu(sql)['data'])==0):
+        return False
+    sql = "SELECT * from portal_loaidetai WHERE IdLoai = {0}".format(row[6].value)
+    if (len(ChucNang.TruyVanDuLieu(sql)['data'])==0):
+        return False
+    sql = "SELECT * from portal_khoa WHERE IdKhoa = {0}".format(row[7].value)
+    if (len(ChucNang.TruyVanDuLieu(sql)['data'])==0):
+        return False 
+    return True
+@csrf_exempt
+def importdetai(request):
+    if request.method == "POST":
+        if (len(request.FILES) < 1):
+            return HttpResponse(json.dumps({'code': 403, 'msg': 'No file'}))
+        sql = ""
+        try:
+            excel_file = request.FILES["file"]
+            wb = openpyxl.load_workbook(excel_file)
+            worksheet = wb.worksheets[0]
+            excel_data = list()
+            count = 0
+            for row in worksheet.iter_rows():
+                if (count == 0):
+                    count = 1
+                    continue
+                if (dieukienexportDetai(row)):
+                    sql = ""
+                    checksql = "SELECT IdDetai FROM portal_detai WHERE IdDetai={0} LIMIT 1 ".format(row[0].value) #Kiemtra ID De TaI
+                    # Kiemtra ton tai 
+                    temp = ChucNang.TruyVanDuLieu(checksql)
+                    if (len(temp['data']) == 1):
+                        sql = """
+                        UPDATE `portal`.`portal_detai` SET `IdUser` = {1}, `ChiTiet` = '{2}', `NgayBD` = '{3}', `NgayKT` = '{4}', `SoLuong` = {5}, `IdLoai` = {6},`TenDeTai` = '{7}', `IdKhoa` = {8} WHERE `IdDeTai` = {0}
+                        """.format(row[0].value,row[1].value,row[2].value,row[3].value,row[4].value,row[5].value,row[6].value,row[8].value,row[7].value)
+                    else:
+                        sql = """ 
+                        INSERT INTO `portal`.`portal_detai`(`IdUser`,`ChiTiet`, `NgayBD`, `NgayKT`, `SoLuong`, `IdLoai`, `TenDeTai`, `IdKhoa`) VALUES ({0},'{1}', '{2}', '{3}', {4}, {5}, '{6}', {7})
+                        """.format(row[1].value,row[2].value,row[3].value,row[4].value,row[5].value,row[6].value,row[8].value,row[7].value)
+                    ChucNang.UpdateDuLieu(sql)
+        except Exception as insertErr:
+            resp = {"code": 404}
+            resp['msg'] = str(insertErr)
+            return HttpResponse(json.dumps(resp))
+        resp = {"code": 200}
+        resp['msg'] = "success"
+        return HttpResponse(json.dumps(resp))
+    return HttpResponse(json.dumps({'code': 403, 'msg': 'Not allow method'}))
 @csrf_exempt
 def importExcel(request, loai):
     if request.method == "POST":
@@ -487,6 +536,25 @@ def loaihoatdong(request):
         except Exception as ere:
             resp['msg'] = str(ere)
         return HttpResponse(json.dumps(resp))
+@csrf_exempt
+def loaidetai(request):
+    if request.method == "GET":
+        sql = "SELECT * FROM `portal`.`portal_loaidetai`"
+        dsLoaiHD = ChucNang.TruyVanDuLieu(sql)
+        jsonRender = {"DsLoai":dsLoaiHD["data"]}
+        # jsonRender = {'tieude' : 'Thành công', 'ThongBao' : 'KHONG CO PHEP','ChiTiet' : 'POST REQUIRED', 'backlink': '/admin/dshoatdong'}
+        return render(request, 'portal/admin/ql_loaidt.html', jsonRender)
+    else:
+        dsSV = json.loads(request.body)
+        ten = dsSV['Ten']
+        resp = {"code": 200}
+        resp['msg'] = "OK"
+        try:
+            sql ="INSERT INTO `portal`.`portal_loaidetai`(`TenLoai`) VALUES ('{0}')".format(ten)
+            ChucNang.UpdateDuLieu(sql)
+        except Exception as ere:
+            resp['msg'] = str(ere)
+        return HttpResponse(json.dumps(resp))
 def xoaloaihoatdong(request,id):
     resp = {"code": 200}
     resp['msg'] = "success"
@@ -504,13 +572,24 @@ def xoaloaihoatdong(request,id):
             return HttpResponse(json.dumps(resp))
         resp['msg'] = "Khong the xoa, da co hoat dong dang ki"
         return HttpResponse(json.dumps(resp))
-def loaihoatdong(request):
-        if request.method == "GET":
-            sql = "SELECT * FROM `portal`.`portal_loaihd`"
-            dsLoaiHD = ChucNang.TruyVanDuLieu(sql)
-            jsonRender = {"DsLoai":dsLoaiHD["data"]}
-            # jsonRender = {'tieude' : 'Thành công', 'ThongBao' : 'KHONG CO PHEP','ChiTiet' : 'POST REQUIRED', 'backlink': '/admin/dshoatdong'}
-        return render(request, 'portal/admin/ql_loaihd.html', jsonRender)
+        
+def xoaloaidetai(request,id):
+    resp = {"code": 200}
+    resp['msg'] = "success"
+    if request.method == "GET":
+        sql = "SELECT * FROM `portal`.`portal_detai` where IdLoai = {0}".format(id)
+        ds = ChucNang.TruyVanDuLieu(sql)
+        if (len(ds['data'])==0):
+            sqlDel = "DELETE FROM `portal`.`portal_loaidetai` WHERE `IdLoai` = {0}".format(id)
+            try:
+                ChucNang.UpdateDuLieu(sqlDel)
+                resp['msg'] = "OK"
+            except  Exception as ere:
+                resp = {"code": 404}
+                resp['msg'] = str(ere)
+            return HttpResponse(json.dumps(resp))
+        resp['msg'] = "Khong the xoa, da co hoat dong dang ki"
+        return HttpResponse(json.dumps(resp))
 def exportDshddadk(request):
     if (request.method == "GET"):
         sql ="""
@@ -555,7 +634,7 @@ def exportDshddadk(request):
                 return response
         except  Exception as err:
             print(err)
-def dsdetaidk(request):
+def dshoatdongdk(request):
     if (request.method == "GET"):
         sql = """
             SELECT
@@ -588,3 +667,33 @@ def dsdetaidk(request):
             "DS_NguoiDung" :data['data']
         }
         return render(request, 'portal/admin/ql_detaidadangki.html', jsonRender) 
+def dsdetai(request):
+    sql = """
+        SELECT
+            portal_detai.IdDeTai,
+            portal_detai.IdUser,
+            portal_detai.ChiTiet,
+            portal_detai.NgayBD,
+            portal_detai.NgayKT,
+            portal_detai.SoLuong,
+            portal_detai.IdLoai,
+            portal_detai.HoatDong,
+            portal_detai.TenDeTai,
+            portal_detai.DaDangKi,
+            portal_detai.DangThucHien,
+            portal_detai.IdKhoa,
+            portal_nguoidung.HoTen,
+            portal_nguoidung.TenNguoiDung,
+            portal_loaidetai.TenLoai,
+            portal_khoa.TenKhoa
+            FROM
+            portal_detai
+            JOIN portal_nguoidung ON portal_detai.IdUser = portal_nguoidung.IdUser
+            JOIN portal_khoa ON portal_khoa.IdKhoa = portal_detai.IdKhoa
+            JOIN portal_loaidetai ON portal_loaidetai.IdLoai = portal_detai.IdLoai
+            """
+    data = ChucNang.TruyVanDuLieu(sql)
+    jsonRender = {
+        "DS_NguoiDung" :data['data']
+    }
+    return render(request, 'portal/admin/dsdetai.html', jsonRender) 

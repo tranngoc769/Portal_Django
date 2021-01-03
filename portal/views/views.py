@@ -177,7 +177,6 @@ def chitietdetai(request, detaiID):
 # Chi tiết hoạt động
 def chitiethoatdong(request, hoatdongID):
     if (request.session['Quyen'] != 1):
-        
         pass
         # Trang admin
     sql = """

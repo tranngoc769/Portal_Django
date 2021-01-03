@@ -324,26 +324,46 @@
         })
 
     });
-    // $("#themloaihoatdong").on("click", function(e) {
-    //     $.ajax({
-    //         type: "POST",
-    //         url: `/admin/loaihd/`,
-    //         data: JSON.stringify({ "Ten": $("#tenloaihoatdong")[0].value }),
-    //         success: function(resp) {
-    //             ketqua = JSON.parse(resp)
-    //             if (ketqua.code != 200) { // Có lỗi
-    //                 alert(ketqua.msg)
-    //             } else {
-    //                 alert(ketqua.msg)
-    //                 window.location.reload()
-    //             }
-    //         },
-    //         error: function(resp) {
-    //             console.log("errr");
-    //             console.log(resp);
-    //         }
-    //     })
-    // });
+    $("#themloaihoatdong").on("click", function(e) {
+        $.ajax({
+            type: "POST",
+            url: `/admin/loaihd/`,
+            data: JSON.stringify({ "Ten": $("#tenloaihoatdong")[0].value }),
+            success: function(resp) {
+                ketqua = JSON.parse(resp)
+                if (ketqua.code != 200) { // Có lỗi
+                    alert(ketqua.msg)
+                } else {
+                    alert(ketqua.msg)
+                    window.location.reload()
+                }
+            },
+            error: function(resp) {
+                console.log("errr");
+                console.log(resp);
+            }
+        })
+    });
+    $("#themloaidetai").on("click", function(e) {
+        $.ajax({
+            type: "POST",
+            url: `/admin/loaidetai/`,
+            data: JSON.stringify({ "Ten": $("#tenloaidetai")[0].value }),
+            success: function(resp) {
+                ketqua = JSON.parse(resp)
+                if (ketqua.code != 200) { // Có lỗi
+                    alert(ketqua.msg)
+                } else {
+                    alert(ketqua.msg)
+                    window.location.reload()
+                }
+            },
+            error: function(resp) {
+                console.log("errr");
+                console.log(resp);
+            }
+        })
+    });
     $("#diemDanh").on("click", function(e) {
         var hid = $(this).attr('hd');
         var obj = $('#dssv tbody tr').map(function() {
@@ -401,7 +421,9 @@
     $("#importExcel_a").on("click", function(e) {
         console.log("oke")
         e.preventDefault();
+        console.log("Import nguoi dung")
         $("#importExcel:hidden").trigger('click');
+
         // $.ajax({
         //     type: "POST",
         //     url: "/admin/them_nguoidung/",
@@ -420,5 +442,46 @@
         //         console.log("errr");
         //         console.log(resp);
         //     }
+    });
+
+
+    $("#importExcelDeTai_a").on("click", function(e) {
+        console.log("Import de tai")
+        e.preventDefault();
+        $("#importExcelDeTai:hidden").trigger('click');
+    });
+    $("#importExcelDeTai").on("change", function(e) {
+        var loai = $(this).attr('mask')
+        var a = $("#importExcelDeTai")[0].files;
+        if (a.length > 0) {
+            console.log("co file")
+            var form = $('form')[0];
+            var formData = new FormData(form);
+            file = a[0]
+            formData.append('file', file);
+            $.ajax({
+                type: "POST",
+                enctype: 'multipart/form-data',
+                url: "/admin/importdetai/",
+                data: formData,
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function(data) {
+                    noti = JSON.parse(data);
+                    if (noti.code == 200) {
+                        alert("Success");
+                    } else {
+                        alert(data.msg)
+                    }
+                    window.location.reload();
+                },
+                error: function(e) {
+                    alert('Lỗi')
+                }
+            });
+        } else {
+            console.log("no file")
+        }
     });
 })(window.jQuery);

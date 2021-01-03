@@ -1,0 +1,64 @@
+{% extends "../../pages/base.html" %} {% load static %} {% block title %} Danh sách đề tài {% endblock %} {% block content %}
+
+<div class="page-wrapper">
+    <!-- Preloader -->
+    <div class="preloader"></div>
+    <!-- Main Header-->
+    {% include './header.html' %} {% comment %} End {% endcomment %}
+    <div class="sidebar-page-container">
+        <div class="auto-container">
+            <div class="container-xl">
+                <div class="table-responsive">
+                    <div class="table-wrapper">
+                        <div class="table-title">
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <h2>Danh Sách Đề Tài</b>
+                                    </h2>
+                                </div>
+                                <div class="col-sm-7">
+                                    <form></form>
+                                    <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE24D;</i> <span>Export ra Excel</span></a>
+                                    <a id="importExcelDeTai_a" href="#" type="file" class="btn btn-secondary"><i class="material-icons">&#xE24D;</i> <span>Import từ Excel</span></a>
+                                    <input accept=".xls,.xlsx" mask="{{NguoiDung}}" hidden id="importExcelDeTai" type="file" />
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th style="width: 200px;">HoTen</th>
+                                    <th>TenNguoiDung</th>
+                                    <th>ChiTiet</th>
+                                    <th>TenDeTai</th>
+                                    <th>NgayBD</th>
+                                    <th>NgayKT</th>
+                                    <th>SoLuong</th>
+                                    <th>TenLoai</th>
+                                    <th>DangThucHien</th>
+                                    <th>TenKhoa</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for nguoidung in DS_NguoiDung %}
+                                <tr>
+                                    <th style="width: 200px;">{{nguoidung.HoTen}}</th>
+                                    <th>{{nguoidung.TenNguoiDung}}</th>
+                                    <th>{{nguoidung.ChiTiet}}</th>
+                                    <th>{{nguoidung.TenDeTai}}</th>
+                                    <th>{{nguoidung.NgayBD|date:'Y-m-d'}}</th>
+                                    <th>{{nguoidung.NgayKT|date:'Y-m-d'}}</th>
+                                    <th>{{nguoidung.SoLuong}}</th>
+                                    <th>{{nguoidung.TenLoai}}</th>
+                                    <th>{{nguoidung.DangThucHien}}</th>
+                                    <th>{{nguoidung.TenKhoa}}</th>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include './sidebar.html' %} {% endblock %}
