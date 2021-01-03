@@ -435,7 +435,7 @@ def diemdanh(request):
         resp['msg'] = "success"
         for svdk in dsSV:
             try:
-                sql = "UPDATE `portal`.`portal_hoatdongdadangky` SET `DaChamDiem` = {0} WHERE `IdHDDDK` = {1} AND IdUser={2}".format(svdk['dadiemdanh'], svdk['hoatdongid'], svdk['id'])
+                sql = "UPDATE `portal`.`portal_hoatdongdadangky` SET `DaChamDiem` = {0} WHERE `IdHoatDong` = {1} AND IdUser={2}".format(svdk['dadiemdanh'], svdk['hoatdongid'], svdk['id'])
                 ChucNang.UpdateDuLieu(sql)
                 if (svdk['dadiemdanh']):
                     checkTonTaiSql = "SELECT * from portal_diemrenluyen where hoatdongid = {0} and userID = {1} and Ki={2}".format(svdk['hoatdongid'], svdk['id'], svdk['ki'])
