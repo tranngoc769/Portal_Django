@@ -34,5 +34,7 @@ urlpatterns = [
     path('loaidetai/xoa/<int:id>', views.xoaloaidetai, name='xoaloaidetai'),
     # DeTai
     path('dsdetai/', views.dsdetai, name='dsdetai'),
+    path('dsdkdetai/', views.dsdkdetai, name='dsdetai'),
     path('importdetai/', views.importdetai, name='importdetai'),
+    path('exportdkdt/', views.exportdkdt, name='exportdkdt'),
 ]

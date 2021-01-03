@@ -311,19 +311,6 @@
             console.log("no file")
         }
     });
-    $("#exportDsDaDangKiHoatDong").on("click", function(e) {
-        $.ajax({
-            type: "POST",
-            url: `/admin/dsdetaidk/`,
-            success: function(resp) {
-                console.log('success');
-            },
-            error: function(resp) {
-                console.log(resp);
-            }
-        })
-
-    });
     $("#themloaihoatdong").on("click", function(e) {
         $.ajax({
             type: "POST",

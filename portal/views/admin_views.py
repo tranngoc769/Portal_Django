@@ -491,6 +491,41 @@ def exportHoatDong(request, id):
                 return response
         except  Exception as err:
             print(err)
+def exportdkdt(request):
+    if request.method == "GET":
+        sql ="""
+            SELECT
+                portal_detaidadangky.IdDTDDK,
+                portal_detaidadangky.IdUser,
+                portal_detaidadangky.NgayDKDT,
+                portal_nguoidung.HoTen,
+                portal_nguoidung.TenNguoiDung as MSSV,
+                detai_giangvien.TenGiangVien,
+                detai_giangvien.IDGV,
+                portal_detaidadangky.IdDeTai,
+                detai_giangvien.TenDeTai
+            FROM
+                portal_detaidadangky
+                JOIN portal_nguoidung ON portal_nguoidung.IdUser = portal_detaidadangky.IdUser
+                JOIN (SELECT TenDeTai, HoTen as TenGiangVien, portal_nguoidung.IdUser as IDGV,portal_detai.IdDeTai FROM portal_detai join portal_nguoidung  on portal_nguoidung.IdUser = portal_detai.IdUser) as detai_giangvien on detai_giangvien.IdDeTai =  portal_detaidadangky.IdDeTai
+        """
+        dataexport_res = ChucNang.TruyVanDuLieu(sql)
+        header = 0
+        try:
+            with open('DanhSachDKDT.csv', mode='w',newline='', encoding='UTF-8') as csvfile:
+                for item in dataexport_res['data']:
+                    csvfile_writer_writer = csv.writer(csvfile, delimiter=',')
+                    if (header ==0):
+                            #                           IdDTDDK	    IdUser	  NgayDKDT	  HoTen	  MSSV	TenGiangVien	IDGV	IdDeTai	TenDeTai
+                        csvfile_writer_writer.writerow(['IdDTDDK', 'IdUser', 'NgayDKDT', 'HoTen', 'MSSV', 'TenGiangVien', 'IDGV', 'IdDeTai', 'TenDeTai'])
+                        header = 1
+                    csvfile_writer_writer.writerow([str(item['IdDTDDK']), str(item['IdUser']), str(item['NgayDKDT'].strftime("%m/%d/%Y %H:%M:%S")), str(item['HoTen']), str(item['MSSV']), str(item['TenGiangVien']),str(item['IDGV']), item['IdDeTai'], str(item['TenDeTai'])])
+            with open('DanhSachDKDT.csv') as myfile:
+                response = HttpResponse(myfile, content_type='text/csv')
+                response['Content-Disposition'] = 'attachment; filename=DanhSachDKDT.csv'
+                return response
+        except  Exception as err:
+            print(err)
 @csrf_exempt
 def them_thongbao(request):
     if (request.method == "GET"):
@@ -697,3 +732,28 @@ def dsdetai(request):
         "DS_NguoiDung" :data['data']
     }
     return render(request, 'portal/admin/dsdetai.html', jsonRender) 
+
+
+def dsdkdetai(request):
+    sql = """
+        SELECT
+        portal_detaidadangky.IdDTDDK,
+        portal_detaidadangky.IdUser,
+        portal_detaidadangky.NgayDKDT,
+        portal_nguoidung.HoTen,
+        portal_nguoidung.TenNguoiDung as MSSV,
+        detai_giangvien.TenGiangVien,
+        detai_giangvien.IDGV,
+        portal_detaidadangky.IdDeTai,
+        detai_giangvien.TenDeTai
+
+        FROM
+        portal_detaidadangky
+        JOIN portal_nguoidung ON portal_nguoidung.IdUser = portal_detaidadangky.IdUser
+        JOIN (SELECT TenDeTai, HoTen as TenGiangVien, portal_nguoidung.IdUser as IDGV,portal_detai.IdDeTai FROM portal_detai join portal_nguoidung  on portal_nguoidung.IdUser = portal_detai.IdUser) as detai_giangvien on detai_giangvien.IdDeTai =  portal_detaidadangky.IdDeTai
+            """
+    data = ChucNang.TruyVanDuLieu(sql)
+    jsonRender = {
+        "DS_NguoiDung" :data['data']
+    }
+    return render(request, 'portal/admin/dsdkdetai.html', jsonRender) 
