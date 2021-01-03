@@ -12,7 +12,7 @@ import math
 from django.core.serializers.json import DjangoJSONEncoder
 import json
 from . import chucnang as ChucNang
-MoiTrang = 3
+MoiTrang = 10
 def kiemTraCookie(request):
     print(request)
 def index(request):
